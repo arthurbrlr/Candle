@@ -73,6 +73,15 @@ namespace Candle {
 	}
 
 
+	void SceneManagement::OnEditorRender()
+	{
+		RenderCommands::SetLinesRendering(Editor::Variables().DrawLines);
+		RenderCommands::Clear();
+		ECS::Render();
+		RenderCommands::SetLinesRendering(false);
+	}
+
+
 	void SceneManagement::OnEvent(Event& event)
 	{
 		_scenes[_currentScene]->OnEvent(event);

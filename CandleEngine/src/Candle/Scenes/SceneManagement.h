@@ -14,6 +14,7 @@ namespace Candle {
 			static void LoadScene(unsigned int sceneID);
 			static void OnUpdate();
 			static void OnRender();
+			static void OnEditorRender();
 			static void OnEvent(Event& event);
 
 			static Shared<Scene> CurrentScene() { return _scenes[_currentScene]; }

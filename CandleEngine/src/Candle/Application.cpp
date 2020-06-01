@@ -95,7 +95,6 @@ namespace Candle {
 					Renderer2D::DrawFrameBuffer(SceneManagement::FinalSceneTexture());
 				} else {
 					Editor::OnUpdate();
-					Editor::SetTexture(SceneManagement::FinalSceneTexture());
 					Editor::Display();
 				}
 				

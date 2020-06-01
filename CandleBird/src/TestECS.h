@@ -80,3 +80,46 @@ class RenderSystem : public Candle::System {
 		Candle::Animation* _animptr;
 
 };
+
+
+class LineRenderSystem : public Candle::System {
+
+	public:
+		LineRenderSystem()
+		{
+
+			_lineVao = Candle::VertexArray::Create();
+			Candle::BufferLayout layout = {
+				{ "position",	Candle::ShaderDataType::vec3f },
+				{ "color",		Candle::ShaderDataType::vec4f }
+			};
+			_lineVbo = Candle::VertexBuffer::Create(14 * sizeof(float));
+			_lineVbo->SetLayout(layout);
+
+			_lineVao->AddVertexBuffer(_lineVbo);
+
+			Candle::Shared<Candle::IndexBuffer> ebo = Candle::IndexBuffer::Create(_defaultIndices, 2 * sizeof(float));
+
+		}
+
+
+		void OnRenderUpdate() override
+		{
+
+		}
+	
+
+	private:
+		Candle::Shared<Candle::VertexArray> _lineVao;
+		Candle::Shared<Candle::VertexBuffer> _lineVbo;
+
+		float _defaultVertices[14] = {
+			0., 0., 0., .1, .2, .4, 1.,
+			0., 0., 0., .5, .3, .7, 1.
+		};
+
+		unsigned int _defaultIndices[2] = {
+			0, 1
+		};
+
+};
