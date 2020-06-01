@@ -3,6 +3,8 @@
 #include <Candle.h>
 using namespace Candle;
 
+#include "../TestECS.h"
+
 class MouseClick : public Script {
 
 	public:
@@ -15,28 +17,26 @@ class MouseClick : public Script {
 
 		void OnUpdate() override
 		{
-			Transform& transform = _parent->GetComponent<Transform>();
-
 			auto[mx, my] = Input::GetMousePos();
 			glm::vec2 normalizedCoords = GetNormalizedDeviceCoords(mx, my);
 			glm::vec4 clipCoords = { normalizedCoords.x, normalizedCoords.y, -1, 1 };
 			glm::vec4 eyeCoords = ClipToEyeSpace(clipCoords);
-			glm::vec3 ray = glm::normalize(EyeToWorldSpace(eyeCoords));
+			glm::vec3 ray = EyeToWorldSpace(eyeCoords);
 
 			glm::vec3 camPos = CameraManagement::GetCameraTransform().GetPosition();
 			glm::vec3 scaledPos = 10.f * ray;
 
-			glm::vec3 finalPosition = camPos + ray;
+			glm::vec3 finalPosition = camPos + scaledPos;
 
 			_mPos = finalPosition;
-			transform.SetPosition(_mPos);
 
 			if ( Input::OnMouseButtonDown(CDL_MOUSE_BUTTON_1) ) {
 
 				Blueprint& added = ECS::New("added");
-				added.AddComponent<Transform>(finalPosition).SetScale({ 0.1, 0.1, 0 });
+				added.AddComponent<Transform>(finalPosition).SetScale({ 0.05, 0.05, 0 });
 				added.AddComponent<SpriteRenderer>();
 
+				LineRenderSystem::AddLine(camPos, finalPosition);
 			}
 
 		}

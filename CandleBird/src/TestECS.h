@@ -63,10 +63,8 @@ class RenderSystem : public Candle::System {
 				}
 
 				if (bp->HasComponent<Candle::Transform>()) {
-					Candle::Renderer2D::GetStats()->DrawSpritesFromSystem++;
 					Candle::Renderer2D::DrawSprite(srComp, bp->GetComponent<Candle::Transform>());
 				} else {
-					Candle::Renderer2D::GetStats()->DrawSpritesFromSystem++;
 					Candle::Renderer2D::DrawSprite(srComp);
 				}
 					
@@ -95,27 +93,55 @@ class LineRenderSystem : public Candle::System {
 			};
 			_lineVbo = Candle::VertexBuffer::Create(14 * sizeof(float));
 			_lineVbo->SetLayout(layout);
-
 			_lineVao->AddVertexBuffer(_lineVbo);
 
-			Candle::Shared<Candle::IndexBuffer> ebo = Candle::IndexBuffer::Create(_defaultIndices, 2 * sizeof(float));
-
+			Candle::Shared<Candle::IndexBuffer> ebo = Candle::IndexBuffer::Create(_defaultIndices, 2 * sizeof(unsigned int));
+			_lineVao->SetIndexBuffer(ebo);
 		}
 
 
 		void OnRenderUpdate() override
 		{
 
+			Candle::AssetManager::GetShader("line")->Bind();
+			Candle::AssetManager::GetShader("line")->SetMat4("u_viewProjection", Candle::CameraManagement::GetViewProjection());
+
+			for ( int i = 0; i < _lines.size() / 2; i++ ) {
+
+				_defaultVertices[0] = _lines[2 * i].x;
+				_defaultVertices[1] = _lines[2 * i].y;
+				_defaultVertices[2] = _lines[2 * i].z;
+
+
+				_defaultVertices[7] = _lines[2 * i + 1].x;
+				_defaultVertices[8] = _lines[2 * i + 1].y;
+				_defaultVertices[9] = _lines[2 * i + 1].z;
+
+				_lineVbo->SetData(_defaultVertices, 14 * sizeof(float));
+				_lineVao->Bind();
+				Candle::RenderCommands::DrawLine(_lineVao, 2);
+			}
+
 		}
 	
+
+		static void AddLine(const glm::vec3& p1, const glm::vec3& p2)
+		{
+			_lines.push_back(p1);
+			_lines.push_back(p2);
+
+			CTRACE("Line from ({0}, {1}, {2}) to ({3}, {4}, {5})", p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+		}
 
 	private:
 		Candle::Shared<Candle::VertexArray> _lineVao;
 		Candle::Shared<Candle::VertexBuffer> _lineVbo;
 
+		static std::vector<glm::vec3> _lines;
+
 		float _defaultVertices[14] = {
-			0., 0., 0., .1, .2, .4, 1.,
-			0., 0., 0., .5, .3, .7, 1.
+			0., 0., 0., /**/ .7, .5, .5, 1.,
+			0., 0., 0., /**/ .5, .5, .7, 1.
 		};
 
 		unsigned int _defaultIndices[2] = {
@@ -123,3 +149,5 @@ class LineRenderSystem : public Candle::System {
 		};
 
 };
+
+std::vector<glm::vec3> LineRenderSystem::_lines;

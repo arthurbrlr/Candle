@@ -11,7 +11,7 @@ namespace Candle {
 
 		public:	
 			GLTexture2D(const std::string & filePath);
-			GLTexture2D(unsigned int width, unsigned int height);
+			GLTexture2D(unsigned int width, unsigned int height, int channels);
 			GLTexture2D(unsigned int id, unsigned int width, unsigned int height);
 			~GLTexture2D() { glDeleteTextures(1, &_textureID); }
 

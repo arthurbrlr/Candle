@@ -26,13 +26,13 @@ namespace Candle {
 	}
 
 
-	Unique<Texture2D> Texture2D::Create(unsigned int width, unsigned int height)
+	Unique<Texture2D> Texture2D::Create(unsigned int width, unsigned int height, int channels)
 	{
 		switch (Renderer::GetAPI())
 		{
 			case RendererAPI::API::OpenGL:
 			{
-				return std::make_unique<GLTexture2D>(width, height);
+				return std::make_unique<GLTexture2D>(width, height, channels);
 			}
 			case RendererAPI::API::None:
 			{

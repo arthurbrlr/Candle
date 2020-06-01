@@ -32,11 +32,7 @@ class GameScene : public Scene {
 			Blueprint& master = ECS::New("gameMaster");
 			master.AddComponent<Transform>(glm::vec3(0, 0, 10));
 			master.AddComponent<CameraHandler>(CameraType::Perspective, CDL_APP_WIDTH, CDL_APP_HEIGHT).SetAsMainCamera(true);
-
-			Blueprint& cursor = ECS::New("cursor");
-			cursor.AddComponent<Transform>();
-			cursor.AddComponent<SpriteRenderer>();
-			cursor.AddScript<MouseClick>();
+			master.AddScript<MouseClick>();
 			
 			
 		}

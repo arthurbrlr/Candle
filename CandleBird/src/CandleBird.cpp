@@ -9,6 +9,7 @@ public:
 		: Candle::Application(appName)
 	{
 		Candle::ECS::Add(new RenderSystem());
+		Candle::ECS::Add(new LineRenderSystem());
 		SceneManagement::AddScene(new MenuScene());
 		SceneManagement::AddScene(new GameScene());
 		SceneManagement::LoadScene(gameSceneID);
