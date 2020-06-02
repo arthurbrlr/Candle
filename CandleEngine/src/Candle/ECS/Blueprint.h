@@ -42,8 +42,8 @@ namespace Candle {
 
 
 			inline const void Awake() { _isAwake = true; }
+			inline const void Sleep() { _isAwake = false; }
 			inline const void Destroy() { _isAlive = false; }
-			virtual void OnEvent(Event & event) {};
 
 			template<typename T> bool HasComponent() const { return _compBitset[GetComponentID<T>()]; }
 			template<typename T> T& GetComponent() const
@@ -73,7 +73,6 @@ namespace Candle {
 			*/
 
 			inline void SetName(const std::string & name) { _name = name; }
-			inline void SetViewInEditor(bool state) { _viewInEditor = state; }
 
 			inline const long GetID() { return _blueprintID; }
 			inline const std::string & GetName() { return _name; }
@@ -82,6 +81,7 @@ namespace Candle {
 			inline bool IsAwake() const { return _isAwake; }
 
 				/* --- Debug --- */
+			inline void SetViewInEditor(bool state) { _viewInEditor = state; }
 			inline const bool & GetViewInEditor() { return _viewInEditor; }
 
 		protected:

@@ -16,7 +16,7 @@ namespace Candle {
 
 		out vec3 o_position;
 		out vec2 o_tCoords;
-		out float o_textureIndex;
+		flat out float o_textureIndex;
 		out vec4 o_color;
 		out vec4 o_parameters;
 
@@ -47,7 +47,7 @@ namespace Candle {
 
 		in vec3 o_position;
 		in vec2 o_tCoords;
-		in float o_textureIndex;
+		flat in float o_textureIndex;
 		in vec4 o_color;
 		in vec4 o_parameters;
 			

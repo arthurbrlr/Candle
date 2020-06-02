@@ -60,7 +60,6 @@ namespace Candle {
 		dispatcher.Dispatch<KeyPressedEvent>(BIND_EVENT_FUNCTION(Application::OnKeyPressed));
 
 		SceneManagement::OnEvent(event);
-		ECS::OnEvent(event);
 		
 		if ( Editor::Show() )
 			Editor::OnEvent(event);
@@ -80,9 +79,11 @@ namespace Candle {
 				if ( Editor::PlayGame() || !Editor::Show() )
 					SceneManagement::OnUpdate();
 
-				Renderer::BeginScene();
-				SceneManagement::OnRender();
-				Renderer::EndScene();
+				if ( Editor::RenderGameView() || !Editor::Show() ) {
+					Renderer::BeginScene();
+					SceneManagement::OnRender();
+					Renderer::EndScene();
+				}
 
 					// TODO in the future
 				//PostProcessing::Process(SceneManagement::FinalTexture())

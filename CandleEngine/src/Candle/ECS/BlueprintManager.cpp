@@ -32,65 +32,39 @@ namespace Candle {
 
 	void BlueprintManager::Update()
 	{
-		/*
-		_blueprints.erase(
-			std::remove_if(std::begin(_blueprints), std::end(_blueprints), 
-			[](const Shared<Blueprint> & blueprint) {
-				return !blueprint->IsAlive();
-			}),
-			std::end(_blueprints)
-		);
-		*/
-		
+		std::vector<long> _idToDelete;
+
+		for ( auto& bp : _blueprints ) {
+			if ( !bp.second->IsAlive() ) {
+				_idToDelete.push_back(bp.first);
+			}
+		}
+
+		for ( long i : _idToDelete ) {
+			_blueprints.erase(i);
+		}
+
+
 		for ( auto& bp : _blueprints ) {
 			if ( !bp.second->IsAwake() ) bp.second->Awake();
 		}
 	}
 
-		
-	void BlueprintManager::OnEvent(Event & event)
-	{
-		for (auto& bp : _blueprints) {
-			if ( bp.second == nullptr ) continue;
-			bp.second->OnEvent(event);
-			if (event.IsHandled()) return;
-		}
-	}
 
 		/* -------------- */
 		/* Script Manager */
 		/* -------------- */
 	void ScriptManager::Update()
 	{
-		/*
-		auto updateBlueprint = [](Shared<Blueprint> bp) {
-			for ( auto& script : bp->Scripts() ) {
-				script->OnUpdate();
-			}
-		};
-		*/
-
 		for (auto& bp : BlueprintManager::All()) {
 			if ( bp.second == nullptr || !bp.second->IsAwake() ) continue;
 			
 			for (auto& script : bp.second->Scripts()) {
 				script->OnUpdate();
 			}
-			
 
 				// multithreaded, might not work later in developpment
 			//std::async(std::launch::async, updateBlueprint, bp.second);
-		}
-	}
-
-
-	void ScriptManager::OnEvent(Event & e)
-	{
-		for (auto& bp : BlueprintManager::All()) {
-			if ( bp.second == nullptr ) continue;
-			for (auto& script : bp.second->Scripts()) {
-				script->OnEvent(e);
-			}
 		}
 	}
 

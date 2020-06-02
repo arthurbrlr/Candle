@@ -44,8 +44,21 @@ class RenderSystem : public Candle::System {
 
 			if (bps.size() == 0) return;
 
-			Candle::Renderer2D::GetStats()->Reset();
+			//static int numberOfQuadsDraw = 0;
+			//static int previousNumberOfQuadsDraw = 0;
+			double t1 = Time::Milliseconds();
+
+			//previousNumberOfQuadsDraw = Candle::Renderer2D::GetStats()->OpaqueQuads;
+			//numberOfQuadsDraw = bps.size();
+
 			Candle::Renderer2D::BeginScene();
+
+			//if ( previousNumberOfQuadsDraw == numberOfQuadsDraw ) goto endScene;
+
+			CINFO("Rendering scene: number of quad changed");
+
+			Candle::Renderer2D::GetStats()->Reset();
+			Renderer2D::GetData()->BeginScene();
 
 				/* Sprite Rendering */
 			for (auto& bp : bps) {
@@ -70,7 +83,10 @@ class RenderSystem : public Candle::System {
 					
 			}
 
+			//endScene:
+
 			Candle::Renderer2D::EndScene();
+			Candle::Renderer2D::GetStats()->ecsSpriteRenderTime = Time::Milliseconds() - t1;
 		}
 
 

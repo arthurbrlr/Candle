@@ -30,11 +30,20 @@ class GameScene : public Scene {
 			*/
 
 			Blueprint& master = ECS::New("gameMaster");
-			master.AddComponent<Transform>(glm::vec3(0, 0, 10));
+			master.AddComponent<Transform>(glm::vec3(0, 10, 20), glm::vec3(35, 0, 0));
 			master.AddComponent<CameraHandler>(CameraType::Perspective, CDL_APP_WIDTH, CDL_APP_HEIGHT).SetAsMainCamera(true);
 			master.AddScript<MouseClick>();
 			
-			
+			int worldSize = 30;
+
+			for ( int i = 0; i < worldSize; i++ ) {
+				for ( int j = 0; j < worldSize; j++ ) {
+					std::string tileName = "tile_" + std::to_string(i) + "_" + std::to_string(j);
+					Blueprint& tile = ECS::New(tileName);
+					tile.AddComponent<Transform>(glm::vec3(i - worldSize / 2., 0, j - worldSize / 2.), glm::vec3(-90, 0, 0), glm::vec3(0.5, 0.5, 0.0));
+					tile.AddComponent<SpriteRenderer>().SetColor({ Noise::RandomInt(0, 255) / 255., Noise::RandomInt(0, 255) / 255., Noise::RandomInt(0, 255) / 255., 1 });
+				}
+			}
 		}
 
 

@@ -81,7 +81,7 @@ namespace Candle {
 		AssetManager::BindShader("CDL_SHADER_TEXTURE");
 		AssetManager::GetShader("CDL_SHADER_TEXTURE")->SetMat4("u_projectionViewMatrix", CameraManagement::GetViewProjection());
 
-		_data->BeginScene();
+		//_data->BeginScene();
 	}
 
 
@@ -428,6 +428,8 @@ namespace Candle {
 
 		glm::mat4 transformMatrix = glm::translate(glm::mat4(1.0), transform.GetPosition())
 								  * glm::rotate(glm::mat4(1.0), (float)glm::radians(transform.GetRotation().z), { 0., 0., 1. })
+								  * glm::rotate(glm::mat4(1.0), (float)glm::radians(transform.GetRotation().y), { 0., 1., 0. })
+								  * glm::rotate(glm::mat4(1.0), (float)glm::radians(transform.GetRotation().x), { 1., 0., 0. })
 								  * glm::scale(glm::mat4(1.0), transform.GetScale());
 
 		glm::vec4 bottomLeftVertex = transformMatrix * glm::vec4({ offsets.x, offsets.z, 1., 1. });

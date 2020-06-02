@@ -31,6 +31,9 @@ namespace Candle {
 			void OnEditor() override
 			{
 				ImGui::Text("Placeholder camera handler");
+
+				float parentPos[3] = { _parent->GetComponent<Transform>().GetPosition().x, _parent->GetComponent<Transform>().GetPosition().y, _parent->GetComponent<Transform>().GetPosition().z };
+				ImGui::InputFloat3("Position", parentPos);
 			}
 
 

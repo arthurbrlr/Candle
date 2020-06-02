@@ -173,6 +173,7 @@ namespace Candle {
 		unsigned int OpaqueQuads = 0;
 		unsigned int TransparentQuads = 0;
 		unsigned int LineCount = 0;
+		double ecsSpriteRenderTime = 0;
 
 		unsigned int VertexCount() { return OpaqueQuads * 4 + TransparentQuads * 4; }
 		unsigned int IndicesCount() { return OpaqueQuads * 6 + TransparentQuads * 6; }
@@ -183,6 +184,7 @@ namespace Candle {
 			OpaqueQuads = 0;
 			TransparentQuads = 0;
 			LineCount = 0;
+			ecsSpriteRenderTime = 0;
 		}
 
 	};

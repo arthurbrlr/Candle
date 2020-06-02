@@ -9,7 +9,6 @@ namespace Candle {
 
 		public:
 			static void Update();
-			static void OnEvent(Event & event) { for (auto& s : _systems) s->OnEvent(event); }
 			static void OnEditor() { for (auto& s : _systems) s->OnEditor(); }
 			static void OnRender() { for (auto& s : _systems) s->OnRenderUpdate(); }
 			static void Add(System* system);

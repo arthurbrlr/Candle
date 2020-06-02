@@ -13,7 +13,6 @@ namespace Candle {
 			static void Add(Shared<Blueprint> blueprint);
 			static void Remove(long blueprintID);
 			static void Update();
-			static void OnEvent(Event & event);
 			static void Clear() { _blueprints.clear(); }
 
 			static std::unordered_map<long, Shared<Blueprint>> & All() { return _blueprints; }
@@ -42,7 +41,6 @@ namespace Candle {
 
 		public:
 			static void Update();
-			static void OnEvent(Event & e);
 
 	};
 

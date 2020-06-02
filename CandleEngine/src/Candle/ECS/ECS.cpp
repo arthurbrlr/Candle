@@ -6,6 +6,8 @@
 
 namespace Candle {
 
+	ECSStats ECS::_stats;
+
 	void ECS::Init()
 	{
 		Add(new AnimationSystem());
@@ -50,17 +52,18 @@ namespace Candle {
 
 	void ECS::Update()
 	{
+		_stats.ResetUpdateStats();
+		double t1 = Time::Milliseconds();
 		BlueprintManager::Update();
+		double t2 = Time::Milliseconds();
 		ScriptManager::Update();
+		double t3 = Time::Milliseconds();
 		SystemManager::Update();
-	}
+		double t4 = Time::Milliseconds();
 
-
-	void ECS::OnEvent(Event & event)
-	{
-		BlueprintManager::OnEvent(event);
-		ScriptManager::OnEvent(event);
-		SystemManager::OnEvent(event);
+		_stats.bpManagerUpdateTime = t2 - t1;
+		_stats.scriptManagerUpdateTime = t3 - t2;
+		_stats.systemManagerUpdateTime = t4 - t3;
 	}
 
 
