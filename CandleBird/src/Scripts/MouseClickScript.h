@@ -34,7 +34,7 @@ class MouseClick : public Script {
 
 				Blueprint& added = ECS::New("added");
 				added.AddComponent<Transform>(finalPosition).SetScale({ 0.05, 0.05, 0 });
-				added.AddComponent<SpriteRenderer>();
+				added.AddComponent<SpriteRenderer>(AssetManager::GetTexture2D("dodo"));
 
 				LineRenderSystem::AddLine(camPos, finalPosition);
 			}

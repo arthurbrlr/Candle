@@ -52,13 +52,8 @@ class RenderSystem : public Candle::System {
 			//numberOfQuadsDraw = bps.size();
 
 			Candle::Renderer2D::BeginScene();
-
 			//if ( previousNumberOfQuadsDraw == numberOfQuadsDraw ) goto endScene;
-
-			CINFO("Rendering scene: number of quad changed");
-
 			Candle::Renderer2D::GetStats()->Reset();
-			Renderer2D::GetData()->BeginScene();
 
 				/* Sprite Rendering */
 			for (auto& bp : bps) {

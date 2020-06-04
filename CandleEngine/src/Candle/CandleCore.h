@@ -2,7 +2,12 @@
 
 #include <memory>
 
-#ifdef CANDLE_PLATFORM_WINDOWS
+enum SystemEnum {
+	WIN64, MACOS, LINUX
+};
+
+#ifdef _WIN64
+	static SystemEnum SYSTEM = WIN64;
 	#ifdef CANDLE_DYNAMIC_LINK
 		#ifdef CANDLE_BUILD_DLL
 			#define	CANDLE_API _declspec(dllexport)
@@ -12,7 +17,11 @@
 	#else
 		#define CANDLE_API
 	#endif
-#else
+#elif __APPLE__
+	static SystemEnum SYSTEM = MACOS;
+	#error Candle is only supported on windows
+#elif __linux__
+	static SystemEnum SYSTEM = LINUX;
 	#error Candle is only supported on windows
 #endif
 

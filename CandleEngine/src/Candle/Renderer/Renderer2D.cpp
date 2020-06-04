@@ -33,35 +33,6 @@ namespace Candle {
 		_data->opaqueBatch.Init();
 		_data->transparentBatch.Init();
 
-			/* Lines Batch Init */
-		_data->linesVertexArray = VertexArray::Create();
-		_data->linesVertexArray->Bind();
-
-		_data->linesVertexBuffer = VertexBuffer::Create(_data->maxLinesVertices * sizeof(QuadVertex));
-		_data->linesVertexBuffer->SetLayout(defaultLayout);
-		_data->linesVertexArray->AddVertexBuffer(_data->linesVertexBuffer);
-
-		_data->linesVBO = new LineVertex[_data->maxLinesVertices];
-
-		unsigned int* lineIndices = new unsigned int[_data->maxLinesIndices];
-		unsigned int off = 0;
-		for (unsigned int i = 0; i < _data->maxLinesIndices; i += 6) {
-			lineIndices[i + 0] = off + 0;
-			lineIndices[i + 1] = off + 1;
-			lineIndices[i + 2] = off + 2;
-
-			lineIndices[i + 3] = off + 2;
-			lineIndices[i + 4] = off + 1;
-			lineIndices[i + 5] = off + 3;
-
-			off += 4;
-		}
-
-		Shared<IndexBuffer> lineEbo = IndexBuffer::Create(lineIndices, _data->maxLinesIndices);
-		_data->linesVertexArray->SetIndexBuffer(lineEbo);
-
-		delete[] lineIndices;
-
 		/* ---- */
 
 		_data->BindTextureBatch();
@@ -70,8 +41,6 @@ namespace Candle {
 
 	void Renderer2D::Clear()
 	{
-		delete[] _data->linesVBO;
-
 		delete[] _data->opaqueBatch.vbo;
 		delete[] _data->transparentBatch.vbo;
 	}
@@ -81,7 +50,7 @@ namespace Candle {
 		AssetManager::BindShader("CDL_SHADER_TEXTURE");
 		AssetManager::GetShader("CDL_SHADER_TEXTURE")->SetMat4("u_projectionViewMatrix", CameraManagement::GetViewProjection());
 
-		//_data->BeginScene();
+		_data->BeginScene();
 	}
 
 
@@ -93,9 +62,6 @@ namespace Candle {
 			//		BeginLayer / EndLayer
 			// End Scene
 
-		unsigned int lineBufferSize = (unsigned int)((uint8_t*)_data->linesVBOptr - (uint8_t*)_data->linesVBO);
-		_data->linesVertexBuffer->SetData(_data->linesVBO, lineBufferSize);
-
 		Flush();
 	}
 
@@ -104,13 +70,6 @@ namespace Candle {
 	{
 		for (unsigned int i = 0; i < _data->textureBufferIndex; i++) {
 			_data->textureBuffer[i]->Bind(i);
-		}
-
-			/* Line Rendering */
-		if (_data->linesIndexCount > 0) {
-			_data->linesVertexArray->Bind();
-			RenderCommands::DrawArray(_data->linesVertexArray, _data->linesIndexCount);
-			_stats->DrawCalls++;
 		}
 
 			/* Opaque Batch Rendering */
@@ -432,10 +391,10 @@ namespace Candle {
 								  * glm::rotate(glm::mat4(1.0), (float)glm::radians(transform.GetRotation().x), { 1., 0., 0. })
 								  * glm::scale(glm::mat4(1.0), transform.GetScale());
 
-		glm::vec4 bottomLeftVertex = transformMatrix * glm::vec4({ offsets.x, offsets.z, 1., 1. });
-		glm::vec4 bottomRightVertex = transformMatrix * glm::vec4({ offsets.y, offsets.z, 1., 1. });
-		glm::vec4 topLeftVertex = transformMatrix * glm::vec4({ offsets.x, offsets.w, 1., 1. });
-		glm::vec4 topRightVertex = transformMatrix * glm::vec4({ offsets.y, offsets.w, 1., 1. });
+		glm::vec4 bottomLeftVertex = transformMatrix * glm::vec4({ offsets.x, offsets.z, 0., 1. });
+		glm::vec4 bottomRightVertex = transformMatrix * glm::vec4({ offsets.y, offsets.z, 0., 1. });
+		glm::vec4 topLeftVertex = transformMatrix * glm::vec4({ offsets.x, offsets.w, 0., 1. });
+		glm::vec4 topRightVertex = transformMatrix * glm::vec4({ offsets.y, offsets.w, 0., 1. });
 
 
 		RegisterQuadVertexInBatch({
@@ -545,72 +504,6 @@ namespace Candle {
 		_data->fullscreenVertexBuffer->SetData(vertices, 20 * sizeof(float));
 		RenderCommands::DrawArray(_data->fullscreenVertexArray, _data->fullscreenIndexCount);
 	}
-
-
-
-		// ---- Lines ----
-
-	void Renderer2D::DrawLine(const glm::vec3 & a, const glm::vec3 & b, double width)
-	{
-		Transform transform;
-		glm::mat4 transformMatrix = glm::translate(glm::mat4(1.0), transform.GetPosition())
-								  * glm::rotate(glm::mat4(1.0), (float)glm::radians(transform.GetRotation().z), { 0., 0., 1. })
-								  * glm::scale(glm::mat4(1.0), transform.GetScale());
-
-		glm::vec3 AB = b - a;
-		// perpendicular to AB and the normal vector of the camera (camera.forward)
-		glm::vec3 offset = { 0, width, 0 };
-
-		double lineQuadWidth = glm::length(AB);
-		double lineQuadHeight = width;
-
-		constexpr glm::vec2 textCoords = { 0, 0 };
-		constexpr glm::vec4 color = { 1, 1, 1, 1 };
-		constexpr glm::vec4 parameters = { 0, 1, 1, 1 };
-
-		glm::vec4 bottomLeftVertex = transformMatrix * glm::vec4({ a.x, a.y - lineQuadHeight, 0., 1. });
-		glm::vec4 bottomRightVertex = transformMatrix * glm::vec4({ b.x, b.y - lineQuadHeight, 0., 1. });
-		glm::vec4 topLeftVertex = transformMatrix * glm::vec4({ a.x, a.y + lineQuadHeight, 0., 1. });
-		glm::vec4 topRightVertex = transformMatrix * glm::vec4({ b.x, b.y + lineQuadHeight, 0., 1. });
-
-		_data->linesVBOptr->position = bottomLeftVertex;
-		_data->linesVBOptr->textureCoordinates = textCoords;
-		_data->linesVBOptr->textureIndex = 0;
-		_data->linesVBOptr->color = color;
-		_data->linesVBOptr->parameters = parameters;
-		_data->linesVBOptr++;
-
-
-		_data->linesVBOptr->position = bottomRightVertex;
-		_data->linesVBOptr->textureCoordinates = textCoords;
-		_data->linesVBOptr->textureIndex = 0;
-		_data->linesVBOptr->color = color;
-		_data->linesVBOptr->parameters = parameters;
-		_data->linesVBOptr++;
-
-
-		_data->linesVBOptr->position = topLeftVertex;
-		_data->linesVBOptr->textureCoordinates = textCoords;
-		_data->linesVBOptr->textureIndex = 0;
-		_data->linesVBOptr->color = color;
-		_data->linesVBOptr->parameters = parameters;
-		_data->linesVBOptr++;
-
-
-		_data->linesVBOptr->position = topRightVertex;
-		_data->linesVBOptr->textureCoordinates = textCoords;
-		_data->linesVBOptr->textureIndex = 0;
-		_data->linesVBOptr->color = color;
-		_data->linesVBOptr->parameters = parameters;
-		_data->linesVBOptr++;
-
-		// Actual indexing for rendering
-		_data->linesIndexCount += 6;
-
-		// Stats
-		_stats->LineCount += 1;
-	}
-
 
 }
 

@@ -37,7 +37,7 @@ namespace Candle {
 				: _texture(texture), _defaultTextureCoordinates(textureCoord)
 			{
 				_name = "SpriteRenderer";
-				if (texture != nullptr)
+				if ( texture != nullptr )
 					_isTransparent = forceTransparency || texture->IsTransparent();
 			}
 							   

@@ -19,12 +19,6 @@ namespace Candle {
 	}
 
 
-	Window* Window::Create(const WindowProperties & props)
-	{
-		return new WindowsWindow(props);
-	}
-
-
 	WindowsWindow::WindowsWindow(const WindowProperties & props)
 	{
 		Init(props);

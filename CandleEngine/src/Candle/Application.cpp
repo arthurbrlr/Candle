@@ -25,7 +25,13 @@ namespace Candle {
 		Time::Start();
 
 		CASSERT(!_instance, "Application already exist!");
+
+		if ( _instance != nullptr ) {
+			CASSERT(false, "Two applications can't exist at the same time");
+		} else {
 		_instance = this;
+		}
+
 		_window = Unique<Window>(Window::Create(WindowProperties(appName)));
 		_window->SetEventCallback(BIND_EVENT_FUNCTION(Application::OnEvent));
 

@@ -110,6 +110,7 @@
     <ClCompile Include="src\Candle\Audio\AudioMixer.cpp" />
     <ClCompile Include="src\Candle\Core\Input.cpp" />
     <ClCompile Include="src\Candle\Core\Time.cpp" />
+    <ClCompile Include="src\Candle\Core\Window.cpp" />
     <ClCompile Include="src\Candle\Debug\Editor.cpp" />
     <ClCompile Include="src\Candle\Debug\EditorCameraController.cpp" />
     <ClCompile Include="src\Candle\ECS\Blueprint.cpp" />

@@ -17,15 +17,6 @@ namespace Candle {
 	};
 
 
-	struct LineVertex {
-		glm::vec3 position;
-		glm::vec2 textureCoordinates;
-		float textureIndex;
-		glm::vec4 color;
-		glm::vec4 parameters = { 1, 1, 1, 1 };
-	};
-
-
 	static BufferLayout defaultLayout = {
 		{"position",			ShaderDataType::vec3f},
 		{"textureCoordinates",  ShaderDataType::vec2f},
@@ -127,18 +118,6 @@ namespace Candle {
 		Batch transparentBatch;
 
 
-			/* Lines Related stuff */
-		const unsigned int maxLines = 10000;
-		const unsigned int maxLinesVertices = maxLines * 4;
-		const unsigned int maxLinesIndices = maxLines * 6;
-
-		Shared<VertexArray> linesVertexArray;
-		Shared<VertexBuffer> linesVertexBuffer;
-		unsigned int linesIndexCount = 0;
-		LineVertex* linesVBO;
-		LineVertex* linesVBOptr;
-
-
 			/* Points Related stuff */
 
 
@@ -151,9 +130,6 @@ namespace Candle {
 		void BeginScene()
 		{
 			textureBufferIndex = 1;
-
-			linesVBOptr = linesVBO;
-			linesIndexCount = 0;
 
 			opaqueBatch.Reset();
 			transparentBatch.Reset();

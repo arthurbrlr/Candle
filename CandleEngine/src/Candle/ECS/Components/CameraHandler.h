@@ -15,6 +15,7 @@ namespace Candle {
 			CameraHandler(CameraType type, double horizontalSize, double verticalSize)
 			{
 				_name = "CameraHandler";
+				_type = type;
 			
 				switch(type)
 				{
@@ -30,10 +31,9 @@ namespace Candle {
 
 			void OnEditor() override
 			{
-				ImGui::Text("Placeholder camera handler");
+				std::string cameraType = _type == Orthographic ? "Orthographic Camera" : "Perspective Camera";
 
-				float parentPos[3] = { _parent->GetComponent<Transform>().GetPosition().x, _parent->GetComponent<Transform>().GetPosition().y, _parent->GetComponent<Transform>().GetPosition().z };
-				ImGui::InputFloat3("Position", parentPos);
+				ImGui::Text(cameraType.c_str());
 			}
 
 
@@ -78,6 +78,7 @@ namespace Candle {
 
 		private:
 			Unique<RawCamera> _camera;
+			CameraType _type;
 			glm::mat4 _viewMatrix = glm::mat4(0);
 			bool _isMainCamera = true;
 
