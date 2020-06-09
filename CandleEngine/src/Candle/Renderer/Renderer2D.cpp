@@ -89,7 +89,7 @@ namespace Candle {
 			auto compareQuadVertexPosition = [](const QuadVertex& q1, const QuadVertex& q2) -> bool {
 				return q1.position.z < q2.position.z;
 			};
-			std::stable_sort(_data->transparentBatch.vbo, _data->transparentBatch.vboptr, compareQuadVertexPosition);
+			//std::stable_sort(_data->transparentBatch.vbo, _data->transparentBatch.vboptr, compareQuadVertexPosition);
 
 			_data->transparentBatch.UploadData();
 			_data->transparentBatch.vertexArray->Bind();

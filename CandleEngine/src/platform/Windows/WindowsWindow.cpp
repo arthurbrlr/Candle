@@ -1,5 +1,7 @@
 #include "cdlpch.h"
 
+#include "stb_image.h"
+
 #include "Candle/Events/AppEvent.h"
 #include "Candle/Events/KeyEvent.h"
 #include "Candle/Events/MouseEvent.h"
@@ -60,6 +62,22 @@ namespace Candle {
 		glfwMakeContextCurrent(_window);
 		SetVSync(false);
 
+
+		std::string filePath = "res/textures/cdl_icon.png";
+		int w, h, nbch;
+		GLFWimage image[2];
+
+		image[0].pixels = stbi_load(filePath.c_str(), &w, &h, &nbch, 4);
+		image[0].width = w;
+		image[0].height = h;
+
+		image[1].pixels = stbi_load(filePath.c_str(), &w, &h, &nbch, 4);
+		image[1].width = w;
+		image[1].height = h;
+
+		glfwSetWindowIcon(_window, 2, image);
+
+
 		_context = new GLContext(_window);
 		_context->Init();
 
@@ -68,6 +86,7 @@ namespace Candle {
 			// Setting all callbacks
 		glfwSetWindowSizeCallback(_window, [](GLFWwindow* w, int width, int height) 
 		{
+			CTRACE("Resize Callback at {0} x {1}", width, height);
 			WindowData & data = *(WindowData*)glfwGetWindowUserPointer(w);
 			data._width = width;
 			data._height = height;

@@ -34,7 +34,7 @@ class GameScene : public Scene {
 			master.AddComponent<CameraHandler>(CameraType::Perspective, CDL_APP_WIDTH, CDL_APP_HEIGHT).SetAsMainCamera(true);
 			master.AddScript<MouseClick>();
 			
-			int worldSize = 5;
+			int worldSize = 3;
 			for ( int i = 0; i < worldSize; i++ ) {
 				for ( int j = 0; j < worldSize; j++ ) {
 					std::string tileName = "tile_" + std::to_string(i) + "_" + std::to_string(j);

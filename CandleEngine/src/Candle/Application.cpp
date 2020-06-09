@@ -124,11 +124,12 @@ namespace Candle {
 
 	bool Application::OnWindowResize(WindowResizeEvent & e)
 	{
+		CTRACE("Window Resize Callback : {0} x {1}", e.GetWidth(), e.GetHeight());
 		if ( (e.GetHeight() == 0 || e.GetWidth() == 0) && !_minimized) _minimized = true;
 		else if ( (e.GetHeight() != 0 && e.GetWidth() != 0) && _minimized) _minimized = false;
 
 		RenderCommands::SetViewport(0, 0, e.GetWidth(), e.GetHeight());
-		return true;
+		return false;
 	}
 
 
