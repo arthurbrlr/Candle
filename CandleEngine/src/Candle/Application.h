@@ -30,8 +30,8 @@ namespace Candle {
 
 			inline Window& GetWindow() const { return *_window; }
 			
-			inline static unsigned int GetWidth() { return _instance->GetWindow().GetWidth(); }
-			inline static unsigned int GetHeight() { return _instance->GetWindow().GetHeight(); }
+			inline static uint32_t GetWidth() { return _instance->GetWindow().GetWidth(); }
+			inline static uint32_t GetHeight() { return _instance->GetWindow().GetHeight(); }
 			inline static double AspectRatio() { return _instance->GetWindow().GetWidth() / (double)_instance->GetWindow().GetHeight(); }
 			inline static bool IsFullScreen() { return _instance->Get()._fullscreened; }
 

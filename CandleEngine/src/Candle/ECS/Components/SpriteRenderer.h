@@ -173,7 +173,7 @@ namespace Candle {
 		private:
 			Shared<Texture2D> _texture;
 			glm::vec4 _defaultTextureCoordinates;
-			unsigned int _rendererLayer = 0;
+			uint32_t _rendererLayer = 0;
 
 			bool _flipX = false, _flipY = false;
 			bool _flip45 = false;

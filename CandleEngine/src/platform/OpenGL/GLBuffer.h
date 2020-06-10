@@ -7,22 +7,22 @@ namespace Candle {
 	class CANDLE_API GLVertexBuffer : public VertexBuffer {
 
 		public:
-			GLVertexBuffer(unsigned int size);
-			GLVertexBuffer(float* vertices, unsigned int size);
+			GLVertexBuffer(uint32_t size);
+			GLVertexBuffer(float* vertices, uint32_t size);
 			~GLVertexBuffer();
 
 			void Bind() override;
 			void Unbind() override;
 
-			void SetData(const void* data, unsigned int size) override;
+			void SetData(const void* data, uint32_t size) override;
 
-			inline unsigned int GetID() { return _vboID; }
+			inline uint32_t GetID() { return _vboID; }
 
 			inline void SetLayout(const BufferLayout & layout) override { _layout = layout; }
 			virtual inline const BufferLayout & GetLayout() const override { return _layout; }
 
 		private:
-			unsigned int _vboID;
+			uint32_t _vboID;
 			BufferLayout _layout;
 
 	};
@@ -31,18 +31,18 @@ namespace Candle {
 	class CANDLE_API GLIndexBuffer : public IndexBuffer {
 		
 		public:
-			GLIndexBuffer(unsigned int* indices, unsigned int count);
+			GLIndexBuffer(uint32_t* indices, uint32_t count);
 			~GLIndexBuffer();
 
 			void Bind() override;
 			void Unbind() override;
 
-			inline unsigned int GetID() { return _eboID; }
-			inline unsigned int GetIndexCount() override { return _indexCount; }
+			inline uint32_t GetID() { return _eboID; }
+			inline uint32_t GetIndexCount() override { return _indexCount; }
 
 		private:	
-			unsigned int _eboID;
-			unsigned int _indexCount;
+			uint32_t _eboID;
+			uint32_t _indexCount;
 	};
 
 }

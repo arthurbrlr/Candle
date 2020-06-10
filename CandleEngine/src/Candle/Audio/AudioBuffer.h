@@ -9,10 +9,10 @@ namespace Candle {
 		public:
 			virtual ~AudioBuffer() {}
 			
-			unsigned int GetBufferID() { return _bufferID; }
+			uint32_t GetBufferID() { return _bufferID; }
 
 		private:
-			unsigned int _bufferID;
+			uint32_t _bufferID;
 	};
 
 

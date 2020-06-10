@@ -6,7 +6,7 @@
 namespace Candle {
 
 
-	GLFrameBuffer::GLFrameBuffer(const std::vector<FrameBufferType> & attachments, unsigned int width, unsigned int height)
+	GLFrameBuffer::GLFrameBuffer(const std::vector<FrameBufferType> & attachments, uint32_t width, uint32_t height)
 		: _width(width), _height(height)
 	{
 
@@ -46,7 +46,7 @@ namespace Candle {
 	}
 
 
-	void GLFrameBuffer::Unbind(unsigned int width, unsigned int height)
+	void GLFrameBuffer::Unbind(uint32_t width, uint32_t height)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0, 0, width, height);
@@ -77,7 +77,7 @@ namespace Candle {
 	}
 
 
-	unsigned int GLFrameBuffer::GetID()
+	uint32_t GLFrameBuffer::GetID()
 	{
 		return _fboID;
 	}
@@ -91,9 +91,9 @@ namespace Candle {
 	}
 
 
-	void GLFrameBuffer::CreateTextureAttachment(unsigned int width, unsigned int height)
+	void GLFrameBuffer::CreateTextureAttachment(uint32_t width, uint32_t height)
 	{
-		unsigned int texture;
+		uint32_t texture;
 		glGenTextures(1, &texture);
 		glBindTexture(GL_TEXTURE_2D, texture);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
@@ -110,9 +110,9 @@ namespace Candle {
 	}
 
 
-	void GLFrameBuffer::CreateDepthTextureAttachment(unsigned int width, unsigned int height)
+	void GLFrameBuffer::CreateDepthTextureAttachment(uint32_t width, uint32_t height)
 	{
-		unsigned int texture;
+		uint32_t texture;
 		glGenTextures(1, &texture);
 		glBindTexture(GL_TEXTURE_2D, texture);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
@@ -124,9 +124,9 @@ namespace Candle {
 	}
 
 
-	void GLFrameBuffer::CreateDepthBufferAttachement(unsigned int width, unsigned int height)
+	void GLFrameBuffer::CreateDepthBufferAttachement(uint32_t width, uint32_t height)
 	{
-		unsigned int depthBuffer;
+		uint32_t depthBuffer;
 		glGenRenderbuffers(1, &depthBuffer);
 		glBindRenderbuffer(GL_RENDERBUFFER, depthBuffer);
 		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);

@@ -7,8 +7,8 @@
 namespace Candle {
 
 	struct Edge {
-		unsigned int source;
-		unsigned int output;
+		uint32_t source;
+		uint32_t output;
 	};
 
 
@@ -16,11 +16,11 @@ namespace Candle {
 	public:
 		virtual ~Node() {}
 
-		virtual const unsigned int GetID() const { return _nodeID; }
+		virtual const uint32_t GetID() const { return _nodeID; }
 		virtual const std::string GetName() const { return _nodeName; }
 
 	protected:
-		unsigned int _nodeID = 0;
+		uint32_t _nodeID = 0;
 		std::string _nodeName = "Node";
 	};
 
@@ -39,8 +39,8 @@ namespace Candle {
 			_graph[node->GetID()] = std::move(node);
 		}
 
-		std::unordered_map<unsigned int, Shared<GraphNode>> GetGraph() { return _graph; }
-		GraphNode& GetNode(unsigned int nodeID) { return *_graph[nodeID]; }
+		std::unordered_map<uint32_t, Shared<GraphNode>> GetGraph() { return _graph; }
+		GraphNode& GetNode(uint32_t nodeID) { return *_graph[nodeID]; }
 		std::vector<std::string> GetAllNodesName()
 		{
 			std::vector<std::string> allNames;
@@ -53,7 +53,7 @@ namespace Candle {
 		}
 
 	protected:
-		std::unordered_map<unsigned int, Shared<GraphNode>> _graph;
+		std::unordered_map<uint32_t, Shared<GraphNode>> _graph;
 	};
 
 

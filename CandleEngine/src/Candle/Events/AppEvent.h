@@ -7,11 +7,11 @@ namespace Candle {
 	class CANDLE_API WindowResizeEvent : public Event {
 
 		public:
-			WindowResizeEvent(unsigned int width, unsigned int height)
+			WindowResizeEvent(uint32_t width, uint32_t height)
 				: _width(width), _height(height) {}
 
-			inline unsigned int GetWidth() const { return _width; }
-			inline unsigned int GetHeight() const { return _height; }
+			inline uint32_t GetWidth() const { return _width; }
+			inline uint32_t GetHeight() const { return _height; }
 
 			std::string ToString() const override
 			{
@@ -24,7 +24,7 @@ namespace Candle {
 			EVENT_CLASS_CATEGORY(EventCategoryApplication)
 
 		private:
-			unsigned int _width, _height;
+			uint32_t _width, _height;
 	};
 
 

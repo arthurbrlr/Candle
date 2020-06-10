@@ -120,6 +120,7 @@
     <ClCompile Include="src\Candle\Layers\Layer.cpp" />
     <ClCompile Include="src\Candle\Layers\LayerStack.cpp" />
     <ClCompile Include="src\Candle\Physics\CollisionWorld.cpp" />
+    <ClCompile Include="src\Candle\Physics\Raycast.cpp" />
     <ClCompile Include="src\Candle\PostProcessing\Node.cpp" />
     <ClCompile Include="src\Candle\PostProcessing\PostProcessing.cpp" />
     <ClCompile Include="src\Candle\Renderer\Buffer.cpp" />

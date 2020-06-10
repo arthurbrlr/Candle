@@ -20,7 +20,7 @@ namespace Candle {
 	};
 
 	
-	static unsigned int ShaderDataTypeSize(ShaderDataType type)
+	static uint32_t ShaderDataTypeSize(ShaderDataType type)
 	{
 		switch (type)
 		{
@@ -47,14 +47,14 @@ namespace Candle {
 	struct BufferElement {
 		std::string Name;
 		ShaderDataType Type;
-		unsigned int offset;
-		unsigned int size;
+		uint32_t offset;
+		uint32_t size;
 		bool Normalized;
 
 		BufferElement(const std::string & name, ShaderDataType type, bool normalized = false)
 			: Name(name), Type(type), size(ShaderDataTypeSize(type)), offset(0), Normalized(normalized) {}
 
-		unsigned int GetCount() const {
+		uint32_t GetCount() const {
 			switch (Type)
 			{
 				case Candle::ShaderDataType::None:		return 0;
@@ -91,11 +91,11 @@ namespace Candle {
 			std::vector<BufferElement>::iterator begin() { return _elements.begin(); }
 			std::vector<BufferElement>::iterator end() { return _elements.end(); }
 
-			inline const unsigned int GetStride() const { return _stride; }
+			inline const uint32_t GetStride() const { return _stride; }
 
 		private:
 			std::vector<BufferElement> _elements;
-			unsigned int _stride = 0;
+			uint32_t _stride = 0;
 
 			void CalculateOffsetsAndStride();
 
@@ -109,13 +109,13 @@ namespace Candle {
 			virtual void Bind() = 0;
 			virtual void Unbind() = 0;
 
-			virtual void SetData(const void* data, unsigned int size) = 0;
+			virtual void SetData(const void* data, uint32_t size) = 0;
 
 			virtual void SetLayout(const BufferLayout & layout) = 0;
 			virtual inline const BufferLayout & GetLayout() const = 0;
 			
-			static Shared<VertexBuffer> Create(unsigned int size);
-			static Shared<VertexBuffer> Create(float* vertices, unsigned int size);
+			static Shared<VertexBuffer> Create(uint32_t size);
+			static Shared<VertexBuffer> Create(float* vertices, uint32_t size);
 	};
 
 
@@ -127,9 +127,9 @@ namespace Candle {
 		virtual void Bind() = 0;
 		virtual void Unbind() = 0;
 
-		virtual inline unsigned int GetIndexCount() = 0;
+		virtual inline uint32_t GetIndexCount() = 0;
 
-		static Shared<IndexBuffer> Create(unsigned int* indices, unsigned int size);
+		static Shared<IndexBuffer> Create(uint32_t* indices, uint32_t size);
 	};
 
 

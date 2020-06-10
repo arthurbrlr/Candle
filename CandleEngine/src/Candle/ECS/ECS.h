@@ -41,7 +41,7 @@ namespace Candle {
 			static Blueprint& New(const std::string & name = "candleBlueprint");
 			static void Add(Shared<Blueprint> blueprint);
 			static void Add(System * system);
-			static void Remove(unsigned int blueprintID);
+			static void Remove(uint32_t blueprintID);
 			static void ClearBlueprints();
 
 			static Shared<Blueprint> GetBlueprint(long blueprintID);

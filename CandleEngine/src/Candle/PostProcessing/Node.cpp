@@ -10,7 +10,7 @@
 namespace Candle {
 
 
-	PostProcessingNode::PostProcessingNode(const std::string & name, unsigned int width, unsigned int height, NodeData data, const std::vector<FrameBufferType> & bufferTypes)
+	PostProcessingNode::PostProcessingNode(const std::string & name, uint32_t width, uint32_t height, NodeData data, const std::vector<FrameBufferType> & bufferTypes)
 		: _textureWidth(width), _textureHeight(height), _data(data)
 	{
 

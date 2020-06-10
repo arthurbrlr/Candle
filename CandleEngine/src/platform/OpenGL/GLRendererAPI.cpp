@@ -48,7 +48,7 @@ namespace Candle {
 	}
 
 
-	void GLRendererAPI::SetViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height)
+	void GLRendererAPI::SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
 	{
 		glViewport(x, y, width, height);
 	}
@@ -60,16 +60,16 @@ namespace Candle {
 	}
 
 
-	void GLRendererAPI::DrawArray(const Shared<VertexArray>& vertexArray, unsigned int indexCount)
+	void GLRendererAPI::DrawArray(const Shared<VertexArray>& vertexArray, uint32_t indexCount)
 	{
-		unsigned int count = indexCount != -1 ? indexCount : vertexArray->GetIndexBuffer()->GetIndexCount();
+		uint32_t count = indexCount != -1 ? indexCount : vertexArray->GetIndexBuffer()->GetIndexCount();
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
 	}
 
 
-	void GLRendererAPI::DrawLine(const Shared<VertexArray>& vertexArray, unsigned int indexCount)
+	void GLRendererAPI::DrawLine(const Shared<VertexArray>& vertexArray, uint32_t indexCount)
 	{
-		unsigned int count = indexCount != -1 ? indexCount : vertexArray->GetIndexBuffer()->GetIndexCount();
+		uint32_t count = indexCount != -1 ? indexCount : vertexArray->GetIndexBuffer()->GetIndexCount();
 		glEnable(GL_LINE_SMOOTH);
 		glLineWidth(5);
 		glDrawElements(GL_LINES, count, GL_UNSIGNED_INT, nullptr);
@@ -78,9 +78,9 @@ namespace Candle {
 	}
 
 
-	void GLRendererAPI::DrawPointArray(const Shared<VertexArray> & vertexArray, unsigned int indexCount)
+	void GLRendererAPI::DrawPointArray(const Shared<VertexArray> & vertexArray, uint32_t indexCount)
 	{
-		unsigned int count = indexCount != -1 ? indexCount : vertexArray->GetIndexBuffer()->GetIndexCount();
+		uint32_t count = indexCount != -1 ? indexCount : vertexArray->GetIndexBuffer()->GetIndexCount();
 		glDrawElements(GL_POINTS, count, GL_UNSIGNED_INT, nullptr);
 	}
 

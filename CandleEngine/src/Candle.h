@@ -33,6 +33,9 @@
 #include "Candle/ECS/Components/EngineComponents.h"
 #include "Candle/ECS/Systems/EngineSystems.h"
 
+#include "Candle/Physics/Raycast.h"
+#include "Candle/Physics/CollisionWorld.h"
+
 
 	// --- Utility ---
 #include "Utility/Maths/Noise.h"

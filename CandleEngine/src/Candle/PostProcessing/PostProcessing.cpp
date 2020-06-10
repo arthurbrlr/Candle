@@ -35,7 +35,7 @@ namespace Candle {
 
 	void PostProcessingPipeline::Build()
 	{
-		unsigned int finalNodeId = 0;
+		uint32_t finalNodeId = 0;
 		for (auto& it : _graph) {
 			if (it.second->Data().outputs.size() == 0) _finalNodeID = it.second->GetID();
 		}
@@ -55,7 +55,7 @@ namespace Candle {
 	}
 
 
-	void PostProcessingPipeline::SetFinalNode(unsigned int nodeID)
+	void PostProcessingPipeline::SetFinalNode(uint32_t nodeID)
 	{
 		_finalNodeID = nodeID;
 	}

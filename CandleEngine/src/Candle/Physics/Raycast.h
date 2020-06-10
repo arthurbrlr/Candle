@@ -4,14 +4,28 @@
 
 namespace Candle {
 
-	class CANDLE_API Raycast {
+	struct RayData {
+		glm::vec3 origin;
+		glm::vec3 direction;
+		double length;
+	};
+
+	struct RayCollisionData {
+		glm::vec3 origin;
+		glm::vec3 direction;
+		double length;
+
+		bool hasHit = false;
+		uint32_t hitID = -1;
+	};
+
+
+	class CANDLE_API Ray {
 
 		public:
-
-
-
-		private:
-
+			
+			static RayCollisionData Cast(RayData data);
+			static RayCollisionData CastFromMouse();
 
 
 	};

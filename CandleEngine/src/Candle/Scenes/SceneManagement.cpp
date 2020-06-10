@@ -11,8 +11,8 @@
 
 namespace Candle {
 
-	unsigned int SceneManagement::_currentScene = -1;
-	std::unordered_map<unsigned int, Shared<Scene>> SceneManagement::_scenes;
+	uint32_t SceneManagement::_currentScene = -1;
+	std::unordered_map<uint32_t, Shared<Scene>> SceneManagement::_scenes;
 	Shared<Texture2D> SceneManagement::_finalTexture = nullptr;
 
 	void SceneManagement::Init()
@@ -28,7 +28,7 @@ namespace Candle {
 	}
 
 
-	void SceneManagement::LoadScene(unsigned int sceneID)
+	void SceneManagement::LoadScene(uint32_t sceneID)
 	{
 		if (_currentScene != -1) {
 			_scenes[_currentScene]->Unload();

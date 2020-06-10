@@ -34,7 +34,7 @@ namespace Candle {
 	}
 
 
-	GLTexture2D::GLTexture2D(unsigned int width, unsigned int height, int channels)
+	GLTexture2D::GLTexture2D(uint32_t width, uint32_t height, int channels)
 		: _width(width), _height(height), _nbChannels(channels)
 	{
 		glGenTextures(1, &_textureID);
@@ -65,14 +65,14 @@ namespace Candle {
 	}
 
 
-	GLTexture2D::GLTexture2D(unsigned int id, unsigned int width, unsigned int height)
+	GLTexture2D::GLTexture2D(uint32_t id, uint32_t width, uint32_t height)
 		: _textureID(id), _width(width), _height(height)
 	{
 
 	}
 
 
-	void GLTexture2D::SetData(void* data, unsigned int size)
+	void GLTexture2D::SetData(void* data, uint32_t size)
 	{
 		CASSERT(size == _width * _height * _nbChannels, "Data must fill the entire texture");
 

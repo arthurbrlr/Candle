@@ -11,17 +11,17 @@ namespace Candle {
 
 		public:	
 			GLTexture2D(const std::string & filePath);
-			GLTexture2D(unsigned int width, unsigned int height, int channels);
-			GLTexture2D(unsigned int id, unsigned int width, unsigned int height);
+			GLTexture2D(uint32_t width, uint32_t height, int channels);
+			GLTexture2D(uint32_t id, uint32_t width, uint32_t height);
 			~GLTexture2D() { glDeleteTextures(1, &_textureID); }
 
-			inline void Bind(unsigned int slot) const override { glBindTextureUnit(slot, _textureID); }
+			inline void Bind(uint32_t slot) const override { glBindTextureUnit(slot, _textureID); }
 			inline void Unbind() const override { glBindTexture(GL_TEXTURE_2D, 0); }
-			inline void SetData(void* data, unsigned int size) override;
+			inline void SetData(void* data, uint32_t size) override;
 			
 			inline int GetWidth() const override { return _width; }
 			inline int GetHeight() const override { return _height; }
-			inline unsigned int GetID() const override { return _textureID; }
+			inline uint32_t GetID() const override { return _textureID; }
 			inline int NbChannels() const override { return _nbChannels; }
 			inline bool IsTransparent() const override { return _nbChannels == 4; }
 
@@ -34,7 +34,7 @@ namespace Candle {
 
 		private:
 			int _width, _height, _nbChannels = 0;
-			unsigned int _textureID;
+			uint32_t _textureID;
 	};
 
 

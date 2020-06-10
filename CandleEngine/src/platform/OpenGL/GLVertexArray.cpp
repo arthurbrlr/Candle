@@ -37,7 +37,7 @@ namespace Candle {
 		glBindVertexArray(_vaoID);
 		vertexBuffer->Bind();
 		
-		unsigned int index = 0;
+		uint32_t index = 0;
 		for (const BufferElement& element : vertexBuffer->GetLayout().GetElements()) {
 			glEnableVertexAttribArray(index);
 			glVertexAttribPointer(index, element.GetCount(), GL_FLOAT, GL_FALSE, vertexBuffer->GetLayout().GetStride(), (void*)element.offset);

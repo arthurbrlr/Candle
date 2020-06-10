@@ -48,9 +48,9 @@ namespace Candle {
 		GLFWwindow* window = (GLFWwindow*)Application::Get().GetWindow().GetNativeWindow();
 		double x, y;
 		glfwGetCursorPos(window, &x, &y);
-		int left, right, top, bottom;
-		glfwGetWindowFrameSize(window, &left, &top, &right, &bottom);
-		return { x, y + top - bottom };
+		//int left, right, top, bottom;
+		//glfwGetWindowFrameSize(window, &left, &top, &right, &bottom);
+		return { x, y };
 	}
 
 }

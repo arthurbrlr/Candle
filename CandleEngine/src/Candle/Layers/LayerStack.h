@@ -21,7 +21,7 @@ namespace Candle {
 
 		private:
 			std::vector<Layer*> _layers;
-			unsigned int _layerInsert = 0;
+			uint32_t _layerInsert = 0;
 
 	};
 

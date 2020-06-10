@@ -7,7 +7,7 @@
 namespace Candle {
 
 
-	Shared<VertexBuffer> VertexBuffer::Create(unsigned int size)
+	Shared<VertexBuffer> VertexBuffer::Create(uint32_t size)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -27,7 +27,7 @@ namespace Candle {
 	}
 
 
-	Shared<VertexBuffer> VertexBuffer::Create(float* vertices, unsigned int size)
+	Shared<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -47,7 +47,7 @@ namespace Candle {
 	}
 
 
-	Shared<IndexBuffer> IndexBuffer::Create(unsigned int* indices, unsigned int count)
+	Shared<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t count)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -69,7 +69,7 @@ namespace Candle {
 
 	void BufferLayout::CalculateOffsetsAndStride()
 	{
-		unsigned int off = 0;
+		uint32_t off = 0;
 		_stride = 0;
 
 		for (auto& e : _elements) {

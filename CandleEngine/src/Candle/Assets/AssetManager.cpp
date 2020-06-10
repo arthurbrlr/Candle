@@ -155,12 +155,12 @@ namespace Candle {
 	void AssetManager::LoadDefaultTextures()
 	{
 		Unique<Texture2D> whiteTexture = Texture2D::Create(1, 1, 3);
-		unsigned int whiteTextureData = 0xffffff;
+		uint32_t whiteTextureData = 0xffffff;
 		whiteTexture->SetData(&whiteTextureData, 3);
 		_textures2D.emplace("CDL_TEXTURE_WHITE", std::move(whiteTexture));
-		sizeof(unsigned int);
+		sizeof(uint32_t);
 		Unique<Texture2D> defaultTexture = Texture2D::Create(1, 1, 3);
-		unsigned int defaultTextureData = 0xff00f8;
+		uint32_t defaultTextureData = 0xff00f8;
 		defaultTexture->SetData(&defaultTextureData, 3);
 		_textures2D.emplace("CDL_TEXTURE_DEFAULT", std::move(defaultTexture));		
 	}

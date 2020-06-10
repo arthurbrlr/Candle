@@ -8,8 +8,8 @@ namespace Candle {
 
 		public:
 			static Unique<Texture2D> Create(const std::string & filePath);
-			static Unique<Texture2D> Create(unsigned int width, unsigned int height, int channels = 4);
-			static Unique<Texture2D> Create(unsigned int id, unsigned int width, unsigned int height);
+			static Unique<Texture2D> Create(uint32_t width, uint32_t height, int channels = 4);
+			static Unique<Texture2D> Create(uint32_t id, uint32_t width, uint32_t height);
 	};
 
 

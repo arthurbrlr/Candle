@@ -26,7 +26,7 @@ namespace Candle {
 	}
 
 
-	Unique<Texture2D> Texture2D::Create(unsigned int width, unsigned int height, int channels)
+	Unique<Texture2D> Texture2D::Create(uint32_t width, uint32_t height, int channels)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -46,7 +46,7 @@ namespace Candle {
 	}
 
 
-	Unique<Texture2D> Texture2D::Create(unsigned int id, unsigned int width, unsigned int height)
+	Unique<Texture2D> Texture2D::Create(uint32_t id, uint32_t width, uint32_t height)
 	{
 		switch (Renderer::GetAPI())
 		{

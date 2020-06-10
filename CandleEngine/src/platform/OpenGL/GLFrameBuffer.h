@@ -8,25 +8,25 @@ namespace Candle {
 	class GLFrameBuffer : public FrameBuffer {
 
 		public:
-			GLFrameBuffer(const std::vector<FrameBufferType> & attachments, unsigned int width, unsigned int height);
+			GLFrameBuffer(const std::vector<FrameBufferType> & attachments, uint32_t width, uint32_t height);
 			~GLFrameBuffer();
 
 			void Bind() override;
-			void Unbind(unsigned int width, unsigned int height) override;
+			void Unbind(uint32_t width, uint32_t height) override;
 			void Clean() override;
 
-			unsigned int GetID() override;
-			unsigned int Get(FrameBufferType type) override { return _attachements[type]; }
+			uint32_t GetID() override;
+			uint32_t Get(FrameBufferType type) override { return _attachements[type]; }
 
 		private:
-			unsigned int _fboID;
-			unsigned int _width, _height;
-			std::unordered_map<FrameBufferType, unsigned int> _attachements;
+			uint32_t _fboID;
+			uint32_t _width, _height;
+			std::unordered_map<FrameBufferType, uint32_t> _attachements;
 
 			void CreateBuffer();
-			void CreateTextureAttachment(unsigned int width, unsigned int height);
-			void CreateDepthTextureAttachment(unsigned int width, unsigned int height);
-			void CreateDepthBufferAttachement(unsigned int width, unsigned int height);
+			void CreateTextureAttachment(uint32_t width, uint32_t height);
+			void CreateDepthTextureAttachment(uint32_t width, uint32_t height);
+			void CreateDepthBufferAttachement(uint32_t width, uint32_t height);
 
 	};
 

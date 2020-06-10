@@ -16,12 +16,12 @@ namespace Candle {
 			void SetDepthTesting(bool state) override;
 			void SetAlphaBlending(bool state) override;
 
-			void SetViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height) override;
+			void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) override;
 			void SetClearColor(const glm::vec4 & color) override;
 
-			void DrawArray(const Shared<VertexArray> & vertexArray, unsigned int indexCount = -1) override;
-			void DrawLine(const Shared<VertexArray>& vertexArray, unsigned int indexCount = -1) override;
-			void DrawPointArray(const Shared<VertexArray> & vertexArray, unsigned int indexCount = -1) override;
+			void DrawArray(const Shared<VertexArray> & vertexArray, uint32_t indexCount = -1) override;
+			void DrawLine(const Shared<VertexArray>& vertexArray, uint32_t indexCount = -1) override;
+			void DrawPointArray(const Shared<VertexArray> & vertexArray, uint32_t indexCount = -1) override;
 
 		private:
 

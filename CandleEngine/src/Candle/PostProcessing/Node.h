@@ -8,11 +8,11 @@
 
 namespace Candle {
 
-	static unsigned int postProcessingNodeID = 0;
+	static uint32_t postProcessingNodeID = 0;
 
 	struct NodeData {
-		std::vector<unsigned int> inputs;
-		std::vector<unsigned int> outputs;
+		std::vector<uint32_t> inputs;
+		std::vector<uint32_t> outputs;
 	};
 
 
@@ -20,9 +20,9 @@ namespace Candle {
 
 		public:
 
-			PostProcessingNode(const std::string & name, unsigned int width, unsigned int height, NodeData data, const std::vector<FrameBufferType> & bufferTypes);
+			PostProcessingNode(const std::string & name, uint32_t width, uint32_t height, NodeData data, const std::vector<FrameBufferType> & bufferTypes);
 
-			static Shared<PostProcessingNode> New(const std::string & name, unsigned int width, unsigned int height, NodeData data, const std::vector<FrameBufferType> & bufferTypes = { FrameBufferType::Texture })
+			static Shared<PostProcessingNode> New(const std::string & name, uint32_t width, uint32_t height, NodeData data, const std::vector<FrameBufferType> & bufferTypes = { FrameBufferType::Texture })
 			{
 				return std::make_shared<PostProcessingNode>(name, width, height, data, bufferTypes);
 			}
@@ -33,7 +33,7 @@ namespace Candle {
 			void SetState(bool state) { _used = state; }
 
 			Shared<Texture2D> GetRenderTexture() const { return _renderTexture; }
-			bool HasInput(unsigned int nodeID) const
+			bool HasInput(uint32_t nodeID) const
 			{
 				for (auto& it : _data.inputs) if (it == nodeID) return true;
 				return false;
@@ -53,7 +53,7 @@ namespace Candle {
 
 			Shared<FrameBuffer> _buffer = nullptr;
 			Shared<Texture2D> _renderTexture = nullptr;
-			unsigned int _textureWidth, _textureHeight;
+			uint32_t _textureWidth, _textureHeight;
 	};
 
 }

@@ -6,7 +6,7 @@
 
 namespace Candle {
 	
-	Shared<FrameBuffer> FrameBuffer::Create(const std::vector<FrameBufferType> & attachments, unsigned int width, unsigned int height)
+	Shared<FrameBuffer> FrameBuffer::Create(const std::vector<FrameBufferType> & attachments, uint32_t width, uint32_t height)
 	{
 		switch (Renderer::GetAPI())
 		{

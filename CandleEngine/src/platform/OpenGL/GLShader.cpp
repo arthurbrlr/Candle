@@ -126,7 +126,7 @@ namespace Candle {
 			std::string shaderCode = key.second;
 			const char *source = shaderCode.c_str();
 			
-			unsigned int shader = glCreateShader(shaderType);
+			uint32_t shader = glCreateShader(shaderType);
 			glShaderSource(shader, 1, &source, NULL);
 			glCompileShader(shader);
 
@@ -270,7 +270,7 @@ namespace Candle {
 	}
 	
 	
-	void GLShader::SetIntArray(const std::string & name, int * value, unsigned int count)
+	void GLShader::SetIntArray(const std::string & name, int * value, uint32_t count)
 	{
 		glUniform1iv(glGetUniformLocation(_programID, name.c_str()), count, value);
 	}

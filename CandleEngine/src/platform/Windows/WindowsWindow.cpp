@@ -53,11 +53,18 @@ namespace Candle {
 			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 			glfwWindowHint(GLFW_MAXIMIZED, GL_TRUE);
 			glfwWindowHint(GLFW_AUTO_ICONIFY, GL_FALSE);
+			//glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, GL_TRUE);
 
 			_glfwInit = true;
 		}
 		
 		_window = glfwCreateWindow((int)_data._width, (int)_data._height, _data._title.c_str(), nullptr, nullptr);
+
+		if ( _window == NULL ) {
+			CASSERT(false, "Couldn't create glfw window");
+			exit(-1);
+		}
+
 		glViewport(0, 0, (int)_data._width, (int)_data._height);
 		glfwMakeContextCurrent(_window);
 		SetVSync(false);
@@ -86,7 +93,6 @@ namespace Candle {
 			// Setting all callbacks
 		glfwSetWindowSizeCallback(_window, [](GLFWwindow* w, int width, int height) 
 		{
-			CTRACE("Resize Callback at {0} x {1}", width, height);
 			WindowData & data = *(WindowData*)glfwGetWindowUserPointer(w);
 			data._width = width;
 			data._height = height;
@@ -136,7 +142,7 @@ namespace Candle {
 		});
 
 
-		glfwSetCharCallback(_window, [](GLFWwindow* w, unsigned int keycode)
+		glfwSetCharCallback(_window, [](GLFWwindow* w, uint32_t keycode)
 		{
 			WindowData & data = *(WindowData*)glfwGetWindowUserPointer(w);
 

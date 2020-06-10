@@ -43,9 +43,9 @@ namespace Candle {
 
 
 		private:
-			unsigned int _sourceBuffer = 0;
-			unsigned int _sourceID = 0;
-			unsigned int _frequency = 0;
+			uint32_t _sourceBuffer = 0;
+			uint32_t _sourceID = 0;
+			uint32_t _frequency = 0;
 			ALenum _format = 0;
 
 			void Update() override;

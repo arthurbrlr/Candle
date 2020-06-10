@@ -8,7 +8,7 @@
 
 namespace Candle {
 
-	static unsigned int sceneID = 0;
+	static uint32_t sceneID = 0;
 
 
 	class CANDLE_API Scene {
@@ -26,10 +26,10 @@ namespace Candle {
 
 			Shared<FrameBuffer> & GetFrameBuffer() { return _sceneBuffer; }
 			Shared<Texture2D> GetTexture() { return _sceneTexture; }
-			unsigned int GetID() { return _sceneID; }
+			uint32_t GetID() { return _sceneID; }
 
 		protected:
-			unsigned int _sceneID = 0;
+			uint32_t _sceneID = 0;
 			Shared<FrameBuffer> _sceneBuffer;
 			Shared<Texture2D> _sceneTexture;
 

@@ -5,7 +5,7 @@
 
 namespace Candle {
 
-	GLVertexBuffer::GLVertexBuffer(unsigned int size)
+	GLVertexBuffer::GLVertexBuffer(uint32_t size)
 	{
 		glGenBuffers(1, &_vboID);
 		glBindBuffer(GL_ARRAY_BUFFER, _vboID);
@@ -13,7 +13,7 @@ namespace Candle {
 	}
 
 
-	GLVertexBuffer::GLVertexBuffer(float* vertices, unsigned int size)
+	GLVertexBuffer::GLVertexBuffer(float* vertices, uint32_t size)
 	{
 		glGenBuffers(1, &_vboID);
 		glBindBuffer(GL_ARRAY_BUFFER, _vboID);
@@ -39,7 +39,7 @@ namespace Candle {
 	}
 
 
-	void GLVertexBuffer::SetData(const void* data, unsigned int size)
+	void GLVertexBuffer::SetData(const void* data, uint32_t size)
 	{
 		Bind();
 		glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
@@ -48,12 +48,12 @@ namespace Candle {
 
 	// ----
 
-	GLIndexBuffer::GLIndexBuffer(unsigned int* indices, unsigned int count)
+	GLIndexBuffer::GLIndexBuffer(uint32_t* indices, uint32_t count)
 		: _indexCount(count)
 	{
 		glGenBuffers(1, &_eboID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _eboID);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
 	}
 
 

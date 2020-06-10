@@ -5,9 +5,6 @@
 #include "Candle/Events/KeyEvent.h"
 #include "Candle/Events/MouseEvent.h"
 
-#include "Keycodes.h"
-#include "Controllers.h"
-
 namespace Candle {
 
 	class CANDLE_API Input {
@@ -27,6 +24,8 @@ namespace Candle {
 			inline static double GetMouseX() { return _instance->GetMouseXImpl(); }
 			inline static double GetMouseY() { return _instance->GetMouseYImpl(); }
 			inline static std::pair<double, double> GetMousePos() { return _instance->GetMousePosImpl(); }
+			static glm::vec4 GetMouseInEyeSpace();
+			static glm::vec3 GetMouseInWorldSpace();
 
 			static void RegisterKeyEvent(KeyPressedEvent& event);
 			static void RegisterKeyEvent(KeyReleasedEvent& event);
@@ -52,8 +51,12 @@ namespace Candle {
 			static Input* _instance;
 
 			bool _inputRegistered = false;
-			std::unordered_map<unsigned int, KeyState> _inputKeyStates;
-			std::unordered_map<unsigned int, KeyState> _inputMouseStates;
+			std::unordered_map<uint32_t, KeyState> _inputKeyStates;
+			std::unordered_map<uint32_t, KeyState> _inputMouseStates;
+
+			static glm::vec2 GetNormalizedDeviceCoords(double mx, double my);
+			static glm::vec4 ClipToEyeSpace(glm::vec4& clipCoords);
+			static glm::vec3 EyeToWorldSpace(glm::vec4& eyeCoords);
 
 	};
 

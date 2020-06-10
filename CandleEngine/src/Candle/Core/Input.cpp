@@ -1,7 +1,53 @@
 #include "cdlpch.h"
 #include "Input.h"
 
+#include "Candle/Application.h"
+#include "Candle/Renderer/CameraManagement.h"
+
+#include "Keycodes.h"
+#include "Controllers.h"
+
 namespace Candle {
+
+	glm::vec4 Input::GetMouseInEyeSpace()
+	{
+		auto [mx, my] = GetMousePos();
+		glm::vec2 normalizedCoords = GetNormalizedDeviceCoords(mx, my);
+		glm::vec4 clipCoords = { normalizedCoords.x, normalizedCoords.y, -1, 1 };
+		glm::vec4 eyeCoords = ClipToEyeSpace(clipCoords);
+		return eyeCoords;
+	}
+
+
+	glm::vec3 Input::GetMouseInWorldSpace()
+	{
+		glm::vec4 eye = GetMouseInEyeSpace();
+		return EyeToWorldSpace(eye);
+	}
+
+
+	glm::vec2 Input::GetNormalizedDeviceCoords(double mx, double my)
+	{
+		double retX = ( 2. * mx ) / CDL_APP_WIDTH - 1;
+		double retY = 1. - ( 2. * my ) / CDL_APP_HEIGHT;
+		return { retX, retY };
+	}
+
+
+	glm::vec4 Input::ClipToEyeSpace(glm::vec4& clipCoords)
+	{
+		glm::mat4 invProjection = glm::inverse(CameraManagement::GetProjectionMatrix());
+		glm::vec4 eyeCoords = invProjection * clipCoords;
+		return { eyeCoords.x, eyeCoords.y, -1, 0 };
+	}
+
+
+	glm::vec3 Input::EyeToWorldSpace(glm::vec4& eyeCoords)
+	{
+		glm::mat4 invView = glm::inverse(CameraManagement::GetViewMatrix());
+		glm::vec4 rayWorld = invView * eyeCoords;
+		return glm::vec3(rayWorld);
+	}
 
 
 	void Input::Init()

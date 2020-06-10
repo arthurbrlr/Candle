@@ -33,13 +33,13 @@ namespace Candle {
 
 
 	struct Batch {
-		const unsigned int maxQuad = 10000;
-		const unsigned int maxQuadVertices = maxQuad * 4;
-		const unsigned int maxIndices = maxQuad * 6;
+		const uint32_t maxQuad = 10000;
+		const uint32_t maxQuadVertices = maxQuad * 4;
+		const uint32_t maxIndices = maxQuad * 6;
 
 		Shared<VertexArray> vertexArray;
 		Shared<VertexBuffer> vertexBuffer;
-		unsigned int indexCount = 0;
+		uint32_t indexCount = 0;
 		QuadVertex* vbo;
 		QuadVertex* vboptr;
 
@@ -54,9 +54,9 @@ namespace Candle {
 
 			vbo = new QuadVertex[maxQuadVertices];
 
-			unsigned int* quadIndices = new unsigned int[maxIndices];
-			unsigned int off = 0;
-			for (unsigned int i = 0; i < maxIndices; i += 6) {
+			uint32_t* quadIndices = new uint32_t[maxIndices];
+			uint32_t off = 0;
+			for (uint32_t i = 0; i < maxIndices; i += 6) {
 				quadIndices[i + 0] = off + 0;
 				quadIndices[i + 1] = off + 1;
 				quadIndices[i + 2] = off + 2;
@@ -77,7 +77,7 @@ namespace Candle {
 
 		void UploadData()
 		{
-			unsigned int bufferSize = (unsigned int)((uint8_t*)vboptr - (uint8_t*)vbo);
+			uint32_t bufferSize = (uint32_t)((uint8_t*)vboptr - (uint8_t*)vbo);
 			vertexBuffer->SetData(vbo, bufferSize);
 		}
 
@@ -103,14 +103,14 @@ namespace Candle {
 		};
 
 
-		unsigned int defaultIndices[6] = {
+		uint32_t defaultIndices[6] = {
 			0, 1, 2,
 			2, 1, 3
 		};
 
 		Shared<VertexArray> fullscreenVertexArray;
 		Shared<VertexBuffer> fullscreenVertexBuffer;
-		const unsigned int fullscreenIndexCount = 6;
+		const uint32_t fullscreenIndexCount = 6;
 
 
 			/* Batch Abstraction Stuff */
@@ -122,9 +122,9 @@ namespace Candle {
 
 
 			/* Texture Binding */
-		static const unsigned int maxTextures = 32;
+		static const uint32_t maxTextures = 32;
 		std::array<Shared<Texture2D>, maxTextures> textureBuffer;
-		unsigned int textureBufferIndex = 1;
+		uint32_t textureBufferIndex = 1;
 
 
 		void BeginScene()
@@ -145,14 +145,14 @@ namespace Candle {
 
 	struct Renderer2DStatistics {
 
-		unsigned int DrawCalls = 0;
-		unsigned int OpaqueQuads = 0;
-		unsigned int TransparentQuads = 0;
-		unsigned int LineCount = 0;
+		uint32_t DrawCalls = 0;
+		uint32_t OpaqueQuads = 0;
+		uint32_t TransparentQuads = 0;
+		uint32_t LineCount = 0;
 		double ecsSpriteRenderTime = 0;
 
-		unsigned int VertexCount() { return OpaqueQuads * 4 + TransparentQuads * 4; }
-		unsigned int IndicesCount() { return OpaqueQuads * 6 + TransparentQuads * 6; }
+		uint32_t VertexCount() { return OpaqueQuads * 4 + TransparentQuads * 4; }
+		uint32_t IndicesCount() { return OpaqueQuads * 6 + TransparentQuads * 6; }
 
 		void Reset()
 		{

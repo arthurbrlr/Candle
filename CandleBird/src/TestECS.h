@@ -106,7 +106,7 @@ class LineRenderSystem : public Candle::System {
 			_lineVbo->SetLayout(layout);
 			_lineVao->AddVertexBuffer(_lineVbo);
 
-			Candle::Shared<Candle::IndexBuffer> ebo = Candle::IndexBuffer::Create(_defaultIndices, 2 * sizeof(unsigned int));
+			Candle::Shared<Candle::IndexBuffer> ebo = Candle::IndexBuffer::Create(_defaultIndices, 2 * sizeof(uint32_t));
 			_lineVao->SetIndexBuffer(ebo);
 		}
 
@@ -155,7 +155,7 @@ class LineRenderSystem : public Candle::System {
 			0., 0., 0., /**/ .5, .5, .7, 1.
 		};
 
-		unsigned int _defaultIndices[2] = {
+		uint32_t _defaultIndices[2] = {
 			0, 1
 		};
 

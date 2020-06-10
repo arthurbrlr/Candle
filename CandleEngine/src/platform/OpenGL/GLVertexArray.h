@@ -19,10 +19,10 @@ namespace Candle {
 			const std::vector<Shared<VertexBuffer>> & GetVertexBuffers() const override { return _vertexBuffers; };
 			const Shared<IndexBuffer> & GetIndexBuffer() const override { return _indexBuffer; }
 
-			inline const unsigned int GetID() const { return _vaoID; }
+			inline const uint32_t GetID() const { return _vaoID; }
 
 		private:
-			unsigned int _vaoID;
+			uint32_t _vaoID;
 			std::vector<Shared<VertexBuffer> > _vertexBuffers;
 			Shared<IndexBuffer> _indexBuffer;
 

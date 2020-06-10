@@ -25,7 +25,7 @@ namespace Candle {
 		_data->fullscreenVertexBuffer->SetLayout(fboLayout);
 		_data->fullscreenVertexArray->AddVertexBuffer(_data->fullscreenVertexBuffer);
 
-		Shared<IndexBuffer> indexBuffer = IndexBuffer::Create(_data->defaultIndices, 6 * sizeof(unsigned int));
+		Shared<IndexBuffer> indexBuffer = IndexBuffer::Create(_data->defaultIndices, 6 * sizeof(uint32_t));
 		_data->fullscreenVertexArray->SetIndexBuffer(indexBuffer);
 
 
@@ -68,7 +68,7 @@ namespace Candle {
 
 	void Renderer2D::Flush()
 	{
-		for (unsigned int i = 0; i < _data->textureBufferIndex; i++) {
+		for (uint32_t i = 0; i < _data->textureBufferIndex; i++) {
 			_data->textureBuffer[i]->Bind(i);
 		}
 
@@ -102,7 +102,7 @@ namespace Candle {
 		// Need batch for UI (depthTesting = false) 
 
 		/*
-		for (unsigned int i = 0; i < _data->textureBufferIndex; i++) {
+		for (uint32_t i = 0; i < _data->textureBufferIndex; i++) {
 			_data->textureBuffer[i]->Unbind();
 		}
 		*/
@@ -270,7 +270,7 @@ namespace Candle {
 
 		if (Editor::Variables().DrawTextures) {
 			
-			for (unsigned int i = 0; i < _data->textureBufferIndex; i++) {
+			for (uint32_t i = 0; i < _data->textureBufferIndex; i++) {
 				if (_data->textureBuffer[i]->GetID() == sprite.GetTexture()->GetID()) {
 					textureIndex = (float)i;
 					break;
@@ -361,7 +361,7 @@ namespace Candle {
 
 		if (Editor::Variables().DrawTextures) {
 
-			for (unsigned int i = 0; i < _data->textureBufferIndex; i++) {
+			for (uint32_t i = 0; i < _data->textureBufferIndex; i++) {
 				if (*_data->textureBuffer[i].get() == *sprite.GetTexture().get()) {
 					textureIndex = (float)i;
 					break;

@@ -32,7 +32,7 @@ namespace Candle {
 	}
 
 
-	void ECS::Remove(unsigned int blueprintID)
+	void ECS::Remove(uint32_t blueprintID)
 	{
 		BlueprintManager::Remove(blueprintID);
 	}
