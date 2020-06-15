@@ -29,6 +29,7 @@ namespace Candle {
 
 		_name = shaderPath.substr(lastSlash, count);
 		_shaderPath = shaderPath;
+		_shaderCode = source;
 
 		RegisterUniforms(source);
 		Bind();
@@ -43,6 +44,7 @@ namespace Candle {
 
 		_name = shaderName;
 		_shaderPath = "CDL_SHADERS/" + shaderName;
+		_shaderCode = source;
 
 		RegisterUniforms(source);
 		Bind();

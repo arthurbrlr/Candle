@@ -5,7 +5,7 @@
 
 namespace Candle {
 
-	std::unordered_map<long, Shared<Blueprint>> BlueprintManager::_blueprints;
+	std::unordered_map<size_t, Shared<Blueprint>> BlueprintManager::_blueprints;
 	std::vector<Shared<Blueprint>> BlueprintManager::_batchBlueprints;
 
 	Blueprint& BlueprintManager::Add(const std::string & name)
@@ -24,7 +24,7 @@ namespace Candle {
 	}
 
 
-	void BlueprintManager::Remove(long blueprintID)
+	void BlueprintManager::Remove(size_t blueprintID)
 	{
 		_blueprints.erase(blueprintID);
 	}

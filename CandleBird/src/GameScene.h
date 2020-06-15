@@ -27,13 +27,23 @@ class GameScene : public Scene {
 			player.AddComponent<Transform>();
 			//player.AddScript<Gravity>();
 			player.AddScript<RandomMovementAgent>();
+
+			Blueprint& child = ECS::New("children");
+			child.AddComponent<SpriteRenderer>(AssetManager::GetTexture2D("tile")).SetColor({ 1, 1, 0, 1 });
+			child.AddComponent<Transform>( glm::vec3(1, 1, 0) );
+			player.AddChild(&child);
+
+			Blueprint& child2 = ECS::New("children2");
+			child2.AddComponent<SpriteRenderer>(AssetManager::GetTexture2D("tile")).SetColor({ 1, 0, 1, 1 });
+			child2.AddComponent<Transform>(glm::vec3(-1, -1, 0));
+			player.AddChild(&child2);
 			
 
 			Blueprint& master = ECS::New("gameMaster");
 			//master.AddComponent<Transform>(glm::vec3(0, 10, 20), glm::vec3(35, 0, 0));
 			master.AddComponent<Transform>(glm::vec3(0, 0, 5));
-			master.AddComponent<CameraHandler>(CameraType::Perspective, CDL_APP_WIDTH, CDL_APP_HEIGHT).SetAsMainCamera(true);
-			//master.AddComponent<CameraHandler>(CameraType::Orthographic, 2 * 16. / 9., 2).SetAsMainCamera(true);
+			//master.AddComponent<CameraHandler>(CameraType::Perspective, CDL_APP_WIDTH, CDL_APP_HEIGHT).SetAsMainCamera(true);
+			master.AddComponent<CameraHandler>(CameraType::Orthographic, 10 * 16. / 9., 10).SetAsMainCamera(true);
 			master.AddScript<MouseClick>(&player);
 			
 			int worldSize = 3;
@@ -41,8 +51,8 @@ class GameScene : public Scene {
 				for ( int j = 0; j < worldSize + 1; j++ ) {
 					std::string tileName = "tile_" + std::to_string(i) + "_" + std::to_string(j);
 					Blueprint& tile = ECS::New(tileName);
-					tile.AddComponent<Transform>(glm::vec3(i - worldSize / 2., j - worldSize / 2., 0), glm::vec3(0, 0, 0), glm::vec3(1.0, 1.0, 0.0));
-					tile.AddComponent<SpriteRenderer>(AssetManager::GetTexture2D("dodo"));//.SetColor({ Noise::RandomInt(0, 255) / 255., Noise::RandomInt(0, 255) / 255., Noise::RandomInt(0, 255) / 255., 1 });
+					tile.AddComponent<Transform>(glm::vec3(i - worldSize / 2., j - worldSize / 2., 0), glm::vec3(0, 0, 0), glm::vec3(1.0, 0.5, 0.0));
+					tile.AddComponent<SpriteRenderer>(AssetManager::GetTexture2D("tile"));//.SetColor({ Noise::RandomInt(0, 255) / 255., Noise::RandomInt(0, 255) / 255., Noise::RandomInt(0, 255) / 255., 1 });
 				}
 			}
 		}

@@ -25,6 +25,7 @@ namespace Candle {
 			inline const uint32_t GetID() { return _programID; }
 			inline const std::string & GetName() { return _name; }
 			inline const std::string & GetPath() { return _shaderPath; }
+			inline const std::string & GetCode() { return _shaderCode; }
 			inline const std::unordered_map<std::string, ShaderUniform> & GetUniforms() { return _uniforms; }
 
 			static Unique<Shader> Create(const std::string & shaderPath);
@@ -35,6 +36,7 @@ namespace Candle {
 			uint32_t _programID = 0;
 			std::string _name;
 			std::string _shaderPath;
+			std::string _shaderCode;
 			std::unordered_map<std::string, ShaderUniform> _uniforms;
 
 			virtual void RegisterUniforms(const std::string & shaderSource) = 0;

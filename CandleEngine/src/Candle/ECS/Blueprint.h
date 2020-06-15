@@ -17,7 +17,7 @@ namespace Candle {
 			template<typename T, typename... TArgs> T& AddComponent(TArgs... args)
 			{
 				T* component = new T(std::forward<TArgs>(args)...);
-				component->SetParent(this);
+				component->AttachToBlueprint(this);
 				Unique<Component> compPtr(component);
 				_components.emplace_back(std::move(compPtr));
 
@@ -31,7 +31,7 @@ namespace Candle {
 			template<typename T, typename... TArgs> T& AddScript(TArgs... args)
 			{
 				T* script = new T(std::forward<TArgs>(args)...);
-				script->SetParent(this);
+				script->AttachToBlueprint(this);
 				Unique<Script> scrPtr(script);
 				_scripts.emplace_back(std::move(scrPtr));
 
@@ -63,19 +63,26 @@ namespace Candle {
 
 			std::vector<Unique<Component>> & Components() { return _components; }
 			std::vector<Unique<Script>> & Scripts() { return _scripts; }
+			std::unordered_map<size_t, Blueprint*> GetChilds() { return _childs; }
+			Blueprint* GetParent() { return _parent; }
 
-			/*
-			void Add(const std::string & childName, Blueprint & child)
-			{
-				_childs[childName] = std::move(child);
+			void AddChild(Blueprint* child) { 
+				_childs[child->GetID()] = child;
 				_hasChildren = true;
+				child->SetParent(this);
 			}
-			*/
+
+
+			void SetParent(Blueprint* parent)
+			{
+				_parent = parent;
+			}
 
 			inline void SetName(const std::string & name) { _name = name; }
 
-			inline const long GetID() { return _blueprintID; }
+			inline const size_t GetID() { return _blueprintID; }
 			inline const std::string & GetName() { return _name; }
+			inline const bool HasParent() { return _parent != nullptr; }
 			inline const bool HasChildren() { return _hasChildren; }
 			inline bool IsAlive() const { return _isAlive; }
 			inline bool IsAwake() const { return _isAwake; }
@@ -86,15 +93,15 @@ namespace Candle {
 
 		protected:
 			std::string _name;
-			long _blueprintID;
-			static long blueprintCount;
+			size_t _blueprintID;
+			static size_t blueprintCount;
 
 			bool _isAlive = true;
 			bool _isAwake = false;
 			bool _hasChildren = false;
 
 			Blueprint * _parent = nullptr;
-			std::unordered_map<std::string, Shared<Blueprint>> _childs;
+			std::unordered_map<size_t, Blueprint*> _childs;
 
 			std::vector<Unique<Component>> _components;
 			std::vector<Unique<Script>> _scripts;

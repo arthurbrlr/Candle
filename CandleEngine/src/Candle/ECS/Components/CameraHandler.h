@@ -40,7 +40,7 @@ namespace Candle {
 			CameraHandler& SetAsMainCamera(bool state) 
 			{
 				_isMainCamera = state;
-				if (state) CameraManagement::RegisterMainCamera(_parent->GetID()); 
+				if (state) CameraManagement::RegisterMainCamera(_blueprint->GetID());
 				return *this; 
 			}
 
@@ -84,7 +84,7 @@ namespace Candle {
 
 			void ComputeViewMatrix()
 			{
-				Transform& transform = _parent->GetComponent<Transform>();
+				Transform& transform = _blueprint->GetComponent<Transform>();
 
 				_viewMatrix = glm::mat4(1.0f);
 

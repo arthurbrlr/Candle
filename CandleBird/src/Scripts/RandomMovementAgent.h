@@ -16,7 +16,7 @@ class RandomMovementAgent : public Script {
 		void OnUpdate() override
 		{
 			return;
-			Transform& transform = _parent->GetComponent<Transform>();
+			Transform& transform = _blueprint->GetComponent<Transform>();
 
 			refresh -= Time::DeltaTime();
 

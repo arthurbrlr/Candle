@@ -42,8 +42,8 @@ namespace Candle {
 
 			virtual void OnEditor() {};
 
-			inline void SetParent(Blueprint* parent) { _parent = parent; }
-			inline Blueprint& GetParent() const { return *_parent; }
+			inline void AttachToBlueprint(Blueprint* parent) { _blueprint = parent; }
+			inline Blueprint& GetParent() const { return *_blueprint; }
 
 			inline const std::string & GetName() { return _name; }
 			inline bool & IsActive() { return _isActive; }
@@ -52,7 +52,7 @@ namespace Candle {
 
 		protected:
 			std::string _name = "candleComponent";
-			Blueprint* _parent = nullptr;
+			Blueprint* _blueprint = nullptr;
 			bool _isActive = true;
 	};
 

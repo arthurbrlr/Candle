@@ -32,7 +32,7 @@ namespace Candle {
 	}
 
 
-	void ECS::Remove(uint32_t blueprintID)
+	void ECS::Remove(size_t blueprintID)
 	{
 		BlueprintManager::Remove(blueprintID);
 	}
@@ -44,7 +44,7 @@ namespace Candle {
 	}
 
 
-	Shared<Blueprint> ECS::GetBlueprint(long blueprintID)
+	Shared<Blueprint> ECS::GetBlueprint(size_t blueprintID)
 	{
 		return BlueprintManager::All()[blueprintID];
 	}

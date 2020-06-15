@@ -3,6 +3,7 @@
 #include "Candle/CandleCore.h"
 #include "Candle/Application.h"
 #include "Candle/ECS/Components/EngineComponents.h"
+#include "Candle/Assets/AssetManager.h"
 #include "VertexArray.h"
 #include "RawCamera.h"
 

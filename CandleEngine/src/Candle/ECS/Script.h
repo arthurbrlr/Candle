@@ -18,14 +18,14 @@ namespace Candle {
 			virtual void OnEditor() {}
 			virtual void OnDestroy() {}
 
-			inline void SetParent(Blueprint* parent) { _parent = parent; }
-			inline Blueprint& GetParent() const { return *_parent; }
+			inline void AttachToBlueprint(Blueprint* parent) { _blueprint = parent; }
+			inline Blueprint& GetParent() const { return *_blueprint; }
 
-			inline const std::string & GetName() { return _name; }
+			inline const std::string& GetName() { return _name; }
 
 		protected:
 			std::string _name = "candleScript";
-			Blueprint* _parent = nullptr;
+			Blueprint* _blueprint = nullptr;
 			bool isAlive = true;
 
 			/*

@@ -19,7 +19,7 @@ class Gravity : public Script {
 		void OnUpdate() override
 		{
 			return;
-			Transform & transform = _parent->GetComponent<Transform>();
+			Transform& transform = _blueprint->GetComponent<Transform>();
 
 			if (Input::IsKeyPressed(CDL_KEY_SPACE) && grounded) {
 				vel.y += upVelocity;
@@ -27,10 +27,10 @@ class Gravity : public Script {
 
 			if (Input::IsKeyPressed(CDL_KEY_A) && !Input::IsKeyPressed(CDL_KEY_D)) {
 				vel.x = -5;
-				_parent->GetComponent<SpriteRenderer>().FlipX(true);
+				_blueprint->GetComponent<SpriteRenderer>().FlipX(true);
 			} else if (Input::IsKeyPressed(CDL_KEY_D) && !Input::IsKeyPressed(CDL_KEY_A)) {
 				vel.x = 5;
-				_parent->GetComponent<SpriteRenderer>().FlipX(false);
+				_blueprint->GetComponent<SpriteRenderer>().FlipX(false);
 			} else {
 				vel.x = 0;
 			}

@@ -115,6 +115,8 @@
     <ClCompile Include="src\Candle\Debug\EditorCameraController.cpp" />
     <ClCompile Include="src\Candle\ECS\Blueprint.cpp" />
     <ClCompile Include="src\Candle\ECS\BlueprintManager.cpp" />
+    <ClCompile Include="src\Candle\ECS\Components\SpriteRenderer.cpp" />
+    <ClCompile Include="src\Candle\ECS\Components\Transform.cpp" />
     <ClCompile Include="src\Candle\ECS\ECS.cpp" />
     <ClCompile Include="src\Candle\ECS\SystemManager.cpp" />
     <ClCompile Include="src\Candle\Layers\Layer.cpp" />

@@ -3,11 +3,11 @@
 
 namespace Candle {
 
-	long Blueprint::blueprintCount = 0L;
+	size_t Blueprint::blueprintCount = 0L;
 
 	Blueprint::Blueprint()
 	{
-		_blueprintID = (long)blueprintCount++;
+		_blueprintID = blueprintCount++;
 	}
 	
 }

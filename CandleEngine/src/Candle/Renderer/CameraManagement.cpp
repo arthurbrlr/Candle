@@ -6,7 +6,7 @@
 namespace Candle {
 
 	CameraManagement CameraManagement::_instance;
-	long CameraManagement::_mainCameraBlueprintID = -1;
+	size_t CameraManagement::_mainCameraBlueprintID = -1;
 	glm::mat4 CameraManagement::_viewProjectionMatrix = glm::mat4(0);
 	glm::mat4 CameraManagement::_dummy = glm::mat4(0);
 
@@ -25,7 +25,7 @@ namespace Candle {
 	}
 
 
-	void CameraManagement::RegisterMainCamera(long mainCameraBlueprintID)
+	void CameraManagement::RegisterMainCamera(size_t mainCameraBlueprintID)
 	{
 		if (_mainCameraBlueprintID != -1 )
 			ECS::GetBlueprint(_mainCameraBlueprintID)->GetComponent<CameraHandler>().SetAsMainCamera(false);

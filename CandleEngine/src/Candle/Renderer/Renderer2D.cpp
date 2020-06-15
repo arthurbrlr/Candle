@@ -2,7 +2,6 @@
 #include "Renderer2D.h"
 
 #include "Candle/Core/Time.h"
-#include "Candle/Assets/AssetManager.h"
 #include "RenderCommands.h"
 #include "CameraManagement.h"
 
@@ -231,7 +230,8 @@ namespace Candle {
 	{
 		glm::vec4 textureCoords = texturePart->GetTextureCoords();
 		Shared<Texture2D> texture = texturePart->GetTexture();
-		SpriteRenderer spriteRenderer(texture, textureCoords);
+		SpriteRenderer spriteRenderer(texture);
+		spriteRenderer.SetTextureCoordinates(textureCoords);
 		DrawSprite(position, size, rotation, spriteRenderer);
 	}
 
@@ -447,7 +447,7 @@ namespace Candle {
 	{
 		Shared<SpriteRenderer> partSprite = std::make_shared<SpriteRenderer>(texture);
 		partSprite->SetFixedInViewport(fixed);
-		Shared<Transform> partTransform = Transform::Create();
+		Shared<Transform> partTransform = std::make_shared<Transform>();
 
 		for (int i = 0; i < parts.size(); i++) {
 
