@@ -30,24 +30,90 @@ namespace Candle {
 	}
 
 
+		/* Component Methods */
+	void Transform::Move(const glm::vec3& deltaMovement) 
+	{
+		_position += deltaMovement; UpdateMatrix(); 
+	}
+
+	void Transform::Rotate(const glm::vec3& deltaRotate) 
+	{
+		_rotation += deltaRotate; UpdateMatrix(); 
+	}
+
+	void Transform::Scale(const glm::vec3& deltaScale) 
+	{
+		_scale *= deltaScale; UpdateMatrix(); 
+	}
+
+	void Transform::Scale(const float deltaScale) 
+	{
+		_scale *= deltaScale; UpdateMatrix(); 
+	}
+
+
+	void Transform::ForceTransformUpdate() 
+	{
+		UpdateMatrix(); 
+	}
+
+
+		/* Getters */
+
+	const glm::mat4& Transform::Get() const 
+	{
+		return _transformMatrix; 
+	}
+
+	const glm::vec3& Transform::GetPosition() const 
+	{
+		return _position; 
+	}
+
+	const glm::vec3& Transform::GetRotation() const 
+	{
+		return _rotation; 
+	}
+
+	const glm::vec3& Transform::GetScale() const 
+	{
+		return _scale; 
+	}
+
+
+		/* Setters */
+
+	Transform& Transform::SetPosition(const glm::vec3 newPosition)
+	{
+		_position = newPosition; 
+		UpdateMatrix(); 
+		return *this; 
+	}
+
+	Transform& Transform::SetRotation(const glm::vec3 newRotation)
+	{
+		_rotation = newRotation; 
+		UpdateMatrix(); 
+		return *this; 
+	}
+
+	Transform& Transform::SetScale(const glm::vec3 newScale)
+	{
+		_scale = newScale; 
+		UpdateMatrix(); 
+		return *this; 
+	}
+
+
 	void Transform::UpdateMatrix()
 	{
 		_transformMatrix = glm::mat4(1.0f);
 
-		if ( _blueprint != nullptr && _blueprint->HasParent() && _blueprint->GetParent()->HasComponent<Transform>() ) {
+		bool hasParentTransform = _blueprint != nullptr && _blueprint->HasParent() && _blueprint->GetParent()->HasComponent<Transform>();
 
+		if ( hasParentTransform ) {
 			Transform& parentTransform = _blueprint->GetParent()->GetComponent<Transform>();
-
-			/* Translate */
-			_transformMatrix = glm::translate(_transformMatrix, parentTransform.GetPosition());
-
-			/* Rotations */
-			_transformMatrix = glm::rotate(_transformMatrix, glm::radians(parentTransform.GetRotation().x), glm::vec3(1.f, 0.f, 0.f));
-			_transformMatrix = glm::rotate(_transformMatrix, glm::radians(parentTransform.GetRotation().y), glm::vec3(0.f, 1.f, 0.f));
-			_transformMatrix = glm::rotate(_transformMatrix, glm::radians(parentTransform.GetRotation().z), glm::vec3(0.f, 0.f, 1.f));
-
-			/* Scaling */
-			_transformMatrix = glm::scale(_transformMatrix, parentTransform.GetScale());
+			_transformMatrix = parentTransform.Get();
 		}
 
 		/* Translate */
@@ -69,5 +135,4 @@ namespace Candle {
 			}
 		}
 	}
-
 }

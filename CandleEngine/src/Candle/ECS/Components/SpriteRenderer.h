@@ -4,7 +4,6 @@
 
 #include "Candle/ECS/Component.h"
 #include "Candle/Renderer/RendererLayers.h"
-#include "Candle/Assets/AssetManager.h"
 
 
 namespace Candle {
@@ -38,11 +37,12 @@ namespace Candle {
 		SpriteRendererFlags_Transparent		= BIT(5)
 	};
 
+
 	class CANDLE_API SpriteRenderer : public Component {
 
 		public:
-			SpriteRenderer(const Shared<Texture2D>& texture = nullptr);
-			void OnEditor() override;
+			SpriteRenderer(const Shared<Texture2D>& texture = nullptr); /* Constructor */
+			void OnEditor() override; /* Used by the engine editor to display informations about the component */
 
 				/* --- Setters --- */
 
@@ -80,20 +80,15 @@ namespace Candle {
 			Shared<Texture2D> _texture;
 			glm::vec4 _defaultTextureCoordinates = { 0, 1, 0, 1 };
 			uint32_t _rendererLayer = 0;
-			SpriteRendererFlags flags = SpriteRendererFlags_None;
-
-			bool _flipX = false, _flipY = false;
-			bool _flip45 = false;
+			SpriteRendererFlags _flags = SpriteRendererFlags_None;
 
 			double _tileMultiplier = 1.0;
 
 			glm::vec4 _colorTint = {1, 1, 1, 1};
 			SpriteAnchor _anchor = SpriteAnchor::Center;
 
-			bool _fixed = false;
-			bool _isTransparent = false;
-
 				// Returns the quad (min_x, max_x, min_y, max_y) relative to the anchor position
 			glm::vec4 GetOffsetsFromAnchor(SpriteAnchor anchor) const;
+			bool CheckFlag(SpriteRendererFlags_ flag) const;
 	};
 }

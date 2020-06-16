@@ -9,23 +9,26 @@ namespace Candle {
 
 		public:
 			Transform(glm::vec3 position = { 0, 0, 0 }, glm::vec3 rotation = { 0, 0, 0 }, glm::vec3 scale = { 1, 1, 1 }); /* Constructor */
-			void OnEditor() override;
+			void OnEditor() override; /* Used by the engine editor to display informations about the component */
 
-			inline const glm::mat4 & Get() const { return _transformMatrix; }
-			inline const glm::vec3 & GetPosition() const { return _position; }
-			inline const glm::vec3 & GetRotation() const { return _rotation; }
-			inline const glm::vec3 & GetScale() const { return _scale; }
+				// Methods
+			void Move(const glm::vec3& deltaMovement);	/* Move the transform in 3D space by an amount specified in the given vec3 */
+			void Rotate(const glm::vec3& deltaRotate);	/* Rotate the transform in 3D space by an amount specified in the given vec3 */
+			void Scale(const glm::vec3& deltaScale);	/* Scale the transform in 3D space with a different value for each axis, warning: a value of 1.1 will scale the transform in the direction by 110% */
+			void Scale(const float deltaScale);			/* Scqle the transform in 3D space evenly */
 
-			inline Transform & SetPosition(const glm::vec3 newPosition) { _position = newPosition; UpdateMatrix(); return *this; }
-			inline Transform & SetRotation(const glm::vec3 newRotation) { _rotation = newRotation; UpdateMatrix(); return *this; }
-			inline Transform & SetScale(const glm::vec3 newScale) { _scale = newScale; UpdateMatrix(); return *this; }
+			void ForceTransformUpdate();				/* Method used by other parent transforms to update the transform matrix */
 
-			inline void Move(const glm::vec3 & deltaMovement) { _position += deltaMovement; UpdateMatrix(); }
-			inline void Rotate(const glm::vec3 & deltaRotate) { _rotation += deltaRotate; UpdateMatrix(); }
-			inline void Scale(const glm::vec3 & deltaScale) { _scale *= deltaScale; UpdateMatrix(); }
-			inline void Scale(const float deltaScale) { _scale *= deltaScale; UpdateMatrix(); }
+				// Getters 
+			const glm::mat4& Get() const;				/* Return the current transform matrix */ 
+			const glm::vec3& GetPosition() const;		/* Return the current relative position */ 
+			const glm::vec3& GetRotation() const;		/* Return the current relative rotation */ 
+			const glm::vec3& GetScale() const;			/* Return the current relative scale */ 
 
-			void ForceTransformUpdate() { UpdateMatrix(); }
+				// Setters
+			Transform& SetPosition(const glm::vec3 newPosition);	/* Set the relative position */
+			Transform& SetRotation(const glm::vec3 newRotation);	/* Set the relative rotation */
+			Transform& SetScale(const glm::vec3 newScale);			/* Set the relative scale */
 
 		private:
 			glm::vec3 _position, _scale, _rotation;

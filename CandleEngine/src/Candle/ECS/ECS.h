@@ -12,24 +12,12 @@ namespace Candle {
 		double scriptManagerUpdateTime = 0;
 		double systemManagerUpdateTime = 0;
 
-		double bpManagerEventTime = 0;
-		double scriptManagerEventTime = 0;
-		double systemManagerEventTime = 0;
-
 		void ResetUpdateStats()
 		{
 			bpManagerUpdateTime = 0;
 			scriptManagerUpdateTime = 0;
 			systemManagerUpdateTime = 0;
 		}
-
-		void ResetEventStats()
-		{
-			bpManagerEventTime = 0;
-			scriptManagerEventTime = 0;
-			systemManagerEventTime = 0;
-		}
-
 	};
 
 	class CANDLE_API ECS {

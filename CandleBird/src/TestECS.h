@@ -66,7 +66,7 @@ class RenderSystem : public Candle::System {
 					bool animBool = bp->GetComponent<Candle::AnimationController>().GetCurrentAnimation(*_animptr);
 
 					if (animBool) {
-						srComp.SetTextureCoordinates(_animptr->keyframes[_animptr->currentKeyframe].textureCoordinates);
+						srComp.SetTextureCoordinates(_animptr->GetKeyframes()[_animptr->GetCurrentKeyFrameIndex()].textureCoordinates);
 					}
 				}
 
@@ -79,6 +79,20 @@ class RenderSystem : public Candle::System {
 			}
 
 			//endScene:
+
+				// Sprite part test
+			Candle::SpritePart part1 = { "part1" , {0, 1, 1}, { 0, 1, 0, 1 }, { 0.1, 0.1 } };
+			Candle::SpritePart part2 = { "part2" , {1, 0, 1}, { 0, 1, 0, 1 }, { 0.2, 0.2 } };
+			Candle::SpritePart part3 = { "part3" , {0, 0, 1}, { 0, 1, 0, 1 }, { 0.3, 0.1 } };
+
+			std::vector<Candle::SpritePart> parts = {
+				part1,
+				part2,
+				part3
+			};
+
+			//Candle::Renderer2D::DrawPartialSprite(Transform(), AssetManager::GetTexture2D("dodo"), parts, true);
+
 
 			Candle::Renderer2D::EndScene();
 			Candle::Renderer2D::GetStats()->ecsSpriteRenderTime = Time::Milliseconds() - t1;

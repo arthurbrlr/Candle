@@ -31,6 +31,9 @@
     <ClInclude Include="src\Candle\Debug\EditorCameraController.h" />
     <ClInclude Include="src\Candle\ECS\BlueprintManager.h" />
     <ClInclude Include="src\Candle\ECS\Components\AnimationController.h" />
+    <ClInclude Include="src\Candle\ECS\Components\Animations\Animation.h" />
+    <ClInclude Include="src\Candle\ECS\Components\Animations\AnimationMap.h" />
+    <ClInclude Include="src\Candle\ECS\Components\Animations\Keyframe.h" />
     <ClInclude Include="src\Candle\ECS\Components\EngineComponents.h" />
     <ClInclude Include="src\Candle\ECS\Components\CameraHandler.h" />
     <ClInclude Include="src\Candle\ECS\Components\SpriteRenderer.h" />
@@ -115,6 +118,8 @@
     <ClCompile Include="src\Candle\Debug\EditorCameraController.cpp" />
     <ClCompile Include="src\Candle\ECS\Blueprint.cpp" />
     <ClCompile Include="src\Candle\ECS\BlueprintManager.cpp" />
+    <ClCompile Include="src\Candle\ECS\Components\AnimationController.cpp" />
+    <ClCompile Include="src\Candle\ECS\Components\Animations\Animation.cpp" />
     <ClCompile Include="src\Candle\ECS\Components\SpriteRenderer.cpp" />
     <ClCompile Include="src\Candle\ECS\Components\Transform.cpp" />
     <ClCompile Include="src\Candle\ECS\ECS.cpp" />

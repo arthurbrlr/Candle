@@ -385,12 +385,7 @@ namespace Candle {
 		glm::vec4 color = sprite.GetColorTint();
 		glm::vec4 parameters = { sprite.IsFixed() ? 1 : 0, 0, 0, 0 };
 
-		glm::mat4 transformMatrix = glm::translate(glm::mat4(1.0), transform.GetPosition())
-								  * glm::rotate(glm::mat4(1.0), (float)glm::radians(transform.GetRotation().z), { 0., 0., 1. })
-								  * glm::rotate(glm::mat4(1.0), (float)glm::radians(transform.GetRotation().y), { 0., 1., 0. })
-								  * glm::rotate(glm::mat4(1.0), (float)glm::radians(transform.GetRotation().x), { 1., 0., 0. })
-								  * glm::scale(glm::mat4(1.0), transform.GetScale());
-
+		glm::mat4 transformMatrix = transform.Get();
 		glm::vec4 bottomLeftVertex = transformMatrix * glm::vec4({ offsets.x, offsets.z, 0., 1. });
 		glm::vec4 bottomRightVertex = transformMatrix * glm::vec4({ offsets.y, offsets.z, 0., 1. });
 		glm::vec4 topLeftVertex = transformMatrix * glm::vec4({ offsets.x, offsets.w, 0., 1. });

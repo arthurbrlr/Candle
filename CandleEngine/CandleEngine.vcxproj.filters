@@ -273,6 +273,15 @@
     <ClInclude Include="src\Candle\Core\Controllers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Candle\ECS\Components\Animations\Keyframe.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Candle\ECS\Components\Animations\Animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Candle\ECS\Components\Animations\AnimationMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Candle\Application.cpp">
@@ -426,6 +435,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Candle\ECS\Components\SpriteRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Candle\ECS\Components\AnimationController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Candle\ECS\Components\Animations\Animation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

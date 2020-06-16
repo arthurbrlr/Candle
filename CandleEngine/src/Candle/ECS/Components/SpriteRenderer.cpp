@@ -1,6 +1,8 @@
 #include "cdlpch.h"
 #include "SpriteRenderer.h"
 
+#include "Candle/Assets/AssetManager.h"
+
 
 namespace Candle {
 
@@ -8,8 +10,11 @@ namespace Candle {
 		: _texture(texture)
 	{
 		_name = "SpriteRenderer";
-		if ( texture != nullptr )
-			_isTransparent = texture->IsTransparent();
+		if ( _texture != nullptr && _texture->IsTransparent() ) {
+			_flags |= SpriteRendererFlags_Transparent;
+		} else {
+			_flags &= ~SpriteRendererFlags_Transparent;
+		}
 	}
 
 
@@ -52,9 +57,44 @@ namespace Candle {
 		ImGui::Columns(1);
 
 		ImGui::Text("Flip sprite: ");
-		ImGui::Checkbox("x", &_flipX);
+		static bool flipX;
+		flipX = _flags & SpriteRendererFlags_FlipX;
+		ImGui::Checkbox("x", &flipX);
+		if ( flipX ) {
+			_flags |= SpriteRendererFlags_FlipX;
+		} else {
+			_flags &= ~SpriteRendererFlags_FlipX;
+		}
+
 		ImGui::SameLine();
-		ImGui::Checkbox("y", &_flipY);
+		static bool flipY;
+		flipY = _flags & SpriteRendererFlags_FlipY;
+		ImGui::Checkbox("y", &flipY);
+		if ( flipY ) {
+			_flags |= SpriteRendererFlags_FlipY;
+		} else {
+			_flags &= ~SpriteRendererFlags_FlipY;
+		}
+
+		ImGui::SameLine();
+		static bool flip45;
+		flip45 = _flags & SpriteRendererFlags_Flip45;
+		ImGui::Checkbox("45", &flip45);
+		if ( flip45 ) {
+			_flags |= SpriteRendererFlags_Flip45;
+		} else {
+			_flags &= ~SpriteRendererFlags_Flip45;
+		}
+
+		ImGui::SameLine();
+		static bool fixed;
+		fixed = _flags & SpriteRendererFlags_FixedInViewport;
+		ImGui::Checkbox("Fixed", &fixed);
+		if ( fixed ) {
+			_flags |= SpriteRendererFlags_FixedInViewport;
+		} else {
+			_flags &= ~SpriteRendererFlags_FixedInViewport;
+		}
 
 		if ( _texture != nullptr ) {
 			std::string menu = "Texture " + std::to_string(_texture->GetID());
@@ -69,8 +109,8 @@ namespace Candle {
 			}
 		}
 		ImGui::ColorEdit4("Color", glm::value_ptr(_colorTint));
-		if ( _colorTint.a != 1. || ( _texture != nullptr && _texture->IsTransparent() ) ) _isTransparent = true;
-		else _isTransparent = false;
+		if ( _colorTint.a != 1. || ( _texture != nullptr && _texture->IsTransparent() ) ) _flags |= SpriteRendererFlags_Transparent;
+		else _flags &= ~SpriteRendererFlags_Transparent;
 	}
 
 
@@ -79,7 +119,11 @@ namespace Candle {
 	SpriteRenderer& SpriteRenderer::SetTexture(const std::string& texture)
 	{
 		_texture = AssetManager::GetTexture2D(texture);
-		if ( _texture != nullptr ) _isTransparent = _texture->IsTransparent();
+		if ( _texture != nullptr && _texture->IsTransparent() ) {
+			_flags |= SpriteRendererFlags_Transparent;
+		} else {
+			_flags &= ~SpriteRendererFlags_Transparent;
+		}
 		return *this;
 	}
 
@@ -91,29 +135,42 @@ namespace Candle {
 
 	SpriteRenderer& SpriteRenderer::FlipX() 
 	{
-		return FlipX(!_flipX);
+		return FlipX(!CheckFlag(SpriteRendererFlags_FlipX));
 	}
 
 	SpriteRenderer& SpriteRenderer::FlipY() 
 	{ 
-		return FlipY(!_flipY); 
+		return FlipX(!CheckFlag(SpriteRendererFlags_FlipY));
 	}
 
 	SpriteRenderer& SpriteRenderer::FlipX(bool state) 
 	{
-		_flipX = state; 
+		if ( state ) {
+			_flags |= SpriteRendererFlags_FlipX;
+		} else {
+			_flags &= ~SpriteRendererFlags_FlipX;
+		}
 		return *this; 
 	}
 
 	SpriteRenderer& SpriteRenderer::FlipY(bool state) 
 	{
-		_flipY = state; 
+		if ( state ) {
+			_flags |= SpriteRendererFlags_FlipY;
+		} else {
+			_flags &= ~SpriteRendererFlags_FlipY;
+		}
 		return *this; 
 	}
 
 	SpriteRenderer& SpriteRenderer::Flip45() 
 	{
-		_flip45 = !_flip45; 
+		bool state = CheckFlag(SpriteRendererFlags_Flip45);
+		if ( state ) {
+			_flags |= SpriteRendererFlags_FlipX;
+		} else {
+			_flags &= ~SpriteRendererFlags_FlipX;
+		}
 		return *this; 
 	}
 
@@ -137,13 +194,17 @@ namespace Candle {
 
 	SpriteRenderer& SpriteRenderer::SetFixedInViewport(bool state) 
 	{
-		_fixed = state; 
-		return *this; 
+		if ( state ) {
+			_flags |= SpriteRendererFlags_FixedInViewport;
+		} else {
+			_flags &= ~SpriteRendererFlags_FixedInViewport;
+		}
+		return *this;
 	}
 
 	SpriteRenderer& SpriteRenderer::SetFlags(SpriteRendererFlags newFlags) 
 	{
-		flags = newFlags; 
+		_flags = newFlags; 
 		return *this;
 	}
 
@@ -159,12 +220,12 @@ namespace Candle {
 	{
 		glm::vec4 updatedTextCoord = _defaultTextureCoordinates;
 
-		if ( _flipX ) {
+		if ( CheckFlag(SpriteRendererFlags_FlipX) ) {
 			updatedTextCoord.x = _defaultTextureCoordinates.y;
 			updatedTextCoord.y = _defaultTextureCoordinates.x;
 		}
 
-		if ( _flipY ) {
+		if ( CheckFlag(SpriteRendererFlags_FlipY) ) {
 			updatedTextCoord.z = _defaultTextureCoordinates.w;
 			updatedTextCoord.w = _defaultTextureCoordinates.z;
 		} else {
@@ -174,7 +235,7 @@ namespace Candle {
 
 		glm::vec4 buffer = updatedTextCoord;
 
-		if ( _flip45 ) {
+		if ( CheckFlag(SpriteRendererFlags_Flip45) ) {
 			updatedTextCoord.x = buffer.z;
 			updatedTextCoord.y = buffer.w;
 			updatedTextCoord.z = buffer.x;
@@ -240,31 +301,37 @@ namespace Candle {
 	}
 
 
+	bool SpriteRenderer::CheckFlag(SpriteRendererFlags_ flag) const
+	{
+		return ( _flags & flag ) == flag;
+	}
+
+
 		/* Flags */
 
 	SpriteRendererFlags SpriteRenderer::GetFlags() const
 	{
-		return flags; 
+		return _flags; 
 	}
 
 	const bool SpriteRenderer::IsFlippedX() const
 	{
-		return _flipX; 
+		return CheckFlag(SpriteRendererFlags_FlipX);
 	}
 
 	const bool SpriteRenderer::IsFlippedY() const
 	{
-		return _flipY; 
+		return CheckFlag(SpriteRendererFlags_FlipY);
 	}
 
 	const bool SpriteRenderer::IsFixed() const
 	{
-		return _fixed; 
+		return CheckFlag(SpriteRendererFlags_FixedInViewport);
 	}
 
 	const bool SpriteRenderer::IsTransparent() const
 	{
-		return _isTransparent; 
+		return CheckFlag(SpriteRendererFlags_Transparent);
 	}
 
 }
