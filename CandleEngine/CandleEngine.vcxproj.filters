@@ -42,9 +42,6 @@
     <ClInclude Include="src\cdlpch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Candle\Debug\ImguiLayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Candle\Renderer\GraphicsContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -189,16 +186,10 @@
     <ClInclude Include="src\Candle\PostProcessing\Node.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Candle\Debug\Editor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Candle\Renderer\Renderer2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Candle\Assets\Texture2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Candle\Debug\EditorCameraController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Candle\Audio\AudioMixer.h">
@@ -255,12 +246,6 @@
     <ClInclude Include="src\Utility\Maths\Noise.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Candle\Debug\GUI\GuiAPI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Candle\Debug\GUI\GuiNode_Implementation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Utility\Data\Graph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -282,15 +267,27 @@
     <ClInclude Include="src\Candle\ECS\Components\Animations\AnimationMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Candle\Editor\GUI\GuiAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Candle\Editor\GUI\GuiNode_Implementation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Candle\Editor\Editor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Candle\Editor\EditorCameraController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Candle\Editor\ImguiLayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Candle\Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\cdlpch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Candle\Debug\ImguiLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\platform\Windows\WindowsInput.cpp">
@@ -377,16 +374,10 @@
     <ClCompile Include="src\Candle\PostProcessing\Node.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Candle\Debug\Editor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Candle\Renderer\Renderer2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Candle\Assets\Texture2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Candle\Debug\EditorCameraController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Candle\Audio\AudioMixer.cpp">
@@ -441,6 +432,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Candle\ECS\Components\Animations\Animation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Candle\Editor\Editor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Candle\Editor\EditorCameraController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Candle\Editor\ImguiLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

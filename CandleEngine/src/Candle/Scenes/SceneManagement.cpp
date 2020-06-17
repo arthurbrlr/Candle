@@ -7,7 +7,7 @@
 #include "Candle/PostProcessing/PostProcessing.h"
 #include "Candle/ECS/ECS.h"
 
-#include "Candle/Debug/Editor.h"
+#include "Candle/Editor/Editor.h"
 
 namespace Candle {
 

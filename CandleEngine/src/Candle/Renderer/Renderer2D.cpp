@@ -5,7 +5,7 @@
 #include "RenderCommands.h"
 #include "CameraManagement.h"
 
-#include "Candle/Debug/Editor.h"
+#include "Candle/Editor/Editor.h"
 
 namespace Candle {
 

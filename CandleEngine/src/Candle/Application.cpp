@@ -7,7 +7,7 @@
 #include "Events/MouseEvent.h"
 #include "Events/KeyEvent.h"
 
-#include "Debug/Editor.h"
+#include "Editor/Editor.h"
 #include "Assets/AssetManager.h"
 #include "ECS/ECS.h"
 #include "Renderer/Renderer.h"

@@ -27,8 +27,8 @@
     <ClInclude Include="src\Candle\Core\Controllers.h" />
     <ClInclude Include="src\Candle\Core\Time.h" />
     <ClInclude Include="src\Candle\Core\TimeAPI.h" />
-    <ClInclude Include="src\Candle\Debug\Editor.h" />
-    <ClInclude Include="src\Candle\Debug\EditorCameraController.h" />
+    <ClInclude Include="src\Candle\Editor\Editor.h" />
+    <ClInclude Include="src\Candle\Editor\EditorCameraController.h" />
     <ClInclude Include="src\Candle\ECS\BlueprintManager.h" />
     <ClInclude Include="src\Candle\ECS\Components\AnimationController.h" />
     <ClInclude Include="src\Candle\ECS\Components\Animations\Animation.h" />
@@ -81,7 +81,7 @@
     <ClInclude Include="src\Candle\Application.h" />
     <ClInclude Include="src\Candle\CandleCore.h" />
     <ClInclude Include="src\Candle\ECS\Component.h" />
-    <ClInclude Include="src\Candle\Debug\ImguiLayer.h" />
+    <ClInclude Include="src\Candle\Editor\ImguiLayer.h" />
     <ClInclude Include="src\Candle\EntryPoint.h" />
     <ClInclude Include="src\Candle\Events\AppEvent.h" />
     <ClInclude Include="src\Candle\Events\Event.h" />
@@ -97,8 +97,8 @@
     <ClInclude Include="src\Candle\Core\Window.h" />
     <ClInclude Include="src\cdlpch.h" />
     <ClInclude Include="src\Res\EngineShaders.h" />
-    <ClInclude Include="src\Candle\Debug\GUI\GuiAPI.h" />
-    <ClInclude Include="src\Candle\Debug\GUI\GuiNode_Implementation.h" />
+    <ClInclude Include="src\Candle\Editor\GUI\GuiAPI.h" />
+    <ClInclude Include="src\Candle\Editor\GUI\GuiNode_Implementation.h" />
     <ClInclude Include="src\Utility\Data\Graph.h" />
     <ClInclude Include="src\Utility\Maths\Noise.h" />
     <ClInclude Include="src\Utility\Maths\OpenSimplexNoise.h" />
@@ -114,8 +114,8 @@
     <ClCompile Include="src\Candle\Core\Input.cpp" />
     <ClCompile Include="src\Candle\Core\Time.cpp" />
     <ClCompile Include="src\Candle\Core\Window.cpp" />
-    <ClCompile Include="src\Candle\Debug\Editor.cpp" />
-    <ClCompile Include="src\Candle\Debug\EditorCameraController.cpp" />
+    <ClCompile Include="src\Candle\Editor\Editor.cpp" />
+    <ClCompile Include="src\Candle\Editor\EditorCameraController.cpp" />
     <ClCompile Include="src\Candle\ECS\Blueprint.cpp" />
     <ClCompile Include="src\Candle\ECS\BlueprintManager.cpp" />
     <ClCompile Include="src\Candle\ECS\Components\AnimationController.cpp" />
@@ -155,7 +155,7 @@
     <ClCompile Include="src\platform\Windows\WindowsTime.cpp" />
     <ClCompile Include="src\platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\Candle\Application.cpp" />
-    <ClCompile Include="src\Candle\Debug\ImguiLayer.cpp" />
+    <ClCompile Include="src\Candle\Editor\ImguiLayer.cpp" />
     <ClCompile Include="src\Candle\Core\Logger.cpp" />
     <ClCompile Include="src\cdlpch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
