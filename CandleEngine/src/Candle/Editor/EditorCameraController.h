@@ -2,6 +2,7 @@
 
 #include "Candle/CandleCore.h"
 #include "Candle/Renderer/RawCamera.h"
+#include "Candle/ECS/Components/Transform.h"
 
 #include "Candle/Events/MouseEvent.h"
 #include "Candle/Events/AppEvent.h"
@@ -17,54 +18,53 @@ namespace Candle {
 			void OnUpdate();
 			void OnEvent(Event & event);
 
-			inline void UseOrthographic(bool state) { _useOrthographic = state; }
+			void ResetView();
 
+			void UseOrthographic(bool state);
 
-			inline const glm::mat4 GetPVMatrix() 
-			{
-				return GetCamera().GetProjection() * _view;
-			}
-			
-			inline const glm::mat4 GetPMatrix()
-			{
-				return GetCamera().GetProjection();
-			}
-			
-			inline const glm::mat4 GetVMatrix() 
-			{
-				return _view;
-			}
+			const glm::mat4 GetPVMatrix();
+			const glm::mat4 GetPMatrix();
+			const glm::mat4 GetVMatrix();
 
-			inline OrthographicCamera & GetOrthographic() { return _orthographic; }
-			inline PerspectiveCamera & GetPerspective() { return _perspective; }
-			inline RawCamera & GetCamera()
-			{
-				if (_useOrthographic) return _orthographic;
-				else return _perspective;
-			}
+			RawCamera& GetCamera();
+			OrthographicCamera& GetOrthographic();
+			PerspectiveCamera& GetPerspective();
+			const Transform& GetTargetTransform() const;
 
-			inline const double GetRatio() const { return _aspectRatio; }
-			inline const double GetZoom() const { return _zoomLevel; }
-			inline const glm::vec3 GetPosition() const { return _position; }
-			inline const glm::vec3 GetRotation() const { return _rotation; }
-			inline const bool UseOrthographic() const { return _useOrthographic; }
+			const double GetRatio() const;
+			const double GetZoom() const;
+			const glm::vec3 GetPosition() const;
+			const glm::vec3 GetRotation() const;
+			const bool UseOrthographic() const;
 
 
 		private:
-			double _aspectRatio = 16. / 9., _zoomLevel = 25.0;
+			double _aspectRatio = 16. / 9., _zoomLevel = 15.0;
 
 			bool _useOrthographic = true;
 			OrthographicCamera _orthographic;
 			PerspectiveCamera _perspective;
 
-			glm::vec3 _position;
-			glm::vec3 _rotation;
+			Transform _cameraTransform;
+			Transform _targetTransform;
+			
+			double _distanceFromTarget = 7;
+			glm::vec2 _distanceFromTargetVector; /* Distance on both axis */
+			double _angleAroundPlayer = 0;
+			double _pitch = 0;
+			bool _mouseScrolled = false;
+
 			glm::mat4 _view = glm::mat4(0);
 
+			void UpdateOrthographicMovement();
+			void UpdatePerspectiveMovement();
+
+			void UpdateCameraPosition();
 			void UpdateViewMatrix();
 
-			bool OnMouseScrolled(MouseScrolledEvent & event);
-			bool OnWindowResize(WindowResizeEvent & event);
+			bool OnMouseScrolled(MouseScrolledEvent& event);
+			bool OnMouseMoved(MouseMovedEvent& event);
+			bool OnWindowResize(WindowResizeEvent& event);
 
 	};
 

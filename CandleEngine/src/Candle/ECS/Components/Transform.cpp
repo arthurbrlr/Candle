@@ -33,22 +33,26 @@ namespace Candle {
 		/* Component Methods */
 	void Transform::Move(const glm::vec3& deltaMovement) 
 	{
-		_position += deltaMovement; UpdateMatrix(); 
+		_position += deltaMovement; 
+		UpdateMatrix(); 
 	}
 
 	void Transform::Rotate(const glm::vec3& deltaRotate) 
 	{
-		_rotation += deltaRotate; UpdateMatrix(); 
+		_rotation += deltaRotate; 
+		UpdateMatrix(); 
 	}
 
 	void Transform::Scale(const glm::vec3& deltaScale) 
 	{
-		_scale *= deltaScale; UpdateMatrix(); 
+		_scale *= deltaScale; 
+		UpdateMatrix(); 
 	}
 
 	void Transform::Scale(const float deltaScale) 
 	{
-		_scale *= deltaScale; UpdateMatrix(); 
+		_scale *= deltaScale; 
+		UpdateMatrix(); 
 	}
 
 
@@ -78,6 +82,20 @@ namespace Candle {
 	const glm::vec3& Transform::GetScale() const 
 	{
 		return _scale; 
+	}
+
+	const glm::vec3 Transform::GetForward() const
+	{
+		glm::mat4 inverted = glm::inverse(_transformMatrix);
+		glm::vec3 forward = normalize(glm::vec3(inverted[2]));
+		return forward;
+	}
+
+	const glm::vec3 Transform::GetRight() const
+	{
+		glm::mat4 inverted = glm::inverse(_transformMatrix);
+		glm::vec3 forward = normalize(glm::vec3(inverted[0]));
+		return forward;
 	}
 
 

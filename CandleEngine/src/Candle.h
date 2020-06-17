@@ -16,8 +16,6 @@
 #include "Candle/Scenes/Scene.h"
 #include "Candle/Scenes/SceneManagement.h"
 
-#include "Candle/Editor/Editor.h"
-
 #include "Candle/Audio/AudioMixer.h"
 
 #include "Candle/Renderer/Renderer.h"

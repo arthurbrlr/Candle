@@ -186,6 +186,11 @@ namespace Candle {
 			_editorFrameBuffer->Bind();
 			CameraManagement::UseView(Controller().GetPVMatrix());
 			SceneManagement::OnEditorRender();
+			if ( !Controller().UseOrthographic() ) {
+				Renderer2D::BeginScene();
+				Renderer2D::DrawQuad(Controller().GetTargetTransform().GetPosition(), { .1, .1 });
+				Renderer2D::EndScene();
+			}
 			CameraManagement::Reset();
 			_editorFrameBuffer->Unbind(CDL_APP_WIDTH, CDL_APP_HEIGHT);
 
@@ -560,10 +565,10 @@ namespace Candle {
 			const char* editorCameras[2] = { "Perspective", "Orthographic" };
 			ImGui::Combo("Camera Projection", &currentEditorCamera, editorCameras, IM_ARRAYSIZE(editorCameras));
 			_cameraController.UseOrthographic((bool)currentEditorCamera);
-			float camPosition[3] = { _cameraController.GetPosition().x, _cameraController.GetPosition().y, _cameraController.GetPosition().z };
-			float camRotation[3] = { _cameraController.GetRotation().x, _cameraController.GetRotation().y, _cameraController.GetRotation().z };
-			ImGui::InputFloat3("Camera Position", camPosition);
-			ImGui::InputFloat3("Camera Rotation", camRotation);
+
+			if ( ImGui::Button("Reset Camera View") ) {
+				_cameraController.ResetView();
+			}
 
 			ImGui::Spacing();
 			ImGui::Checkbox("Draw Wireframe", &_eb.DrawLines);

@@ -6,11 +6,13 @@ namespace Candle {
 
 	class CANDLE_API MouseMovedEvent : public Event {
 		public:
-			MouseMovedEvent(double x, double y)
-				: _mouseX(x), _mouseY(y) {}
+			MouseMovedEvent(double x, double y, double px, double py)
+				: _mouseX(x), _mouseY(y), _pMouseX(px), _pMouseY(py) {}
 
 			inline double GetX() const { return _mouseX; }
 			inline double GetY() const { return _mouseY; }
+			inline double GetPX() const { return _pMouseX; }
+			inline double GetPY() const { return _pMouseY; }
 
 			std::string ToString() const override
 			{
@@ -24,6 +26,7 @@ namespace Candle {
 
 		private:
 			double _mouseX, _mouseY;
+			double _pMouseX, _pMouseY;
 	};
 
 

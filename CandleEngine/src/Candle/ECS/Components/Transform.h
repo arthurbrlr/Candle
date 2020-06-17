@@ -24,6 +24,8 @@ namespace Candle {
 			const glm::vec3& GetPosition() const;		/* Return the current relative position */ 
 			const glm::vec3& GetRotation() const;		/* Return the current relative rotation */ 
 			const glm::vec3& GetScale() const;			/* Return the current relative scale */ 
+			const glm::vec3 GetForward() const;			/* Return the forward vector of the transform */
+			const glm::vec3 GetRight() const;			/* Return the right vector of the transform */
 
 				// Setters
 			Transform& SetPosition(const glm::vec3 newPosition);	/* Set the relative position */

@@ -186,9 +186,13 @@ namespace Candle {
 		glfwSetCursorPosCallback(_window, [](GLFWwindow* w, double x, double y) 
 		{
 			WindowData & data = *(WindowData*)glfwGetWindowUserPointer(w);
+			static double px = 0, py = 0;
 
-			MouseMovedEvent event(x, y);
+			MouseMovedEvent event(x, y, px, py);
 			data._eventCallback(event);
+
+			px = x;
+			py = y;
 		});
 
 
