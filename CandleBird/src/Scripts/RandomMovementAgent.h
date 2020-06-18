@@ -15,13 +15,12 @@ class RandomMovementAgent : public Script {
 
 		void OnUpdate() override
 		{
-			return;
 			Transform& transform = _blueprint->GetComponent<Transform>();
 
 			refresh -= Time::DeltaTime();
 
 			if ( refresh < 0 ) {
-				direction = { Noise::Random(), Noise::Random(), 0 };
+				direction = { Noise::Random(-1, 1), Noise::Random(-1, 1), 0 };
 				//direction = glm::normalize(direction);
 				refresh = Noise::Random() * 5;
 			}

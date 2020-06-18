@@ -19,6 +19,15 @@ namespace Candle {
 			}
 
 
+			static double Random(double min, double max)
+			{
+				std::random_device dev;
+				std::mt19937 rng(dev());
+				std::uniform_real_distribution<> rand(min, max);
+				return rand(rng);
+			}
+
+
 			static int RandomInt(int min, int max)
 			{
 				std::random_device dev;

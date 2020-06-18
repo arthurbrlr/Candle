@@ -114,6 +114,7 @@
     <ClCompile Include="src\Candle\Core\Input.cpp" />
     <ClCompile Include="src\Candle\Core\Time.cpp" />
     <ClCompile Include="src\Candle\Core\Window.cpp" />
+    <ClCompile Include="src\Candle\ECS\Components\CameraHandler.cpp" />
     <ClCompile Include="src\Candle\Editor\Editor.cpp" />
     <ClCompile Include="src\Candle\Editor\EditorCameraController.cpp" />
     <ClCompile Include="src\Candle\ECS\Blueprint.cpp" />

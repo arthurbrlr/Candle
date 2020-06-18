@@ -22,6 +22,7 @@
 #include "Candle/Renderer/Renderer2D.h"
 #include "Candle/Renderer/RenderCommands.h"
 #include "Candle/Renderer/FrameBuffer.h"
+#include "Candle/Renderer/CameraManagement.h"
 
 #include "Candle/Assets/AssetManager.h"
 #include "Candle/Assets/Texture.h"

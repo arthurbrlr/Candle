@@ -215,6 +215,18 @@ namespace Candle {
 			_angleAroundPlayer += clamp(dAngle, 0.75, -0.75);
 		}
 
+
+		if ( Input::IsMouseButtonPressed(1) && _useOrthographic ) {
+
+			double dx = ( event.GetPX() - event.GetX() ) * Time::FixedDeltaTime() * _zoomLevel;
+			double dy = ( event.GetPY() - event.GetY() ) * Time::FixedDeltaTime() * _zoomLevel;
+
+			_targetTransform.Move({ dx, -dy, 0 });
+			_cameraTransform.Move({ dx, -dy, 0 });
+
+			UpdateViewMatrix();
+		}
+
 		return false;
 	}
 

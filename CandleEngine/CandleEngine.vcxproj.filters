@@ -443,5 +443,8 @@
     <ClCompile Include="src\Candle\Editor\ImguiLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Candle\ECS\Components\CameraHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

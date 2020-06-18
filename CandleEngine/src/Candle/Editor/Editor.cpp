@@ -3,6 +3,7 @@
 
 #include "Candle/Core/Input.h"
 #include "Candle/Scenes/SceneManagement.h"
+#include "Candle/Renderer/CameraManagement.h"
 
 namespace Candle {
 
@@ -66,7 +67,36 @@ namespace Candle {
 				{
 					ImGui::MenuItem("(dummy menu)", NULL, false, false);
 					if ( ImGui::MenuItem("New") ) {}
-					if ( ImGui::MenuItem("Open", "Ctrl+O") ) {}
+					
+					if ( ImGui::BeginMenu("Open", "Ctrl+O") ) {
+						bool endMenu = false;
+						for ( const auto& entry : std::filesystem::recursive_directory_iterator("D:/_code/Candle/CandleBird/res") ) {
+							
+							ImGui::MenuItem(entry.path().string().c_str());
+
+							/*
+							if ( entry.is_directory() ) {
+								CINFO("Directory {0}", entry.path().stem().string().c_str());
+								if ( endMenu ) {
+									CINFO("End Menu");
+									ImGui::EndMenu();
+									endMenu = false;
+									CINFO("End menu = false");
+								}
+								ImGui::BeginMenu(entry.path().stem().string().c_str());
+								endMenu = true;
+								CINFO("End menu = true");
+							} else {
+								ImGui::MenuItem(entry.path().string().c_str());
+							}*/
+						}
+						if ( endMenu ) {
+							CINFO("End Menu");
+							ImGui::EndMenu();
+						}
+						ImGui::EndMenu();
+					}
+
 					if ( ImGui::BeginMenu("Open Recent") ) {
 						ImGui::MenuItem("fish_hat.c");
 						ImGui::MenuItem("fish_hat.inl");
