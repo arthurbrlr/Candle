@@ -11,6 +11,7 @@ namespace Candle {
 	{
 		double t1 = Time::Milliseconds();
 			// Do not modify this line
+		_eb.ReadInputs = true;
 		_imguiLayer->Begin();
 		BuildDockSpace();
 
@@ -18,7 +19,9 @@ namespace Candle {
 		ShowMasterWindow();
 		ShowRendererWindow();
 
+		_eb.ReadInputs = false;
 		ShowGameViewer();
+		_eb.ReadInputs = true;
 		ShowEditorViewer();
 
 		ShowAssetManagerWindow();
@@ -38,6 +41,7 @@ namespace Candle {
 		ImGui::Text("%.5f", t2 - t1);
 		ImGui::End();
 		_imguiLayer->End();
+		_eb.ReadInputs = false;
 	}
 
 		/*
@@ -206,11 +210,7 @@ namespace Candle {
 		if (ImGui::Begin("Scene Viewer", &show, ImGuiWindowFlags_AlwaysAutoResize))
 		{
 			ImVec2 windowSize = ImGui::GetWindowSize();
-			ImVec2 windowPos = ImGui::GetWindowPos();
-			ImVec2 mouse = ImGui::GetMousePos();
-			bool mouseXvalid = mouse.x > windowPos.x && mouse.x < windowPos.x + windowSize.x;
-			bool mouseYvalid = mouse.y > windowPos.y && mouse.y < windowPos.y + windowSize.y;
-			_eb.MouseInEditorViewport = mouseXvalid && mouseYvalid;
+			_eb.MouseInEditorViewport = ImGui::IsWindowFocused() && ImGui::IsWindowHovered();
 
 				// Editor view rendering
 			_editorFrameBuffer->Bind();
@@ -244,13 +244,9 @@ namespace Candle {
 	{
 		if ( ImGui::Begin("Game Viewer") ) {
 			ImVec2 windowSize = ImGui::GetWindowSize();
-			ImVec2 windowPos = ImGui::GetWindowPos();
-			ImVec2 mouse = ImGui::GetMousePos();
-			bool mouseXvalid = mouse.x > windowPos.x && mouse.x < windowPos.x + windowSize.x;
-			bool mouseYvalid = mouse.y > windowPos.y && mouse.y < windowPos.y + windowSize.y;
-			_eb.MouseInGameViewport = mouseXvalid && mouseYvalid;
+			bool windowFocusAndHovered = ImGui::IsWindowFocused() && ImGui::IsWindowHovered();
+			_eb.MouseInGameViewport = windowFocusAndHovered;
 			_eb.RenderGameView = true;
-
 
 			double aspectRatio = Application::AspectRatio();
 			ImVec2 viewerSize = ImVec2(windowSize.x * 0.99f, windowSize.x * 0.99f / (float)aspectRatio);
@@ -353,13 +349,7 @@ namespace Candle {
 		int index = 0;
 
 		static bool openPopup = false;
-		ImVec2 mpos = ImGui::GetMousePos();
-		ImVec2 windowPos = ImGui::GetWindowPos();
-		ImVec2 windowSize = ImGui::GetWindowSize();
-		bool x_valid = mpos.x > windowPos.x && mpos.x < windowPos.x + windowSize.x;
-		bool y_valid = mpos.y > windowPos.y && mpos.y < windowPos.y + windowSize.y;
-		bool mouseInWindow = x_valid && y_valid;
-
+		bool windowFocusAndHovered = ImGui::IsWindowHovered();
 		/*
 		if (ImGui::Button("Save Changes")) {
 			CINFO("Saving blueprint data");
@@ -383,6 +373,7 @@ namespace Candle {
 	*/
 		std::function<void(Blueprint*)> BuildBlueprintTree;
 		BuildBlueprintTree = [&index, &BuildBlueprintTree](Blueprint* currentBlueprint) -> void {
+			if ( currentBlueprint == nullptr ) return;
 			index++;
 			ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
 			if ( !currentBlueprint->GetViewInEditor() ) return;
@@ -421,7 +412,7 @@ namespace Candle {
 
 		for (auto& bp : BlueprintManager::All()) {
 			
-			if ( !bp.second->GetViewInEditor() || bp.second->HasParent() ) continue;
+			if ( bp.second == nullptr || !bp.second->GetViewInEditor() || bp.second->HasParent() ) continue;
 			BuildBlueprintTree(&(*bp.second));
 
 		}
@@ -429,7 +420,7 @@ namespace Candle {
 		ShowComponentsOf(bpShowed);
 
 
-		if ( (Input::IsMouseButtonPressed(1) || openPopup) && mouseInWindow) {
+		if ( (Input::IsMouseButtonPressed(1) || openPopup) && windowFocusAndHovered ) {
 
 			openPopup = true;
 
@@ -655,7 +646,9 @@ namespace Candle {
 
 	void Editor::OnUpdate()
 	{
+		_eb.ReadInputs = true;
 		_cameraController.OnUpdate();
+		_eb.ReadInputs = false;
 		
 		// Dynamicly reload the assets
 	}
@@ -663,8 +656,11 @@ namespace Candle {
 
 	void Editor::OnEvent(Event& event)
 	{
-		if (_eb.MouseInEditorViewport )
+		if ( _eb.MouseInEditorViewport ) {
+			_eb.ReadInputs = true;
 			_cameraController.OnEvent(event); 
+			_eb.ReadInputs = false;
+		}
 	}
 
 

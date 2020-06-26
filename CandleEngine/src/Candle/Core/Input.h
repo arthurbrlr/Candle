@@ -13,17 +13,17 @@ namespace Candle {
 			static void Init();
 			static void PollEvents();
 			
-			inline static bool IsKeyPressed(int keycode) { return _instance->IsKeyPressedImpl(keycode); }
-			inline static bool OnKeyDown(int keycode) { return _instance->_inputKeyStates[keycode].currrent && !_instance->_inputKeyStates[keycode].previous; }
-			inline static bool OnKeyUp(int keycode) { return !_instance->_inputKeyStates[keycode].currrent && _instance->_inputKeyStates[keycode].previous; }
+			static bool IsKeyPressed(int keycode);
+			static bool OnKeyDown(int keycode);
+			static bool OnKeyUp(int keycode);
 
-			inline static bool IsMouseButtonPressed(int button) { return _instance->IsMouseButtonPressedImpl(button); }
-			inline static bool OnMouseButtonDown(int button) { return _instance->_inputMouseStates[button].currrent && !_instance->_inputMouseStates[button].previous; }
-			inline static bool OnMouseButtonUp(int button) { return !_instance->_inputMouseStates[button].currrent && _instance->_inputMouseStates[button].previous; }
+			static bool IsMouseButtonPressed(int button);
+			static bool OnMouseButtonDown(int button);
+			static bool OnMouseButtonUp(int button);
 
-			inline static double GetMouseX() { return _instance->GetMouseXImpl(); }
-			inline static double GetMouseY() { return _instance->GetMouseYImpl(); }
-			inline static std::pair<double, double> GetMousePos() { return _instance->GetMousePosImpl(); }
+			static double GetMouseX();
+			static double GetMouseY();
+			static std::pair<double, double> GetMousePos();
 			static glm::vec4 GetMouseInEyeSpace();
 			static glm::vec3 GetMouseInWorldSpace();
 
@@ -31,16 +31,6 @@ namespace Candle {
 			static void RegisterKeyEvent(KeyReleasedEvent& event);
 			static void RegisterMouseButtonEvent(MouseButtonPressedEvent& event);
 			static void RegisterMouseButtonEvent(MouseButtonReleasedEvent& event);
-
-		protected:
-			virtual void PollEventsImpl() = 0;
-
-			virtual bool IsKeyPressedImpl(int keycode) = 0;
-
-			virtual bool IsMouseButtonPressedImpl(int button) = 0;
-			virtual double GetMouseXImpl() = 0;
-			virtual double GetMouseYImpl() = 0;
-			virtual std::pair<double, double> GetMousePosImpl() = 0;
 
 		private:
 			struct KeyState {

@@ -75,7 +75,6 @@
     <ClInclude Include="src\platform\OpenGL\GLVertexArray.h" />
     <ClInclude Include="src\platform\OpenGL\GLContext.h" />
     <ClInclude Include="src\platform\Windows\WindowsTime.h" />
-    <ClInclude Include="src\platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\Candle.h" />
     <ClInclude Include="src\Candle\Application.h" />
@@ -111,7 +110,6 @@
     <ClCompile Include="src\Candle\Assets\Shader.cpp" />
     <ClCompile Include="src\Candle\Assets\Texture2D.cpp" />
     <ClCompile Include="src\Candle\Audio\AudioMixer.cpp" />
-    <ClCompile Include="src\Candle\Core\Input.cpp" />
     <ClCompile Include="src\Candle\Core\Time.cpp" />
     <ClCompile Include="src\Candle\Core\Window.cpp" />
     <ClCompile Include="src\Candle\ECS\Components\CameraHandler.cpp" />

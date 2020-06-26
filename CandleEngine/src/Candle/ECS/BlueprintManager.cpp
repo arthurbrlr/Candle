@@ -26,6 +26,9 @@ namespace Candle {
 
 	void BlueprintManager::Remove(size_t blueprintID)
 	{
+		if ( _blueprints[blueprintID]->HasParent() ) {
+			_blueprints[blueprintID]->GetParent()->RemoveChild(blueprintID);
+		}
 		_blueprints.erase(blueprintID);
 	}
 
@@ -41,6 +44,11 @@ namespace Candle {
 		}
 
 		for ( long i : _idToDelete ) {
+			if ( _blueprints[i]->HasChildren() ) {
+				for ( auto& child : _blueprints[i]->GetChilds() ) {
+					_blueprints.erase(child.first);
+				}
+			}
 			_blueprints.erase(i);
 		}
 

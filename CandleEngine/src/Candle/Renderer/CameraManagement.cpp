@@ -19,8 +19,11 @@ namespace Candle {
 
 	void CameraManagement::UpdateView()
 	{
-		if ( _mainCameraBlueprintID != -1 ) {
+		if ( _mainCameraBlueprintID != -1 && ECS::GetBlueprint(_mainCameraBlueprintID) != nullptr ) {
 			_viewProjectionMatrix = ECS::GetBlueprint(_mainCameraBlueprintID)->GetComponent<CameraHandler>().UpdatePVMatrix();
+		} else {
+			CERROR("Main camera was not found");
+			_mainCameraBlueprintID = -1;
 		}
 	}
 

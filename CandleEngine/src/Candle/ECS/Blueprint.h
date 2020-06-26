@@ -66,12 +66,21 @@ namespace Candle {
 			std::unordered_map<size_t, Blueprint*> GetChilds() { return _childs; }
 			Blueprint* GetParent() { return _parent; }
 
-			void AddChild(Blueprint* child) { 
+			void AddChild(Blueprint* child) 
+			{ 
 				_childs[child->GetID()] = child;
 				_hasChildren = true;
 				child->SetParent(this);
 			}
 
+			void RemoveChild(size_t childID)
+			{
+				try {
+					_childs.erase(childID);
+				} catch ( std::exception e ) {
+					CDL_ERROR(e.what());
+				}
+			}
 
 			void SetParent(Blueprint* parent)
 			{

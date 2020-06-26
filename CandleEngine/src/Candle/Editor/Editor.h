@@ -39,6 +39,7 @@ namespace Candle {
 		bool PlayGame = false;
 		bool RenderGameView = true;
 		bool FullScreen = false;
+		bool ReadInputs = false;
 	};
 
 	class CANDLE_API Editor {

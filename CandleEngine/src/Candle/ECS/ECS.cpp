@@ -46,7 +46,8 @@ namespace Candle {
 
 	Shared<Blueprint> ECS::GetBlueprint(size_t blueprintID)
 	{
-		return BlueprintManager::All()[blueprintID];
+		if ( BlueprintManager::All()[blueprintID] != nullptr) return BlueprintManager::All()[blueprintID];
+		return nullptr;
 	}
 
 

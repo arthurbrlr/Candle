@@ -24,6 +24,9 @@ namespace Candle {
 
 				for (auto& bp : _blueprints) {
 
+					if ( bp.second == nullptr ) {
+						continue;
+					}
 					if (bp.second->HasComponent<T>()) _batchBlueprints.push_back(bp.second);
 
 				}
