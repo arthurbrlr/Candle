@@ -26,7 +26,6 @@
     <ClInclude Include="src\Candle\Audio\AudioEmitter.h" />
     <ClInclude Include="src\Candle\Core\Controllers.h" />
     <ClInclude Include="src\Candle\Core\Time.h" />
-    <ClInclude Include="src\Candle\Core\TimeAPI.h" />
     <ClInclude Include="src\Candle\Editor\Editor.h" />
     <ClInclude Include="src\Candle\Editor\EditorCameraController.h" />
     <ClInclude Include="src\Candle\ECS\BlueprintManager.h" />
@@ -74,7 +73,6 @@
     <ClInclude Include="src\platform\OpenGL\GLTexture.h" />
     <ClInclude Include="src\platform\OpenGL\GLVertexArray.h" />
     <ClInclude Include="src\platform\OpenGL\GLContext.h" />
-    <ClInclude Include="src\platform\Windows\WindowsTime.h" />
     <ClInclude Include="src\platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\Candle.h" />
     <ClInclude Include="src\Candle\Application.h" />
@@ -110,7 +108,6 @@
     <ClCompile Include="src\Candle\Assets\Shader.cpp" />
     <ClCompile Include="src\Candle\Assets\Texture2D.cpp" />
     <ClCompile Include="src\Candle\Audio\AudioMixer.cpp" />
-    <ClCompile Include="src\Candle\Core\Time.cpp" />
     <ClCompile Include="src\Candle\Core\Window.cpp" />
     <ClCompile Include="src\Candle\ECS\Components\CameraHandler.cpp" />
     <ClCompile Include="src\Candle\Editor\Editor.cpp" />

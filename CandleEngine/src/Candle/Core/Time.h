@@ -8,21 +8,21 @@ namespace Candle {
 	class CANDLE_API Time {
 
 		public:	
-			static inline double Seconds() { return _API->Seconds(); }
-			static inline double Milliseconds() { return _API->Milliseconds(); }
-			static inline double DeltaTime() { return _API->DeltaTime(); }
-			static inline double FixedDeltaTime() { return _API->FixedDeltaTime(); }
+			static void Start();
+			static void BeginFrame();
+			static void Tick();
 
-			static void TimeScale(double factor) { _API->TimeScale(factor); }
+			operator double();
+			static double Seconds();
+			static double Milliseconds();
+			static double DeltaTime();
+			static double FixedDeltaTime();
 
-			static void Start() { _API->Start(); }
-			static void BeginFrame() { _API->BeginFrame(); }
-			static void Tick() { _API->Tick(); }
-
-			operator double() { return _API->Seconds(); }
+			static void TimeScale(double factor);
 
 		protected:
-			static TimeAPI* _API;
+			static double _beginFrameTime, _time, _lastFrameTime, _fixedDeltaTime;
+			static double _timeFactor;
 	};
 
 }
