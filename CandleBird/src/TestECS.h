@@ -91,7 +91,7 @@ class RenderSystem : public Candle::System {
 				part3
 			};
 
-			//Candle::Renderer2D::DrawPartialSprite(Transform(), AssetManager::GetTexture2D("dodo"), parts, true);
+			//Candle::Renderer2D::DrawPartialSprite(Transform(), Assets::GetTexture2D("dodo"), parts, true);
 
 
 			Candle::Renderer2D::EndScene();
@@ -128,8 +128,8 @@ class LineRenderSystem : public Candle::System {
 		void OnRenderUpdate() override
 		{
 
-			Candle::AssetManager::GetShader("line")->Bind();
-			Candle::AssetManager::GetShader("line")->SetMat4("u_viewProjection", Candle::CameraManagement::GetViewProjection());
+			Candle::Assets::GetShader("line")->Bind();
+			Candle::Assets::GetShader("line")->SetMat4("u_viewProjection", Candle::CameraManagement::GetViewProjection());
 
 			for ( int i = 0; i < _lines.size() / 2; i++ ) {
 

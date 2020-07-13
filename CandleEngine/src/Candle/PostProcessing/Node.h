@@ -3,7 +3,7 @@
 #include "Candle/CandleCore.h"
 
 #include "Utility/Data/Graph.h"
-#include "Candle/Assets/AssetManager.h"
+#include "Candle/Assets/Assets.h"
 #include "Candle/Renderer/FrameBuffer.h"
 
 namespace Candle {

@@ -9,11 +9,11 @@
 
 namespace Candle {
 
-	class CANDLE_API EditorCameraController {
+	class CANDLE_API EditorCamera {
 
 		public:
-			EditorCameraController() {}
-			EditorCameraController(double width, double height);
+			EditorCamera() {}
+			EditorCamera(double width, double height);
 
 			void OnUpdate();
 			void OnEvent(Event & event);

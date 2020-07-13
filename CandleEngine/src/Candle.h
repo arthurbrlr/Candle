@@ -24,7 +24,7 @@
 #include "Candle/Renderer/FrameBuffer.h"
 #include "Candle/Renderer/CameraManagement.h"
 
-#include "Candle/Assets/AssetManager.h"
+#include "Candle/Assets/Assets.h"
 #include "Candle/Assets/Texture.h"
 #include "Candle/Assets/Shader.h"
 

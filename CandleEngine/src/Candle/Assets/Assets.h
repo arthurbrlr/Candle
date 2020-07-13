@@ -11,15 +11,15 @@
 
 namespace Candle {
 
-	class CANDLE_API AssetManager {
+	class CANDLE_API Assets {
 
 		public:
-			AssetManager() {}
-			~AssetManager() {}
+			Assets() {}
+			~Assets() {}
 
 			static void Init();
 			static void Reload();
-			inline static AssetManager& Get() { return *_instance; }
+			inline static Assets& Get() { return *_instance; }
 
 
 				/* Shaders */
@@ -35,7 +35,7 @@ namespace Candle {
 			
 
 		private:
-			static AssetManager* _instance;
+			static Assets* _instance;
 
 			std::unordered_map<std::string, Shared<Shader>> _shaders;
 			std::string _boundShader;

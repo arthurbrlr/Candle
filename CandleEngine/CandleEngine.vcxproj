@@ -15,7 +15,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Candle\Assets\AssetManager.h" />
+    <ClInclude Include="src\Candle\Assets\Assets.h" />
     <ClInclude Include="src\Candle\Assets\Model.h" />
     <ClInclude Include="src\Candle\Assets\Shader.h" />
     <ClInclude Include="src\Candle\Assets\ShaderUniforms.h" />
@@ -27,7 +27,7 @@
     <ClInclude Include="src\Candle\Core\Controllers.h" />
     <ClInclude Include="src\Candle\Core\Time.h" />
     <ClInclude Include="src\Candle\Editor\Editor.h" />
-    <ClInclude Include="src\Candle\Editor\EditorCameraController.h" />
+    <ClInclude Include="src\Candle\Editor\EditorCamera.h" />
     <ClInclude Include="src\Candle\ECS\BlueprintManager.h" />
     <ClInclude Include="src\Candle\ECS\Components\AnimationController.h" />
     <ClInclude Include="src\Candle\ECS\Components\Animations\Animation.h" />
@@ -103,7 +103,7 @@
     <ClInclude Include="trdp\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Candle\Assets\AssetManager.cpp" />
+    <ClCompile Include="src\Candle\Assets\Assets.cpp" />
     <ClCompile Include="src\Candle\Assets\Model.cpp" />
     <ClCompile Include="src\Candle\Assets\Shader.cpp" />
     <ClCompile Include="src\Candle\Assets\Texture2D.cpp" />
@@ -111,7 +111,7 @@
     <ClCompile Include="src\Candle\Core\Window.cpp" />
     <ClCompile Include="src\Candle\ECS\Components\CameraHandler.cpp" />
     <ClCompile Include="src\Candle\Editor\Editor.cpp" />
-    <ClCompile Include="src\Candle\Editor\EditorCameraController.cpp" />
+    <ClCompile Include="src\Candle\Editor\EditorCamera.cpp" />
     <ClCompile Include="src\Candle\ECS\Blueprint.cpp" />
     <ClCompile Include="src\Candle\ECS\BlueprintManager.cpp" />
     <ClCompile Include="src\Candle\ECS\Components\AnimationController.cpp" />

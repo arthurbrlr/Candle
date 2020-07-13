@@ -1,7 +1,7 @@
 #include "cdlpch.h"
 #include "SpriteRenderer.h"
 
-#include "Candle/Assets/AssetManager.h"
+#include "Candle/Assets/Assets.h"
 
 
 namespace Candle {
@@ -46,7 +46,7 @@ namespace Candle {
 
 		// TODO: complete edge cases for non textured quads
 		if ( ImGui::BeginCombo("t", "none") ) {
-			for ( auto& texture : AssetManager::GetAllTexture2D() ) {
+			for ( auto& texture : Assets::GetAllTexture2D() ) {
 				const bool selected = _texture == texture.second;
 				if ( ImGui::Selectable(texture.first.c_str(), selected) ) {
 					_texture = texture.second;
@@ -118,7 +118,7 @@ namespace Candle {
 
 	SpriteRenderer& SpriteRenderer::SetTexture(const std::string& texture)
 	{
-		_texture = AssetManager::GetTexture2D(texture);
+		_texture = Assets::GetTexture2D(texture);
 		if ( _texture != nullptr && _texture->IsTransparent() ) {
 			_flags |= SpriteRendererFlags_Transparent;
 		} else {

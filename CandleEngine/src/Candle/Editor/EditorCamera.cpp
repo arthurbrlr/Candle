@@ -1,5 +1,5 @@
 #include "cdlpch.h"
-#include "EditorCameraController.h"
+#include "EditorCamera.h"
 
 #include "Candle/Core/Input.h"
 #include "Candle/Core/KeyCodes.h"
@@ -10,7 +10,7 @@
 
 namespace Candle {
 
-	EditorCameraController::EditorCameraController(double width, double height)
+	EditorCamera::EditorCamera(double width, double height)
 	{
 		_aspectRatio = width / height;
 		_orthographic = OrthographicCamera(-_aspectRatio * _zoomLevel, _aspectRatio * _zoomLevel, -_zoomLevel, _zoomLevel);
@@ -21,7 +21,7 @@ namespace Candle {
 	}
 
 
-	void EditorCameraController::OnUpdate()
+	void EditorCamera::OnUpdate()
 	{
 
 		if ( _useOrthographic ) {
@@ -33,7 +33,7 @@ namespace Candle {
 	}
 
 
-	void EditorCameraController::UpdateOrthographicMovement()
+	void EditorCamera::UpdateOrthographicMovement()
 	{
 		bool changed = false;
 
@@ -67,7 +67,7 @@ namespace Candle {
 	}
 
 
-	void EditorCameraController::UpdatePerspectiveMovement()
+	void EditorCamera::UpdatePerspectiveMovement()
 	{
 		bool changed = false;
 
@@ -105,7 +105,7 @@ namespace Candle {
 	}
 
 
-	void EditorCameraController::ResetView()
+	void EditorCamera::ResetView()
 	{
 		_targetTransform.SetPosition({ 0, 0, 0 });
 		_angleAroundPlayer = 0;
@@ -117,16 +117,16 @@ namespace Candle {
 	}
 
 
-	void EditorCameraController::OnEvent(Event & event)
+	void EditorCamera::OnEvent(Event & event)
 	{
 		EventDispatcher dispatcher(event);
-		dispatcher.Dispatch<MouseScrolledEvent>(BIND_EVENT_FUNCTION(EditorCameraController::OnMouseScrolled));
-		dispatcher.Dispatch<MouseMovedEvent>(BIND_EVENT_FUNCTION(EditorCameraController::OnMouseMoved));
-		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FUNCTION(EditorCameraController::OnWindowResize));
+		dispatcher.Dispatch<MouseScrolledEvent>(BIND_EVENT_FUNCTION(EditorCamera::OnMouseScrolled));
+		dispatcher.Dispatch<MouseMovedEvent>(BIND_EVENT_FUNCTION(EditorCamera::OnMouseMoved));
+		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FUNCTION(EditorCamera::OnWindowResize));
 	}
 
 
-	void EditorCameraController::UpdateViewMatrix()
+	void EditorCamera::UpdateViewMatrix()
 	{
 		_view = glm::mat4(1.0f);
 
@@ -143,7 +143,7 @@ namespace Candle {
 	}
 
 
-	void EditorCameraController::UpdateCameraPosition()
+	void EditorCamera::UpdateCameraPosition()
 	{
 		_distanceFromTargetVector = {
 			_distanceFromTarget * std::cos(glm::radians(_pitch)),
@@ -168,7 +168,7 @@ namespace Candle {
 	}
 
 
-	bool EditorCameraController::OnMouseScrolled(MouseScrolledEvent& event)
+	bool EditorCamera::OnMouseScrolled(MouseScrolledEvent& event)
 	{
 		if ( _useOrthographic ) {
 
@@ -194,7 +194,7 @@ namespace Candle {
 	}
 
 
-	bool EditorCameraController::OnMouseMoved(MouseMovedEvent& event)
+	bool EditorCamera::OnMouseMoved(MouseMovedEvent& event)
 	{
 
 		if ( Input::IsMouseButtonPressed(1) && !_useOrthographic ) {
@@ -231,7 +231,7 @@ namespace Candle {
 	}
 
 
-	bool EditorCameraController::OnWindowResize(WindowResizeEvent & event)
+	bool EditorCamera::OnWindowResize(WindowResizeEvent & event)
 	{
 		_aspectRatio = (double)event.GetWidth() / (double)event.GetHeight();
 		_perspective.SetProjection((double)event.GetWidth(), (double)event.GetHeight());
@@ -240,70 +240,70 @@ namespace Candle {
 	}
 
 		/* Setters */
-	void EditorCameraController::UseOrthographic(bool state)
+	void EditorCamera::UseOrthographic(bool state)
 	{
 		_useOrthographic = state; 
 	}
 
 
 		/* Getters */
-	const glm::mat4 EditorCameraController::GetPVMatrix()
+	const glm::mat4 EditorCamera::GetPVMatrix()
 	{
 		return GetCamera().GetProjection() * _view;
 	}
 
-	const glm::mat4 EditorCameraController::GetPMatrix()
+	const glm::mat4 EditorCamera::GetPMatrix()
 	{
 		return GetCamera().GetProjection();
 	}
 
-	const glm::mat4 EditorCameraController::GetVMatrix()
+	const glm::mat4 EditorCamera::GetVMatrix()
 	{
 		return _view;
 	}
 
-	RawCamera& EditorCameraController::GetCamera()
+	RawCamera& EditorCamera::GetCamera()
 	{
 		if ( _useOrthographic ) return _orthographic;
 		else return _perspective;
 	}
 
-	OrthographicCamera& EditorCameraController::GetOrthographic()  
+	OrthographicCamera& EditorCamera::GetOrthographic()  
 	{
 		return _orthographic; 
 	}
 
-	PerspectiveCamera& EditorCameraController::GetPerspective()
+	PerspectiveCamera& EditorCamera::GetPerspective()
 	{
 		return _perspective;
 	}
 
-	const Transform& EditorCameraController::GetTargetTransform() const
+	const Transform& EditorCamera::GetTargetTransform() const
 	{
 		return _targetTransform; 
 	}
 
-	const double EditorCameraController::GetRatio() const
+	const double EditorCamera::GetRatio() const
 	{
 		return _aspectRatio; 
 	}
 
-	const double EditorCameraController::GetZoom() const
+	const double EditorCamera::GetZoom() const
 	{
 		return _zoomLevel; 
 	}
 
-	const glm::vec3 EditorCameraController::GetPosition() const
+	const glm::vec3 EditorCamera::GetPosition() const
 	{
 		return _cameraTransform.GetPosition(); 
 	}
 
-	const glm::vec3 EditorCameraController::GetRotation() const
+	const glm::vec3 EditorCamera::GetRotation() const
 	{
 		return _cameraTransform.GetPosition(); 
 	}
 
-	const bool EditorCameraController::UseOrthographic() const
+	const bool EditorCamera::UseOrthographic() const
 	{
 		return _useOrthographic; 
 	}

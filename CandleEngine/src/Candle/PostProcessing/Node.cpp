@@ -15,7 +15,7 @@ namespace Candle {
 	{
 
 		int textureSamplers[4] = { 0, 1, 2, 3 };
-		Shared<Shader> shader = AssetManager::GetShader(name);
+		Shared<Shader> shader = Assets::GetShader(name);
 		if (shader != nullptr) {
 			shader->Bind();
 			shader->SetIntArray("u_textures", textureSamplers, 4);
@@ -47,7 +47,7 @@ namespace Candle {
 
 				_buffer->Bind();
 
-				Shared<Shader> nodeShader = AssetManager::GetShader(_nodeName);
+				Shared<Shader> nodeShader = Assets::GetShader(_nodeName);
 				if (nodeShader != nullptr) {
 					nodeShader->Bind();
 					nodeShader->SetFloat2("u_winDim", { _textureWidth, _textureHeight });

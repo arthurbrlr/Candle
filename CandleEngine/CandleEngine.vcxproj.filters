@@ -162,9 +162,6 @@
     <ClInclude Include="src\Candle\Assets\Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Candle\Assets\AssetManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Candle\Assets\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -267,10 +264,13 @@
     <ClInclude Include="src\Candle\Editor\Editor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Candle\Editor\EditorCameraController.h">
+    <ClInclude Include="src\Candle\Editor\ImguiLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Candle\Editor\ImguiLayer.h">
+    <ClInclude Include="src\Candle\Assets\Assets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Candle\Editor\EditorCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -350,9 +350,6 @@
     <ClCompile Include="src\Candle\Assets\Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Candle\Assets\AssetManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Candle\Assets\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -422,13 +419,16 @@
     <ClCompile Include="src\Candle\Editor\Editor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Candle\Editor\EditorCameraController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Candle\Editor\ImguiLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Candle\ECS\Components\CameraHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Candle\Assets\Assets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Candle\Editor\EditorCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

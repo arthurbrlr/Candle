@@ -15,8 +15,8 @@ namespace Candle {
 
 	void Renderer2D::Init()
 	{
-		_data->defaultSpriteRenderer = std::make_shared<SpriteRenderer>(AssetManager::GetTexture2D("CDL_TEXTURE_DEFAULT"));
-		_data->texturedSpriteRenderer = std::make_shared<SpriteRenderer>(AssetManager::GetTexture2D("CDL_TEXTURE_WHITE"));
+		_data->defaultSpriteRenderer = std::make_shared<SpriteRenderer>(Assets::GetTexture2D("CDL_TEXTURE_DEFAULT"));
+		_data->texturedSpriteRenderer = std::make_shared<SpriteRenderer>(Assets::GetTexture2D("CDL_TEXTURE_WHITE"));
 
 			/* Full Screen Init */
 		_data->fullscreenVertexArray = VertexArray::Create();
@@ -46,8 +46,8 @@ namespace Candle {
 
 	void Renderer2D::BeginScene()
 	{
-		AssetManager::BindShader("CDL_SHADER_TEXTURE");
-		AssetManager::GetShader("CDL_SHADER_TEXTURE")->SetMat4("u_projectionViewMatrix", CameraManagement::GetViewProjection());
+		Assets::BindShader("CDL_SHADER_TEXTURE");
+		Assets::GetShader("CDL_SHADER_TEXTURE")->SetMat4("u_projectionViewMatrix", CameraManagement::GetViewProjection());
 
 		_data->BeginScene();
 	}
@@ -473,7 +473,7 @@ namespace Candle {
 	void Renderer2D::DrawFrameBuffer(Shared<Texture2D> fboTexture, const std::string & shaderName)
 	{
 
-		Shared<Shader> shader = AssetManager::GetShader(shaderName);
+		Shared<Shader> shader = Assets::GetShader(shaderName);
 		shader->Bind();
 		shader->SetFloat("u_time", (float)Time());
 		
@@ -493,7 +493,7 @@ namespace Candle {
 		float vertices[20]{ 0 };
 		for (int i = 0; i < 20; i++) vertices[i] = _data->defaultVertices[i];
 
-		//AssetManager::GetShader("defaultFBO")->Bind();
+		//Assets::GetShader("defaultFBO")->Bind();
 
 		_data->fullscreenVertexArray->Bind();
 		_data->fullscreenVertexBuffer->SetData(vertices, 20 * sizeof(float));

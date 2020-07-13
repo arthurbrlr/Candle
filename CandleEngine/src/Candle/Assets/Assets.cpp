@@ -1,5 +1,5 @@
 #include "cdlpch.h"
-#include "AssetManager.h"
+#include "Assets.h"
 #include "Candle/Renderer/Renderer2D.h"
 
 #include "Res/EngineShaders.h"
@@ -24,17 +24,17 @@ namespace Candle {
 
 	*/
 
-	AssetManager* AssetManager::_instance = new AssetManager();
+	Assets* Assets::_instance = new Assets();
 
 
-	void AssetManager::Init()
+	void Assets::Init()
 	{
 		_instance->LoadAllShaders();
 		_instance->LoadAllTextures();
 	}
 
 
-	void AssetManager::Reload()
+	void Assets::Reload()
 	{
 		Get()._textures2D.clear();
 		Get()._shaders.clear();
@@ -47,7 +47,7 @@ namespace Candle {
 
 		/* --- Shaders --- */
 
-	void AssetManager::BindShaderImpl(const std::string & name)
+	void Assets::BindShaderImpl(const std::string & name)
 	{
 		if (_boundShader != "")
 			_shaders[_boundShader]->Unbind();
@@ -57,7 +57,7 @@ namespace Candle {
 	}
 
 
-	Shared<Shader> AssetManager::ReloadShaderImpl(const std::string & name)
+	Shared<Shader> Assets::ReloadShaderImpl(const std::string & name)
 	{
 		Unique<Shader> shader = Shader::Create(_shaders[name]->GetPath());
 		_shaders.erase(name);
@@ -72,14 +72,14 @@ namespace Candle {
 	}
 
 
-	Shared<Shader> AssetManager::GetShaderImpl(const std::string & name)
+	Shared<Shader> Assets::GetShaderImpl(const std::string & name)
 	{
 		if (_shaders.find(name) == _shaders.end()) return _shaders["texture"];
 		return _shaders[name];
 	}
 
 
-	Shared<Texture2D> AssetManager::GetTexture2DImpl(const std::string & name)
+	Shared<Texture2D> Assets::GetTexture2DImpl(const std::string & name)
 	{
 		if (_textures2D.find(name) == _textures2D.end()) return _textures2D["CDL_TEXTURE_DEFAULT"];
 		return _textures2D[name];
@@ -89,7 +89,7 @@ namespace Candle {
 
 			/* --- Privates --- */
 
-	void AssetManager::LoadAllShaders()
+	void Assets::LoadAllShaders()
 	{
 		std::string parentFolder = "res/shaders";
 		int i = 0;
@@ -106,7 +106,7 @@ namespace Candle {
 	}
 
 
-	void AssetManager::LoadShader(const std::string & path, const std::string & name)
+	void Assets::LoadShader(const std::string & path, const std::string & name)
 	{
 		Unique<Shader> shader = Shader::Create(path);
 		//if (_shaders.find(name) != _shaders.end()) return;
@@ -114,7 +114,7 @@ namespace Candle {
 	}
 
 
-	void AssetManager::LoadDefaultShaders()
+	void Assets::LoadDefaultShaders()
 	{
 		Unique<Shader> textureShader = Shader::Create(CDL_SHADER_Texture, "CDL_SHADER_TEXTURE");
 		_shaders.emplace("CDL_SHADER_TEXTURE", std::move(textureShader));
@@ -126,7 +126,7 @@ namespace Candle {
 
 
 
-	void AssetManager::LoadAllTextures()
+	void Assets::LoadAllTextures()
 	{
 		std::string parentFolder = "res/textures";
 		int i = 0;
@@ -144,7 +144,7 @@ namespace Candle {
 	}
 
 
-	void AssetManager::LoadTexture(const std::string & path, const std::string & name)
+	void Assets::LoadTexture(const std::string & path, const std::string & name)
 	{
 		Unique<Texture2D> texture = Texture2D::Create(path);
 		//if (_textures2D.find(name) != _textures2D.end()) return;
@@ -152,7 +152,7 @@ namespace Candle {
 	}
 
 
-	void AssetManager::LoadDefaultTextures()
+	void Assets::LoadDefaultTextures()
 	{
 		Unique<Texture2D> whiteTexture = Texture2D::Create(1, 1, 3);
 		uint32_t whiteTextureData = 0xffffff;

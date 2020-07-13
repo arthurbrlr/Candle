@@ -22,23 +22,23 @@ class GameScene : public Scene {
 		void Load() override 
 		{
 			Blueprint& player = ECS::New("playerBlueprint");
-			player.AddComponent<SpriteRenderer>(AssetManager::GetTexture2D("dodo"));
+			player.AddComponent<SpriteRenderer>(Assets::GetTexture2D("dodo"));
 			player.AddComponent<Transform>();
 			//player.AddScript<Gravity>();
 			player.AddScript<RandomMovementAgent>();
 
 			Blueprint& child = ECS::New("children");
-			child.AddComponent<SpriteRenderer>(AssetManager::GetTexture2D("tile")).SetColor({ 1, 1, 0, 1 });
+			child.AddComponent<SpriteRenderer>(Assets::GetTexture2D("tile")).SetColor({ 1, 1, 0, 1 });
 			child.AddComponent<Transform>( glm::vec3(1, 1, 0) );
 			player.AddChild(&child);
 
 			Blueprint& child2 = ECS::New("other_children");
-			child2.AddComponent<SpriteRenderer>(AssetManager::GetTexture2D("tile")).SetColor({ 1, 0, 1, 1 });
+			child2.AddComponent<SpriteRenderer>(Assets::GetTexture2D("tile")).SetColor({ 1, 0, 1, 1 });
 			child2.AddComponent<Transform>(glm::vec3(-1, -1, 0));
 			player.AddChild(&child2);
 
 			Blueprint& child_of_child = ECS::New("children_of_children");
-			child_of_child.AddComponent<SpriteRenderer>(AssetManager::GetTexture2D("tile")).SetColor({ 0, 0, 1, 1 });
+			child_of_child.AddComponent<SpriteRenderer>(Assets::GetTexture2D("tile")).SetColor({ 0, 0, 1, 1 });
 			child_of_child.AddComponent<Transform>(glm::vec3(-2, -1, 0));
 			child.AddChild(&child_of_child);
 			
@@ -49,7 +49,7 @@ class GameScene : public Scene {
 					std::string tileName = "tile_" + std::to_string(i) + "_" + std::to_string(j);
 					Blueprint& tile = ECS::New(tileName);
 					tile.AddComponent<Transform>(glm::vec3(i - worldSize / 2., j - worldSize / 2., 0), glm::vec3(0, 0, 0), glm::vec3(1.0, 0.5, 0.0));
-					tile.AddComponent<SpriteRenderer>(AssetManager::GetTexture2D("tile")).SetColor({ Noise::RandomInt(0, 255) / 255., Noise::RandomInt(0, 255) / 255., Noise::RandomInt(0, 255) / 255., 1 });
+					tile.AddComponent<SpriteRenderer>(Assets::GetTexture2D("tile")).SetColor({ Noise::RandomInt(0, 255) / 255., Noise::RandomInt(0, 255) / 255., Noise::RandomInt(0, 255) / 255., 1 });
 					tiles.AddChild(&tile);
 				}
 			}
@@ -104,7 +104,7 @@ class MenuScene : public Scene {
 		void Load() override 
 		{
 			Blueprint& menuBg = ECS::New("menuBg");
-			menuBg.AddComponent<SpriteRenderer>(AssetManager::GetTexture2D("tt"));
+			menuBg.AddComponent<SpriteRenderer>(Assets::GetTexture2D("tt"));
 
 		}
 

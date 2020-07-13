@@ -3,13 +3,13 @@
 #include "Candle/CandleCore.h"
 
 #include "ImguiLayer.h"
-#include "EditorCameraController.h"
+#include "EditorCamera.h"
 
 #include "Candle/Core/Time.h"
 #include "Candle/Layers/LayerStack.h"
 
 #include "Candle/PostProcessing/PostProcessing.h"
-#include "Candle/Assets/AssetManager.h"
+#include "Candle/Assets/Assets.h"
 #include "Candle/ECS/ECS.h"
 
 #include "Candle/Audio/AudioMixer.h"
@@ -56,7 +56,7 @@ namespace Candle {
 
 			static bool PlayGame() { return _eb.PlayGame; }
 			static bool RenderGameView() { return _eb.RenderGameView; }
-			static EditorCameraController & Controller() { return _cameraController; }
+			static EditorCamera & Controller() { return _cameraController; }
 			static RawCamera & Camera() { return _cameraController.GetCamera(); }
 			static void UseOrthograpic(bool state) { _cameraController.UseOrthographic(state); }
 
@@ -66,14 +66,14 @@ namespace Candle {
 			static Shared<FrameBuffer> _editorFrameBuffer;
 			static Shared<Texture2D> _editorTexture;
 
-			static EditorCameraController _cameraController;
+			static EditorCamera _cameraController;
 
 			static void BuildDockSpace();
 			static void ShowMainMenu();
 			static void ShowMasterWindow();
 			static void ShowEditorViewer();
 			static void ShowGameViewer();
-			static void ShowAssetManagerWindow();
+			static void ShowAssetsWindow();
 			static void ShowSceneHierarchy();
 			static void ShowComponentsOf(Blueprint* bp);
 			static void ShowPostProcessingPipeline();

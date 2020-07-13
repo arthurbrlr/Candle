@@ -24,7 +24,7 @@ namespace Candle {
 		_eb.ReadInputs = true;
 		ShowEditorViewer();
 
-		ShowAssetManagerWindow();
+		ShowAssetsWindow();
 		ShowSceneHierarchy();
 		ShowPostProcessingPipeline();
 			   		 	  	  	 
@@ -263,16 +263,16 @@ namespace Candle {
 
 		
 		/*
-			--- ShowAssetManagerWindow
+			--- ShowAssetsWindow
 			Display all the currently loaded assets and their related informations
 			e.g: Textures, Shaders, etc...
 		*/
-	void Editor::ShowAssetManagerWindow()
+	void Editor::ShowAssetsWindow()
 	{
-		ImGui::Begin("AssetManager");
+		ImGui::Begin("Assets");
 		{
 			if (ImGui::CollapsingHeader("Shaders Loaded")) {
-				for (auto& shader : Candle::AssetManager::GetAllShaders()) {
+				for (auto& shader : Candle::Assets::GetAllShaders()) {
 					if (shader.second == nullptr) continue;
 					std::string headerName = "Shader " + std::to_string(shader.second->GetID()) + " : " + shader.second->GetName();
 					if (ImGui::TreeNode(headerName.c_str())) {
@@ -280,7 +280,7 @@ namespace Candle {
 						std::string buttonname = "Reload: " + shader.second->GetName();
 						ImGui::SameLine();					
 						if (ImGui::Button(buttonname.c_str())) {
-							AssetManager::ReloadShader(shader.first);
+							Assets::ReloadShader(shader.first);
 						}
 
 						if (ImGui::TreeNode("Uniforms")) {
@@ -318,7 +318,7 @@ namespace Candle {
 			ImGui::Spacing();
 
 			if (ImGui::CollapsingHeader("Textures Loaded")) {
-				for (auto& texture : Candle::AssetManager::GetAllTexture2D()) {
+				for (auto& texture : Candle::Assets::GetAllTexture2D()) {
 					if (texture.second == nullptr) continue;
 					if (ImGui::TreeNode(texture.first.c_str())) {
 						ImGui::Text("Texture ID: %d", texture.second->GetID());
@@ -625,7 +625,7 @@ namespace Candle {
 	EditorVariables Editor::_eb;
 	Shared<FrameBuffer> Editor::_editorFrameBuffer = nullptr;
 	Shared<Texture2D> Editor::_editorTexture = nullptr;
-	EditorCameraController Editor::_cameraController;
+	EditorCamera Editor::_cameraController;
 
 
 	void Editor::Init()
@@ -637,7 +637,7 @@ namespace Candle {
 		_eb.HardwareVendor = std::string(reinterpret_cast<const char*>(Application::Get().GetWindow().GetContext().GetHardwareVendor()));
 		_eb.HardwareRenderer = std::string(reinterpret_cast<const char*>(Application::Get().GetWindow().GetContext().GetRenderer()));
 
-		_cameraController = EditorCameraController(CDL_APP_WIDTH, CDL_APP_HEIGHT);
+		_cameraController = EditorCamera(CDL_APP_WIDTH, CDL_APP_HEIGHT);
 
 		_editorFrameBuffer = FrameBuffer::Create({ Texture, DepthBuffer }, CDL_APP_WIDTH, CDL_APP_HEIGHT);
 		_editorTexture = Texture2D::Create(_editorFrameBuffer->Get(Texture), CDL_APP_WIDTH, CDL_APP_HEIGHT);

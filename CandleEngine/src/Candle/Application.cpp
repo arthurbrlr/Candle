@@ -8,7 +8,7 @@
 #include "Events/KeyEvent.h"
 
 #include "Editor/Editor.h"
-#include "Assets/AssetManager.h"
+#include "Assets/Assets.h"
 #include "ECS/ECS.h"
 #include "Renderer/Renderer.h"
 #include "PostProcessing/PostProcessing.h"
@@ -38,7 +38,7 @@ namespace Candle {
 		Input::Init();
 
 		Editor::Init();
-		AssetManager::Init();
+		Assets::Init();
 		SceneManagement::Init();
 
 		ECS::Init();
