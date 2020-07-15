@@ -28,7 +28,30 @@ namespace Candle {
 	{
 		std::string cameraType = _type == Orthographic ? "Orthographic Camera" : "Perspective Camera";
 
+		static float camWidth;
+		static float camHeight;
+
+		switch ( _type ) {
+			case Orthographic:
+				break;
+			case Perspective:
+				camWidth = (float)dynamic_cast<PerspectiveCamera*>( _camera.get() )->GetWidth();
+				camHeight = (float)dynamic_cast<PerspectiveCamera*>( _camera.get() )->GetHeight();
+				break;
+		}
+
 		ImGui::Text(cameraType.c_str());
+		ImGui::InputFloat("Width", &camWidth);
+		ImGui::InputFloat("Height", &camHeight);
+
+		switch ( _type ) {
+			case Orthographic:
+				break;
+			case Perspective:
+				dynamic_cast<PerspectiveCamera*>( _camera.get() )->SetWidth(camWidth);
+				dynamic_cast<PerspectiveCamera*>( _camera.get() )->SetHeight(camHeight);
+				break;
+		}
 	}
 
 

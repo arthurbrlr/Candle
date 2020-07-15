@@ -3,7 +3,7 @@
 #include <Candle.h>
 using namespace Candle;
 
-class Gravity : public Script {
+class PlayerScript : public Script {
 
 	public:
 
@@ -18,7 +18,6 @@ class Gravity : public Script {
 
 		void OnUpdate() override
 		{
-			return;
 			Transform& transform = _blueprint->GetComponent<Transform>();
 
 			if (Input::IsKeyPressed(CDL_KEY_SPACE) && grounded) {

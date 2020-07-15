@@ -16,7 +16,7 @@ namespace Candle {
 		public:
 			virtual ~RawCamera() {}
 
-			inline glm::mat4& GetProjection() { return _projection; }
+			glm::mat4& GetProjection();
 
 		protected:
 			void UpdateViewMatrix();
@@ -28,9 +28,12 @@ namespace Candle {
 	class CANDLE_API OrthographicCamera : public RawCamera {
 
 		public:
-			OrthographicCamera() {}
+			OrthographicCamera();
 			OrthographicCamera(double left, double right, double bottom, double top);
 			void SetProjection(double left, double right, double bottom, double top);
+
+		private:
+			double _left, _right, _bottom, _top;
 
 	};
 
@@ -38,10 +41,17 @@ namespace Candle {
 	class CANDLE_API PerspectiveCamera : public RawCamera {
 
 		public:
-			PerspectiveCamera() {}
+			PerspectiveCamera();
 			PerspectiveCamera(double width, double height);
 			void SetProjection(double width, double height);
+			void SetWidth(double newWidth);
+			void SetHeight(double newHeight);
 
+			double GetWidth();
+			double GetHeight();
+
+		private:
+			double _width, _height;
 	};
 
 

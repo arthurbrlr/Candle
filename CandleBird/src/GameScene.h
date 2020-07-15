@@ -9,7 +9,6 @@ using namespace Candle;
 #include "Scripts/RandomMovementAgent.h"
 
 static uint32_t gameSceneID;
-static uint32_t menuSceneID;
 
 class GameScene : public Scene {
 
@@ -24,8 +23,7 @@ class GameScene : public Scene {
 			Blueprint& player = ECS::New("playerBlueprint");
 			player.AddComponent<SpriteRenderer>(Assets::GetTexture2D("dodo"));
 			player.AddComponent<Transform>();
-			//player.AddScript<Gravity>();
-			player.AddScript<RandomMovementAgent>();
+			player.AddScript<PlayerScript>();
 
 			Blueprint& child = ECS::New("children");
 			child.AddComponent<SpriteRenderer>(Assets::GetTexture2D("tile")).SetColor({ 1, 1, 0, 1 });
@@ -56,17 +54,14 @@ class GameScene : public Scene {
 
 			Blueprint& master = ECS::New("gameMaster");
 			master.AddComponent<Transform>(glm::vec3(0, 0, 5));
-			//master.AddComponent<CameraHandler>(CameraType::Perspective, CDL_APP_WIDTH, CDL_APP_HEIGHT).SetAsMainCamera(true);
-			master.AddComponent<CameraHandler>(CameraType::Orthographic, 10 * 16. / 9., 10).SetAsMainCamera(true);
-			master.AddScript<MouseClick>(&player);
+			master.AddComponent<CameraHandler>(CameraType::Perspective, CDL_APP_WIDTH, CDL_APP_HEIGHT).SetAsMainCamera(true);
+			//master.AddComponent<CameraHandler>(CameraType::Orthographic, 10 * 16. / 9., 10).SetAsMainCamera(true);
+			//master.AddScript<MouseClick>(&player);
 		}
 
 
 		void OnUpdate() override
 		{
-			if (Input::IsKeyPressed(CDL_KEY_N))
-				SceneManagement::LoadScene(menuSceneID);
-
 			static double timer = 0;
 			timer -= Time::FixedDeltaTime();
 
@@ -89,30 +84,5 @@ class GameScene : public Scene {
 
 	private:
 		
-
-};
-
-
-class MenuScene : public Scene {
-
-	public:
-		MenuScene() : Scene()
-		{
-			menuSceneID = _sceneID;
-		}
-
-		void Load() override 
-		{
-			Blueprint& menuBg = ECS::New("menuBg");
-			menuBg.AddComponent<SpriteRenderer>(Assets::GetTexture2D("tt"));
-
-		}
-
-
-		void OnUpdate() override
-		{
-			if (Input::IsKeyPressed(CDL_KEY_P))
-				SceneManagement::LoadScene(gameSceneID);
-		}
 
 };
