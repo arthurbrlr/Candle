@@ -16,7 +16,7 @@ namespace Candle {
 	};
 
 
-	class CANDLE_API PostProcessingNode : public Node {
+	class PostProcessingNode : public Node {
 
 		public:
 

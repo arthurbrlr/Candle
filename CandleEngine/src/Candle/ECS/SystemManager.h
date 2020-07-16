@@ -5,7 +5,7 @@
 
 namespace Candle {
 
-	class CANDLE_API SystemManager {
+	class SystemManager {
 
 		public:
 			static void Update();

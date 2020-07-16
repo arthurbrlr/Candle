@@ -7,7 +7,7 @@
 
 namespace Candle {
 
-	class CANDLE_API AnimationController : public Component {
+	class AnimationController : public Component {
 
 		public:
 			AnimationController();

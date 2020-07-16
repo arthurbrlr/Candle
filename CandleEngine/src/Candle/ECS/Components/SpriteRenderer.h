@@ -38,7 +38,7 @@ namespace Candle {
 	};
 
 
-	class CANDLE_API SpriteRenderer : public Component {
+	class SpriteRenderer : public Component {
 
 		public:
 			SpriteRenderer(const Shared<Texture2D>& texture = nullptr); /* Constructor */

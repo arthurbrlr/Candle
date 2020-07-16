@@ -9,7 +9,7 @@
 
 namespace Candle {
 
-	class CANDLE_API AnimationSystem : public System {
+	class AnimationSystem : public System {
 
 		public:
 			

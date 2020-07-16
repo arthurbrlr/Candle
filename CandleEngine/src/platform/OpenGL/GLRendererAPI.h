@@ -4,7 +4,7 @@
 
 namespace Candle {
 
-	class CANDLE_API GLRendererAPI : public RendererAPI {
+	class GLRendererAPI : public RendererAPI {
 
 		public:
 			GLRendererAPI() {}

@@ -20,7 +20,7 @@ namespace Candle {
 	};
 
 
-	class CANDLE_API Ray {
+	class Ray {
 
 		public:
 			

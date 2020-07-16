@@ -42,7 +42,7 @@ namespace Candle {
 		bool ReadInputs = false;
 	};
 
-	class CANDLE_API Editor {
+	class Editor {
 
 		public:
 			static void Init(); /* Initialise the Editor */
@@ -78,6 +78,8 @@ namespace Candle {
 			static void ShowComponentsOf(Blueprint* bp);
 			static void ShowPostProcessingPipeline();
 			static void ShowRendererWindow();
+
+			static void ShowInformationToolTip(const std::string& description);
 
 	};
 

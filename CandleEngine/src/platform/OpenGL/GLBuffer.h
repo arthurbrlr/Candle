@@ -4,7 +4,7 @@
 
 namespace Candle {
 
-	class CANDLE_API GLVertexBuffer : public VertexBuffer {
+	class GLVertexBuffer : public VertexBuffer {
 
 		public:
 			GLVertexBuffer(uint32_t size);
@@ -28,7 +28,7 @@ namespace Candle {
 	};
 
 
-	class CANDLE_API GLIndexBuffer : public IndexBuffer {
+	class GLIndexBuffer : public IndexBuffer {
 		
 		public:
 			GLIndexBuffer(uint32_t* indices, uint32_t count);

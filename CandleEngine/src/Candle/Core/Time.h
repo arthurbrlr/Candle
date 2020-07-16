@@ -5,7 +5,7 @@
 
 namespace Candle {
 
-	class CANDLE_API Time {
+	class Time {
 
 		public:	
 			static void Start();

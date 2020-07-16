@@ -8,7 +8,7 @@
 
 namespace Candle {
 
-	class CANDLE_API Blueprint {
+	class Blueprint {
 
 		public:	
 			Blueprint();

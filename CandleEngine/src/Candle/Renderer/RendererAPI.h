@@ -7,7 +7,7 @@
 
 namespace Candle {
 
-	class CANDLE_API RendererAPI {
+	class RendererAPI {
 	
 		public:
 			enum class API {

@@ -16,6 +16,7 @@ class GameScene : public Scene {
 		GameScene() : Scene()
 		{
 			gameSceneID = _sceneID;
+			_sceneName = "GameScene";
 		}
 
 		void Load() override 

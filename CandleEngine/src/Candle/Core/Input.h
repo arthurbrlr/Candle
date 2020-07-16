@@ -7,7 +7,7 @@
 
 namespace Candle {
 
-	class CANDLE_API Input {
+	class Input {
 
 		public:
 			static void Init();

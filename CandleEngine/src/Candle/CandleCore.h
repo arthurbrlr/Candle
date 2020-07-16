@@ -10,9 +10,9 @@ enum SystemEnum {
 	static SystemEnum SYSTEM = WIN64;
 	#ifdef CANDLE_DYNAMIC_LINK
 		#ifdef CANDLE_BUILD_DLL
-			#define	CANDLE_API _declspec(dllexport)
+			#define CANDLE_API _declspec(dllexport)
 		#else
-			#define	CANDLE_API _declspec(dllimport)
+			#define CANDLE_API _declspec(dllimport)
 		#endif
 	#else
 		#define CANDLE_API

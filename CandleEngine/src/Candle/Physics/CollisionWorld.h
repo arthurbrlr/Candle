@@ -4,7 +4,7 @@
 
 namespace Candle {
 
-	class CANDLE_API CollisionWorld {
+	class CollisionWorld {
 		
 		public:
 			static CollisionWorld& Get() { return *_instance; }

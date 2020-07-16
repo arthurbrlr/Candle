@@ -19,7 +19,7 @@ namespace Candle {
 			: _title(title), _width(width), _height(height) {}
 	};
 
-	class CANDLE_API Window {
+	class Window {
 
 		public:
 			using EventCallbackFunction = std::function<void(Event&)>;

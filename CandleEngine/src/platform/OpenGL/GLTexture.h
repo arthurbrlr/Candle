@@ -7,7 +7,7 @@
 
 namespace Candle {
 
-	class CANDLE_API GLTexture2D : public Texture2D {
+	class GLTexture2D : public Texture2D {
 
 		public:	
 			GLTexture2D(const std::string & filePath);

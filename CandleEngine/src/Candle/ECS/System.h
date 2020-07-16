@@ -5,7 +5,7 @@
 
 namespace Candle {
 
-	class CANDLE_API System {
+	class System {
 
 		public:
 			virtual ~System() {}

@@ -20,7 +20,7 @@ namespace Candle {
 		}
 	};
 
-	class CANDLE_API ECS {
+	class ECS {
 	
 		public:
 

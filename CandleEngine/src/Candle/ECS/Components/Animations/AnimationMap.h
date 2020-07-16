@@ -5,7 +5,7 @@
 
 namespace Candle {
 
-	class CANDLE_API AnimationMap {
+	class AnimationMap {
 
 
 

@@ -7,7 +7,7 @@
 
 namespace Candle {
 
-	class CANDLE_API Noise {
+	class Noise {
 
 		public:
 			static double Random()

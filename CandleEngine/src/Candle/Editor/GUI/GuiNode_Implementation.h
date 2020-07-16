@@ -5,7 +5,7 @@
 
 namespace Candle {
 
-	class CANDLE_API GuiNode_Implementation {
+	class GuiNode_Implementation {
 
 		public:	
 			GuiNode_Implementation(const ImVec2 & entryPoint, const ImVec2 & outputPoint, int width, const std::string & text, ImU32 color = IM_COL32(50, 70, 120, 255))

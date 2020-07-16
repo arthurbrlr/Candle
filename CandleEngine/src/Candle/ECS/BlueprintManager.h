@@ -6,7 +6,7 @@
 
 namespace Candle {
 
-	class CANDLE_API BlueprintManager {
+	class BlueprintManager {
 
 		public:
 			static Blueprint& Add(const std::string & name);
@@ -40,7 +40,7 @@ namespace Candle {
 	};
 
 
-	class CANDLE_API ScriptManager {
+	class  ScriptManager {
 
 		public:
 			static void Update();

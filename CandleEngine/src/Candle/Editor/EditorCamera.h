@@ -9,7 +9,7 @@
 
 namespace Candle {
 
-	class CANDLE_API EditorCamera {
+	class EditorCamera {
 
 		public:
 			EditorCamera() {}

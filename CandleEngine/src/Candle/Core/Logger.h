@@ -8,7 +8,7 @@
 
 namespace Candle {
 
-	class CANDLE_API Logger
+	class Logger
 	{
 		public:
 			Logger();

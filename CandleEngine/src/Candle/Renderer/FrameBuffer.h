@@ -11,7 +11,7 @@ namespace Candle {
 		DepthBuffer
 	};
 
-	class CANDLE_API FrameBuffer {
+	class FrameBuffer {
 
 		public:
 			virtual ~FrameBuffer() {}

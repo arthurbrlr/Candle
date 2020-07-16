@@ -12,7 +12,7 @@ namespace Candle {
 	// Séparer AudioEmitter (source) et le buffer (buffer) puis créer une classe AudioBuffer
 	// De cette façon on peut avoir plusieurs éméteurs qui utilisent le même son
 
-	class CANDLE_API ALAudioEmitter : public AudioEmitter {
+	class ALAudioEmitter : public AudioEmitter {
 
 		public:
 			ALAudioEmitter(const std::string & filePath);

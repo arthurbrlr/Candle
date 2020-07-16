@@ -10,7 +10,7 @@ namespace Candle {
 		OpenAL
 	};
 
-	class CANDLE_API AudioMixer {
+	class AudioMixer {
 
 		public:
 			virtual ~AudioMixer() {}
@@ -33,7 +33,7 @@ namespace Candle {
 	};
 
 
-	class CANDLE_API Audio {
+	class Audio {
 
 		public:
 			static void Init() { _audioAPI->Init(); }

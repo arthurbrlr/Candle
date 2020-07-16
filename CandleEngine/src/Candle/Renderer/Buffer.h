@@ -76,7 +76,7 @@ namespace Candle {
 	};
 
 
-	class CANDLE_API BufferLayout {
+	class BufferLayout {
 
 		public:
 			BufferLayout() {}
@@ -101,7 +101,7 @@ namespace Candle {
 
 	};
 
-	class CANDLE_API VertexBuffer {
+	class VertexBuffer {
 
 		public:
 			virtual ~VertexBuffer () {}
@@ -119,7 +119,7 @@ namespace Candle {
 	};
 
 
-	class CANDLE_API IndexBuffer {
+	class IndexBuffer {
 
 	public:
 		virtual ~IndexBuffer () {}

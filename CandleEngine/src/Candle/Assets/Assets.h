@@ -11,7 +11,7 @@
 
 namespace Candle {
 
-	class CANDLE_API Assets {
+	class Assets {
 
 		public:
 			Assets() {}

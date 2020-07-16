@@ -4,7 +4,7 @@
 
 namespace Candle {
 
-	class CANDLE_API WindowResizeEvent : public Event {
+	class WindowResizeEvent : public Event {
 
 		public:
 			WindowResizeEvent(uint32_t width, uint32_t height)
@@ -28,7 +28,7 @@ namespace Candle {
 	};
 
 
-	class CANDLE_API WindowClosedEvent : public Event {
+	class WindowClosedEvent : public Event {
 		
 		public:
 			WindowClosedEvent() {}
@@ -38,7 +38,7 @@ namespace Candle {
 	};
 
 
-	class CANDLE_API AppTickEvent : public Event {
+	class AppTickEvent : public Event {
 
 		public:
 			AppTickEvent() {}
@@ -48,7 +48,7 @@ namespace Candle {
 	};
 
 
-	class CANDLE_API AppUpdateEvent : public Event {
+	class AppUpdateEvent : public Event {
 
 		public:
 			AppUpdateEvent() {}
@@ -58,7 +58,7 @@ namespace Candle {
 	};
 
 
-	class CANDLE_API AppRenderEvent : public Event {
+	class AppRenderEvent : public Event {
 
 		public:
 			AppRenderEvent() {}

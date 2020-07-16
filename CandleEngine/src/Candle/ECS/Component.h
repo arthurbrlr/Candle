@@ -35,7 +35,7 @@ namespace Candle {
 	typedef std::bitset<MaxComponents> ComponentBitSet;
 	typedef std::array<Component*, MaxComponents> ComponentArray;
 
-	class CANDLE_API Component {
+	class Component {
 
 		public:
 			virtual ~Component() {}

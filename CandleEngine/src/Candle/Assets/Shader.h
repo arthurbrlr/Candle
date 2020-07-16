@@ -5,7 +5,7 @@
 
 namespace Candle {
 
-	class CANDLE_API Shader {
+	class Shader {
 
 		public:
 			Shader() {}

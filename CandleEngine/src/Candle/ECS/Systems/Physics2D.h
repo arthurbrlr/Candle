@@ -5,7 +5,7 @@
 
 namespace Candle {
 
-	class CANDLE_API Physics2D : public System {
+	class Physics2D : public System {
 
 		public:
 

@@ -7,7 +7,7 @@ namespace Candle {
 
 	class Blueprint;
 	
-	class CANDLE_API Script {
+	class Script {
 
 		public:
 			virtual ~Script() {}

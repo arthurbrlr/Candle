@@ -6,7 +6,7 @@
 
 namespace Candle {
 
-	class CANDLE_API Model {
+	class Model {
 
 		public:
 			Model() {}

@@ -11,7 +11,7 @@ namespace Candle {
 	};
 
 
-	class CANDLE_API RawCamera {
+	class RawCamera {
 
 		public:
 			virtual ~RawCamera() {}
@@ -25,7 +25,7 @@ namespace Candle {
 	};
 
 
-	class CANDLE_API OrthographicCamera : public RawCamera {
+	class OrthographicCamera : public RawCamera {
 
 		public:
 			OrthographicCamera();
@@ -41,7 +41,7 @@ namespace Candle {
 	};
 
 
-	class CANDLE_API PerspectiveCamera : public RawCamera {
+	class PerspectiveCamera : public RawCamera {
 
 		public:
 			PerspectiveCamera();

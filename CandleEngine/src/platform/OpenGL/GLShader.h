@@ -8,7 +8,7 @@
 
 namespace Candle {
 
-	class CANDLE_API GLShader : public Shader {
+	class GLShader : public Shader {
 
 		public:
 			GLShader(const std::string & shaderPath);

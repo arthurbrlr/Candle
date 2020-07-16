@@ -32,7 +32,7 @@ namespace Candle {
 
 	#define BIND_EVENT_FUNCTION(x) std::bind(&x, this, std::placeholders::_1)
 
-	class CANDLE_API Event {
+	class Event {
 		friend class EventDispatcher;
 
 		public:

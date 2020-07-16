@@ -11,7 +11,7 @@
 
 namespace Candle {
 
-	class CANDLE_API Application
+	class Application
 	{
 		public:	
 			Application				(const std::string & appName = "Candle Application");

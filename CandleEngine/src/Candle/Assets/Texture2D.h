@@ -4,7 +4,7 @@
 
 namespace Candle {
 
-	class CANDLE_API Texture2D : public Texture {
+	class Texture2D : public Texture {
 
 		public:
 			static Unique<Texture2D> Create(const std::string & filePath);
@@ -13,7 +13,7 @@ namespace Candle {
 	};
 
 
-	class CANDLE_API TexturePart {
+	class TexturePart {
 
 		public:
 			TexturePart(const Shared<Texture2D> & texture, const glm::vec2 & min, const glm::vec2 & max);

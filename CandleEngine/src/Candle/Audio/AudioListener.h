@@ -5,7 +5,7 @@
 
 namespace Candle {
 
-	class CANDLE_API AudioListener {
+	class AudioListener {
 
 		public:
 			AudioListener() 

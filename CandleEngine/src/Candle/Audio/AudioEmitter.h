@@ -7,7 +7,7 @@
 
 namespace Candle {
 
-	class CANDLE_API AudioEmitter {
+	class AudioEmitter {
 
 		public:
 			virtual ~AudioEmitter() {}

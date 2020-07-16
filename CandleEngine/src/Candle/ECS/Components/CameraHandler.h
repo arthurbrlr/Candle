@@ -8,7 +8,7 @@
 
 namespace Candle {
 
-	class CANDLE_API CameraHandler : public Component {
+	class CameraHandler : public Component {
 
 		public:
 			CameraHandler(CameraType type, double horizontalSize, double verticalSize);

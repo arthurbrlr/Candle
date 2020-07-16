@@ -4,7 +4,7 @@
 
 namespace Candle {
 
-	class CANDLE_API RendererLayers {
+	class RendererLayers {
 
 		// Use that shit in the renderer plz
 

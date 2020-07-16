@@ -14,7 +14,7 @@ namespace Candle {
 		NONE, HOVERED, L_CLICK, R_CLICK
 	};
 
-	class CANDLE_API Gui {
+	class Gui {
 
 		public:
 			static GuiElementState GuiNode(const ImVec2& mousePosition, const ImVec2& entryPoint, const ImVec2& outputPoint, int width, const std::string& text, ImU32 color = IM_COL32(50, 70, 120, 255))

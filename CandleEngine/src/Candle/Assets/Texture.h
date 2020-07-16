@@ -4,7 +4,7 @@
 
 namespace Candle {
 
-	class CANDLE_API Texture {
+	class Texture {
 
 		public:
 			virtual ~Texture() {}

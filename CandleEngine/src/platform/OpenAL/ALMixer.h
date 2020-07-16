@@ -8,7 +8,7 @@
 
 namespace Candle {
 
-	class CANDLE_API ALMixer : public AudioMixer {
+	class ALMixer : public AudioMixer {
 	
 		public:
 			ALMixer() {}

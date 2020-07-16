@@ -4,7 +4,7 @@
 
 namespace Candle {
 
-	class CANDLE_API GraphicsContext {
+	class GraphicsContext {
 
 		public:
 

@@ -8,7 +8,7 @@
 
 namespace Candle {
 
-	class CANDLE_API GLContext : public GraphicsContext {
+	class GLContext : public GraphicsContext {
 
 		public:
 			GLContext(GLFWwindow* window);

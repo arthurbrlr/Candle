@@ -44,15 +44,9 @@ class RenderSystem : public Candle::System {
 
 			if (bps.size() == 0) return;
 
-			//static int numberOfQuadsDraw = 0;
-			//static int previousNumberOfQuadsDraw = 0;
 			double t1 = Time::Milliseconds();
 
-			//previousNumberOfQuadsDraw = Candle::Renderer2D::GetStats()->OpaqueQuads;
-			//numberOfQuadsDraw = bps.size();
-
 			Candle::Renderer2D::BeginScene();
-			//if ( previousNumberOfQuadsDraw == numberOfQuadsDraw ) goto endScene;
 			Candle::Renderer2D::GetStats()->Reset();
 
 				/* Sprite Rendering */
@@ -78,7 +72,6 @@ class RenderSystem : public Candle::System {
 					
 			}
 
-			//endScene:
 
 				// Sprite part test
 			Candle::SpritePart part1 = { "part1" , {0, 1, 1}, { 0, 1, 0, 1 }, { 0.1, 0.1 } };
@@ -91,7 +84,7 @@ class RenderSystem : public Candle::System {
 				part3
 			};
 
-			//Candle::Renderer2D::DrawPartialSprite(Transform(), Assets::GetTexture2D("dodo"), parts, true);
+			Candle::Renderer2D::DrawPartialSprite(Transform(), Assets::GetTexture2D("dodo"), parts, false);
 
 
 			Candle::Renderer2D::EndScene();

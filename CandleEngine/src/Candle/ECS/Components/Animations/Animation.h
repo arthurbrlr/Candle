@@ -12,7 +12,7 @@ namespace Candle {
 	class AnimationController;
 
 	// List of keyframes
-	class CANDLE_API Animation {
+	class Animation {
 
 		public:
 			Animation(const std::string& iTrigger, const std::vector<Keyframe> iKeyframes);

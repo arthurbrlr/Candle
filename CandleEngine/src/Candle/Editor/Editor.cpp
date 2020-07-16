@@ -2,6 +2,7 @@
 #include "Editor.h"
 
 #include "Candle/Core/Input.h"
+#include "Candle/Scenes/EmptyScene.h"
 #include "Candle/Scenes/SceneManagement.h"
 #include "Candle/Renderer/CameraManagement.h"
 
@@ -68,10 +69,7 @@ namespace Candle {
 		if ( ImGui::BeginMainMenuBar() ) {
 			if ( ImGui::BeginMenu("File") ) {
 
-				{
-					ImGui::MenuItem("(dummy menu)", NULL, false, false);
-					if ( ImGui::MenuItem("New") ) {}
-					
+				{			
 					if ( ImGui::BeginMenu("Open", "Ctrl+O") ) {
 						bool endMenu = false;
 						for ( const auto& entry : std::filesystem::recursive_directory_iterator("D:/_code/Candle/CandleBird/res") ) {
@@ -101,6 +99,23 @@ namespace Candle {
 						ImGui::EndMenu();
 					}
 
+					if ( ImGui::MenuItem("New Scene") ) {
+						Scene* newScene = new EmptyScene();
+						uint32_t newSceneID = newScene->GetID();
+						SceneManagement::AddScene(newScene);
+						SceneManagement::LoadScene(newSceneID);
+					}
+
+					if ( ImGui::BeginMenu("Open Scene") ) {
+						for ( auto scene : SceneManagement::AllScenes() ) {
+							if ( ImGui::MenuItem(scene.second->GetName().c_str() + scene.first, "", false, scene.first != SceneManagement::CurrentScene()->GetID()) ) {
+								SceneManagement::LoadScene(scene.first);
+							}
+						}
+						ImGui::EndMenu();
+					}
+
+					/*
 					if ( ImGui::BeginMenu("Open Recent") ) {
 						ImGui::MenuItem("fish_hat.c");
 						ImGui::MenuItem("fish_hat.inl");
@@ -118,11 +133,12 @@ namespace Candle {
 					}
 					if ( ImGui::MenuItem("Save", "Ctrl+S") ) {}
 					if ( ImGui::MenuItem("Save As..") ) {}
+					*/
 				}
 
 				ImGui::EndMenu();
 			}
-
+			/*
 			if ( ImGui::BeginMenu("Edit") ) {
 				if ( ImGui::MenuItem("Undo", "CTRL+Z") ) {}
 				if ( ImGui::MenuItem("Redo", "CTRL+Y", false, false) ) {}  // Disabled item
@@ -132,6 +148,7 @@ namespace Candle {
 				if ( ImGui::MenuItem("Paste", "CTRL+V") ) {}
 				ImGui::EndMenu();
 			}
+			*/
 			ImGui::EndMainMenuBar();
 		}
 	}
@@ -584,12 +601,17 @@ namespace Candle {
 		{
 			static int currentEditorCamera = (int)_cameraController.UseOrthographic();
 			const char* editorCameras[2] = { "Perspective", "Orthographic" };
-			ImGui::Combo("Camera Projection", &currentEditorCamera, editorCameras, IM_ARRAYSIZE(editorCameras));
+
+			ImGui::Combo("Editor Camera", &currentEditorCamera, editorCameras, IM_ARRAYSIZE(editorCameras));
 			_cameraController.UseOrthographic((bool)currentEditorCamera);
 
 			if ( ImGui::Button("Reset Camera View") ) {
 				_cameraController.ResetView();
 			}
+
+			ImGui::SameLine();
+			ShowInformationToolTip("Right click to move (orthographic) / rotate (perspective) the camera, use the arrow keys to move in 3D!");
+
 
 			ImGui::Spacing();
 			ImGui::Checkbox("Draw Wireframe", &_eb.DrawLines);
@@ -667,6 +689,19 @@ namespace Candle {
 	void Editor::Clear()
 	{
 		_imguiLayer->OnDetach();
+	}
+
+
+	void Editor::ShowInformationToolTip(const std::string& description)
+	{
+		ImGui::TextDisabled("(?)");
+		if ( ImGui::IsItemHovered() ) {
+			ImGui::BeginTooltip();
+			ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+			ImGui::TextUnformatted(description.c_str());
+			ImGui::PopTextWrapPos();
+			ImGui::EndTooltip();
+		}
 	}
 
 

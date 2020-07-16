@@ -62,6 +62,7 @@
     <ClInclude Include="src\Candle\Assets\Texture.h" />
     <ClInclude Include="src\Candle\Renderer\RendererLayers.h" />
     <ClInclude Include="src\Candle\Renderer\VertexArray.h" />
+    <ClInclude Include="src\Candle\Scenes\EmptyScene.h" />
     <ClInclude Include="src\Candle\Scenes\Scene.h" />
     <ClInclude Include="src\Candle\Scenes\SceneManagement.h" />
     <ClInclude Include="src\platform\OpenAL\ALMixer.h" />

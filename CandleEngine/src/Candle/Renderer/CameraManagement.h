@@ -6,7 +6,7 @@
 
 namespace Candle {
 
-	class CANDLE_API CameraManagement {
+	class CameraManagement {
 
 		public:
 			CameraManagement(const CameraManagement&) = delete;

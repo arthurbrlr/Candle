@@ -7,7 +7,7 @@
 
 namespace Candle {
 
-	class CANDLE_API VertexArray {
+	class VertexArray {
 
 		public:
 			virtual ~VertexArray() {}

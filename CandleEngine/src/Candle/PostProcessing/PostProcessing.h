@@ -5,7 +5,7 @@
 
 namespace Candle {
 
-	class CANDLE_API PostProcessingPipeline : public Graph<PostProcessingNode> {
+	class PostProcessingPipeline : public Graph<PostProcessingNode> {
 
 		public:
 			void Init() override;
@@ -32,7 +32,7 @@ namespace Candle {
 	};
 
 
-	class CANDLE_API PostProcessing {
+	class PostProcessing {
 
 		public:
 			static void Init() { _pipeline->Init(); _pipeline->Build(); }

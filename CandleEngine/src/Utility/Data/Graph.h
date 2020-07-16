@@ -12,7 +12,7 @@ namespace Candle {
 	};
 
 
-	class CANDLE_API Node {
+	class Node {
 	public:
 		virtual ~Node() {}
 
@@ -26,7 +26,7 @@ namespace Candle {
 
 
 	template<class GraphNode>
-	class CANDLE_API Graph {
+	class Graph {
 
 	public:
 		virtual ~Graph() {}

@@ -4,7 +4,7 @@
 
 namespace Candle {
 
-	class CANDLE_API RenderCommands {
+	class RenderCommands {
 
 		public:
 			inline static void Init() { _rendererAPI->Init(); }

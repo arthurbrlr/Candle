@@ -4,9 +4,9 @@
 #include "Candle/Events/Event.h"
 
 namespace Candle {
-	class CANDLE_API Application;
+	class Application;
 
-	class CANDLE_API Layer {
+	class Layer {
 
 		public:
 			Layer(const std::string & name = "Layer");

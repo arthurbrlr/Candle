@@ -4,7 +4,7 @@
 
 namespace Candle {
 
-	class CANDLE_API AudioBuffer {
+	class AudioBuffer {
 
 		public:
 			virtual ~AudioBuffer() {}
