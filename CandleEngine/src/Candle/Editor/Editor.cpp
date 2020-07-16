@@ -516,11 +516,29 @@ namespace Candle {
 				ImGui::OpenPopup("EditorAddComponentPopup");
 			}
 
+			if ( ImGui::Button("Add Script") ) {
+				ImGui::OpenPopup("EditorAddScriptPopup");
+			}
+
 			if (ImGui::BeginPopup("EditorAddComponentPopup")) {
 			
 				if (ImGui::MenuItem("Transform", "", false, !bp->HasComponent<Transform>())) bp->AddComponent<Transform>();
 				if (ImGui::MenuItem("SpriteRenderer", "", false, !bp->HasComponent<SpriteRenderer>())) bp->AddComponent<SpriteRenderer>();
 				if (ImGui::MenuItem("AnimationController", "", false, !bp->HasComponent<AnimationController>())) bp->AddComponent<AnimationController>();
+				if (ImGui::MenuItem("CameraHandler", "", false, !bp->HasComponent<CameraHandler>())) bp->AddComponent<CameraHandler>();
+				ImGui::EndPopup();
+			}
+
+			if ( ImGui::BeginPopup("EditorAddScriptPopup") ) {
+
+				for ( auto it = ScriptManager::get().begin(); it != ScriptManager::get().end(); it++ ) {
+					script_creator func = *it;
+					Script* _ptr = func();
+					//Unique<Script> ptr(_ptr);
+					if ( ImGui::MenuItem(_ptr->GetName().c_str(), "") ) {
+						bp->AddScript(_ptr);
+					}
+				}
 				ImGui::EndPopup();
 			}
 

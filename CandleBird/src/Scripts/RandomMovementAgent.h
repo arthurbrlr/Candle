@@ -6,6 +6,10 @@ using namespace Candle;
 class RandomMovementAgent : public Script {
 
 	public:
+		RandomMovementAgent()
+		{
+			_name = __FILE__;
+		}
 
 		void OnAwake() override
 		{
@@ -40,3 +44,5 @@ class RandomMovementAgent : public Script {
 		float refresh = 0;
 		glm::vec3 direction;
 };
+
+AUTO_REGISTER_SCRIPT(RandomMovementAgent)

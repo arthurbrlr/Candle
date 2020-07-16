@@ -8,6 +8,14 @@
 
 namespace Candle {
 
+	CameraHandler::CameraHandler()
+		: _type(Perspective)
+	{
+		_name = "CameraHandler";
+		_camera = std::make_unique<PerspectiveCamera>(1920, 1080);
+	}
+
+
 	CameraHandler::CameraHandler(CameraType type, double horizontalSize, double verticalSize)
 	{
 		_name = "CameraHandler";
@@ -71,6 +79,11 @@ namespace Candle {
 				dynamic_cast<PerspectiveCamera*>( _camera.get() )->SetHeight(camHeight);
 				break;
 		}
+
+		static bool isMain;
+		isMain = CameraManagement::GetMainCameraID() == _blueprint->GetID();
+		ImGui::Checkbox("Main Camera", &isMain);
+		if ( isMain ) CameraManagement::RegisterMainCamera(_blueprint->GetID());
 	}
 
 

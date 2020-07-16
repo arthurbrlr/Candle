@@ -5,25 +5,22 @@ using namespace Candle;
 
 #include "../TestECS.h"
 
-#define __DeleteDefaultInstance(x) x() = delete;
-#define __VarImpl(type, varName)							 \
-		type varName;										 \
-		type & Get##varName() { return varName; }			 \
-		type Set##varName(type newVar) { varName = newVar; } \
-
 class MouseClick : public Script {
 
 	public:
-		__DeleteDefaultInstance(MouseClick)
+		MouseClick()
+		{
+			_name = __FILE__;
+		}
 
 		MouseClick(Blueprint* player)
 			: _playerBlueprint(player)
 		{
+			_name = __FILE__;
 		}
 
 		void OnAwake() override
 		{
-			_name = "MouseClick";
 		}
 
 
@@ -57,11 +54,13 @@ class MouseClick : public Script {
 
 	private:	
 
-		__VarImpl(int, x)
-		__VarImpl(glm::vec3, _mPos)
-		__VarImpl(Blueprint*, _playerBlueprint)
+		int _x;
+		glm::vec3 _mPos;
+		Blueprint* _playerBlueprint;
 
 		//glm::vec3 _mPos = glm::vec3(0);
 		//Blueprint* _playerBlueprint = nullptr;
 
 };
+
+AUTO_REGISTER_SCRIPT(MouseClick)

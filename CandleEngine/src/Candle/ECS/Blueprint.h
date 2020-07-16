@@ -41,6 +41,18 @@ namespace Candle {
 			}
 
 
+			template<typename T> T& AddScript(T* script)
+			{
+				script->AttachToBlueprint(this);
+				Unique<Script> scrPtr(script);
+				_scripts.emplace_back(std::move(scrPtr));
+
+				script->OnAwake();
+
+				return *script;
+			}
+
+
 			inline const void Awake() { _isAwake = true; }
 			inline const void Sleep() { _isAwake = false; }
 			inline const void Destroy() { _isAlive = false; }
@@ -60,6 +72,18 @@ namespace Candle {
 				auto compPointer = _compArray[id];
 				return static_cast<Component*>(compPointer);
 			}
+
+			/*
+			template<typename T> bool HasScript() const  // Doesn't work
+			{ 
+				T temp = T();
+				for ( auto& it : _scripts ) {
+					if ( ((Script*)temp)->GetName() == it->GetName() ) return true;
+					//if ( typeid(decltype(it.get())) == typeid(T) ) return true;
+				}
+				return false;
+			}
+			*/
 
 			std::vector<Unique<Component>> & Components() { return _components; }
 			std::vector<Unique<Script>> & Scripts() { return _scripts; }

@@ -40,12 +40,49 @@ namespace Candle {
 	};
 
 
-	class  ScriptManager {
 
-		public:
-			static void Update();
+		/* Script factory */
+	template<class T> Script* script_factory()
+	{
+		return new T;
+	}
+
+	typedef Script* ( *script_creator )( void );
+
+	class ScriptManager {
+	public:
+		typedef std::vector<script_creator>::iterator iterator;
+
+		static void Update();
+
+		static ScriptManager& get()
+		{
+			static ScriptManager instance;
+			return instance;
+		}
+
+		void add(script_creator creator)
+		{
+			_scripts.push_back(creator);
+		}
+
+		iterator begin() { return _scripts.begin(); }
+		iterator end() { return _scripts.end(); }
+
+	private:
+		std::vector<script_creator> _scripts;
 
 	};
 
+	class ScriptRegistration {
+	public:
+		ScriptRegistration(script_creator creator)
+		{
+			ScriptManager::get().add(creator);
+		}
+	};
+
+#define AUTO_REGISTER_SCRIPT(script) \
+    ScriptRegistration _Script_registration_ ##script(&script_factory<script>);
 
 }

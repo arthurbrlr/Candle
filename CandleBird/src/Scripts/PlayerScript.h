@@ -6,6 +6,11 @@ using namespace Candle;
 class PlayerScript : public Script {
 
 	public:
+		PlayerScript()
+		{
+			_name = __FILE__;
+		}
+
 
 		void OnAwake() override
 		{
@@ -70,3 +75,5 @@ class PlayerScript : public Script {
 		float upVelocity;
 
 };
+
+AUTO_REGISTER_SCRIPT(PlayerScript)

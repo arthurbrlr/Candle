@@ -18,6 +18,7 @@ namespace Candle {
 			static void Reset() { _viewProjectionMatrix = glm::mat4(0); }
 
 			static CameraManagement& Get() { return _instance; }
+			static size_t GetMainCameraID() { return _mainCameraBlueprintID; }
 			static glm::mat4& GetViewProjection() { return _viewProjectionMatrix; }
 			static glm::mat4& GetProjectionMatrix();
 			static glm::mat4& GetViewMatrix();

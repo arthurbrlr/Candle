@@ -11,6 +11,7 @@ namespace Candle {
 	class CameraHandler : public Component {
 
 		public:
+			CameraHandler();
 			CameraHandler(CameraType type, double horizontalSize, double verticalSize);
 			void OnEditor() override;
 
