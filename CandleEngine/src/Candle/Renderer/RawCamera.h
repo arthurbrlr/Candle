@@ -32,6 +32,9 @@ namespace Candle {
 			OrthographicCamera(double left, double right, double bottom, double top);
 			void SetProjection(double left, double right, double bottom, double top);
 
+			double GetHorizontalValue();
+			double GetVerticalValue();
+
 		private:
 			double _left, _right, _bottom, _top;
 

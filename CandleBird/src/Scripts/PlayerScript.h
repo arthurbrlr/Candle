@@ -9,7 +9,7 @@ class PlayerScript : public Script {
 
 		void OnAwake() override
 		{
-			_name = "Gravity";
+			_name = "Player Script";
 			vel = { 0, 0, 0 };
 			acc = { 0, -30, 0 };
 			movementForce = { 0, 0, 0 };

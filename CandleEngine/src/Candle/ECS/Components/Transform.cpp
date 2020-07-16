@@ -17,14 +17,14 @@ namespace Candle {
 	void Transform::OnEditor()
 	{
 		ImGui::Text("Position:");
-		ImGui::InputFloat3("p", glm::value_ptr(_position), 3);
+		ImGui::DragFloat3("p", glm::value_ptr(_position), 0.1);
 
 		ImGui::Text("Scale:");
-		ImGui::InputFloat3("s", glm::value_ptr(_scale), 3);
+		ImGui::DragFloat3("s", glm::value_ptr(_scale), 0.1, 0);
 
 
 		ImGui::Text("Rotation:");
-		ImGui::InputFloat3("r", glm::value_ptr(_rotation), 3);
+		ImGui::DragFloat3("r", glm::value_ptr(_rotation), 0.1);
 
 		UpdateMatrix();
 	}

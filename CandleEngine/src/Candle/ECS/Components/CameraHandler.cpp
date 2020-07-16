@@ -27,27 +27,46 @@ namespace Candle {
 	void CameraHandler::OnEditor()
 	{
 		std::string cameraType = _type == Orthographic ? "Orthographic Camera" : "Perspective Camera";
+		static char* camProjCombo[2];
+		static bool  orthoSelected;
+		bool previousSelected = orthoSelected;
+		camProjCombo[0] = (char*)"Orthographic";
+		camProjCombo[1] = (char*)"Perspective";
+		if ( ImGui::BeginCombo("Type", _type == Orthographic ? "Orthographic" : "Perspective") ) {
+			if ( ImGui::Selectable("Orthographic", &orthoSelected) ) orthoSelected = true;
+			if ( ImGui::Selectable("Perspective", !&orthoSelected) ) orthoSelected = false;
+
+			if ( previousSelected != orthoSelected ) {
+				if ( orthoSelected ) {
+					_camera.reset(new OrthographicCamera(-1.78, 1.78, -1, 1));
+					_type = Orthographic;
+				} else {
+					_camera.reset(new PerspectiveCamera(1920, 1080));
+					_type = Perspective;
+				}
+			}
+
+			ImGui::EndCombo();
+		}
+
+		ImGui::Text(cameraType.c_str());
 
 		static float camWidth;
 		static float camHeight;
 
 		switch ( _type ) {
 			case Orthographic:
+				camWidth  = ( float )dynamic_cast<OrthographicCamera*>( _camera.get() )->GetHorizontalValue();
+				camHeight =	( float )dynamic_cast<OrthographicCamera*>( _camera.get() )->GetVerticalValue();
+				ImGui::DragFloat("Horizontal", &camWidth, 0.1);
+				ImGui::DragFloat("Vertical", &camHeight, 0.1);
+				dynamic_cast<OrthographicCamera*>( _camera.get() )->SetProjection(-camWidth, camWidth, -camHeight, camHeight);
 				break;
 			case Perspective:
 				camWidth = (float)dynamic_cast<PerspectiveCamera*>( _camera.get() )->GetWidth();
 				camHeight = (float)dynamic_cast<PerspectiveCamera*>( _camera.get() )->GetHeight();
-				break;
-		}
-
-		ImGui::Text(cameraType.c_str());
-		ImGui::InputFloat("Width", &camWidth);
-		ImGui::InputFloat("Height", &camHeight);
-
-		switch ( _type ) {
-			case Orthographic:
-				break;
-			case Perspective:
+				ImGui::DragFloat("Width", &camWidth);
+				ImGui::DragFloat("Height", &camHeight);
 				dynamic_cast<PerspectiveCamera*>( _camera.get() )->SetWidth(camWidth);
 				dynamic_cast<PerspectiveCamera*>( _camera.get() )->SetHeight(camHeight);
 				break;

@@ -13,7 +13,7 @@ namespace Candle {
 	{
 		static float animSpeed = (float)_animations[_currentAnimation]._animationSpeed;
 		ImGui::Text("Animation Speed:");
-		ImGui::SliderFloat("s", &animSpeed, 0., 10.);
+		ImGui::DragFloat("s", &animSpeed, 0.1, 0.);
 		_animations[_currentAnimation]._animationSpeed = (double)animSpeed;
 
 		for ( auto& anim : _animations ) {

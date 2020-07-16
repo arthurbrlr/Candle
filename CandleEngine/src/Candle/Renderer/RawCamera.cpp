@@ -34,7 +34,20 @@ namespace Candle {
 
 	void OrthographicCamera::SetProjection(double left, double right, double bottom, double top)
 	{
+		_left = left; _right = right; _bottom = bottom; _top = top;
 		_projection = glm::ortho(left, right, bottom, top, -1.0, 100.0);
+	}
+
+
+	double OrthographicCamera::GetHorizontalValue()
+	{
+		return _right;
+	}
+
+
+	double OrthographicCamera::GetVerticalValue()
+	{
+		return _top;
 	}
 
 		// -------------------
