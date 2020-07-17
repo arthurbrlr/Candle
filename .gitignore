@@ -343,7 +343,7 @@ healthchecksdb
 bin-int/
 bin/
 Sandbox/
-CandleBird/imgui.ini
+# CandleBird/imgui.ini
 CodeSources.txt
 game.txt
 list.md
