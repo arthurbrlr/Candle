@@ -72,11 +72,12 @@ namespace Candle {
 				{			
 					if ( ImGui::BeginMenu("Open", "Ctrl+O") ) {
 						bool endMenu = false;
+						/*
 						for ( const auto& entry : std::filesystem::recursive_directory_iterator("D:/_code/Candle/CandleBird/res") ) {
 							
 							ImGui::MenuItem(entry.path().string().c_str());
 
-							/*
+							
 							if ( entry.is_directory() ) {
 								CINFO("Directory {0}", entry.path().stem().string().c_str());
 								if ( endMenu ) {
@@ -90,12 +91,13 @@ namespace Candle {
 								CINFO("End menu = true");
 							} else {
 								ImGui::MenuItem(entry.path().string().c_str());
-							}*/
+							}
 						}
 						if ( endMenu ) {
 							CINFO("End Menu");
 							ImGui::EndMenu();
 						}
+						*/
 						ImGui::EndMenu();
 					}
 
@@ -362,7 +364,8 @@ namespace Candle {
 	{
 		ImGui::Begin("Scene Hierarchy");
 		static int selected = -1;
-		static Blueprint* bpShowed = nullptr;
+		static size_t bpSelected;
+		bpSelected = -1;
 		int index = 0;
 
 		static bool openPopup = false;
@@ -375,7 +378,7 @@ namespace Candle {
 
 		if (ImGui::Button("Clear Selection")) {
 			selected = -1;
-			bpShowed = nullptr;
+			bpSelected = -1;
 		}
 
 	/*
@@ -395,16 +398,16 @@ namespace Candle {
 			ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
 			if ( !currentBlueprint->GetViewInEditor() ) return;
 
-			std::string blueprintEditor = currentBlueprint->GetName() + " (ID: " + std::to_string(currentBlueprint->GetID()) + ")";
+			std::string blueprintEditor = currentBlueprint->GetName();
 
 			if ( currentBlueprint->HasChildren() ) {
 
-				if ( selected == index ) node_flags |= ImGuiTreeNodeFlags_Selected;
-				bool node_open = ImGui::TreeNodeEx(blueprintEditor.c_str(), node_flags);
-				if ( ImGui::IsItemClicked() ) {
-					selected = index;
-					bpShowed = currentBlueprint;
+				if ( selected == index ) {
+					node_flags |= ImGuiTreeNodeFlags_Selected;
+					bpSelected = currentBlueprint->GetID();
 				}
+				bool node_open = ImGui::TreeNodeEx(blueprintEditor.c_str(), node_flags);
+				if ( ImGui::IsItemClicked() ) selected = index;
 				if ( node_open ) {
 					for ( auto& child : currentBlueprint->GetChilds() ) {
 						BuildBlueprintTree(child.second);
@@ -415,12 +418,12 @@ namespace Candle {
 			} else {
 
 				node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
-				if ( selected == index ) node_flags |= ImGuiTreeNodeFlags_Selected;
-				ImGui::TreeNodeEx(blueprintEditor.c_str(), node_flags);
-				if ( ImGui::IsItemClicked()) {
-					selected = index;
-					bpShowed = currentBlueprint;
+				if ( selected == index ) {
+					node_flags |= ImGuiTreeNodeFlags_Selected;
+					bpSelected = currentBlueprint->GetID();
 				}
+				ImGui::TreeNodeEx(blueprintEditor.c_str(), node_flags);
+				if ( ImGui::IsItemClicked()) selected = index;
 
 			}
 
@@ -433,7 +436,9 @@ namespace Candle {
 			BuildBlueprintTree(&(*bp.second));
 
 		}
-
+		
+		Blueprint* bpShowed = nullptr;
+		if ( bpSelected != -1 ) bpShowed = &(*BlueprintManager::All()[bpSelected]);
 		ShowComponentsOf(bpShowed);
 
 
@@ -449,10 +454,8 @@ namespace Candle {
 			if (ImGui::MenuItem("New Blueprint")) {
 				ECS::New();
 			}
-			if (selected != -1 && bpShowed != nullptr) if (ImGui::MenuItem("Remove Blueprint")) {
-				size_t id = bpShowed->GetID();
-				bpShowed = nullptr;
-				ECS::Remove(id);
+			if (selected != -1 && bpSelected != -1 ) if (ImGui::MenuItem("Remove Blueprint")) {
+				ECS::Remove(bpSelected);
 			}
 			ImGui::EndPopup();
 		}
@@ -486,13 +489,15 @@ namespace Candle {
 			bool isAlive = bp->IsAlive();
 			ImGui::Checkbox("alive", &isAlive);
 			if ( !isAlive ) bp->Destroy();
+			std::string bpid = "ID : " + std::to_string(bp->GetID());
+			ImGui::Text(bpid.c_str());
 
 			for (ComponentID id = 0; id < MaxComponents; id++) {
 
 				if (!bp->HasComponentOfID(id)) continue;
 				auto component = bp->GetComponentOfID(id);
 
-				std::string menuTitle = component->GetName() + " (" + std::to_string(bp->GetID()) + ")";
+				std::string menuTitle = component->GetName();
 				if (ImGui::TreeNodeEx(menuTitle.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
 					ImGui::Checkbox("Active", &component->IsActive());
 					component->OnEditor();
@@ -504,7 +509,7 @@ namespace Candle {
 
 			for (auto& script : bp->Scripts()) {
 
-				std::string menuTitle = script->GetName() + " (" + std::to_string(bp->GetID()) + ")";
+				std::string menuTitle = script->GetName();
 				if (ImGui::TreeNodeEx(menuTitle.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
 					script->OnEditor();
 					ImGui::TreePop();

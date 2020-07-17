@@ -10,7 +10,7 @@ namespace Candle {
 	class AnimationController : public Component {
 
 		public:
-			AnimationController();
+			AnimationController(Blueprint* parent);
 			void OnEditor() override;
 
 			AnimationController& AddAnimation(Animation& animation);

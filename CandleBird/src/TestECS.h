@@ -84,7 +84,7 @@ class RenderSystem : public Candle::System {
 				part3
 			};
 
-			Candle::Renderer2D::DrawPartialSprite(Transform(), Assets::GetTexture2D("dodo"), parts, false);
+			//Candle::Renderer2D::DrawPartialSprite(Transform(nullptr), Assets::GetTexture2D("dodo"), parts, false);
 
 
 			Candle::Renderer2D::EndScene();

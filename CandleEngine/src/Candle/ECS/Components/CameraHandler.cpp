@@ -8,16 +8,20 @@
 
 namespace Candle {
 
-	CameraHandler::CameraHandler()
+	CameraHandler::CameraHandler(Blueprint* parent)
 		: _type(Perspective)
 	{
+		AttachToBlueprint(parent);
 		_name = "CameraHandler";
 		_camera = std::make_unique<PerspectiveCamera>(1920, 1080);
+
+		_blueprint->RequireComponent<Transform>();
 	}
 
 
-	CameraHandler::CameraHandler(CameraType type, double horizontalSize, double verticalSize)
+	CameraHandler::CameraHandler(Blueprint* parent, CameraType type, double horizontalSize, double verticalSize)
 	{
+		AttachToBlueprint(parent);
 		_name = "CameraHandler";
 		_type = type;
 
@@ -29,6 +33,8 @@ namespace Candle {
 			_camera = std::make_unique<PerspectiveCamera>(horizontalSize, verticalSize);
 			break;
 		}
+
+		_blueprint->RequireComponent<Transform>();
 	}
 
 

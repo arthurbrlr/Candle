@@ -16,8 +16,8 @@ namespace Candle {
 
 			template<typename T, typename... TArgs> T& AddComponent(TArgs... args)
 			{
-				T* component = new T(std::forward<TArgs>(args)...);
-				component->AttachToBlueprint(this);
+				T* component = new T(this, std::forward<TArgs>(args)...);
+				//component->AttachToBlueprint(this);
 				Unique<Component> compPtr(component);
 				_components.emplace_back(std::move(compPtr));
 
@@ -71,6 +71,13 @@ namespace Candle {
 				CASSERT(HasComponentOfID(id), "Blueprint has no component of type T");
 				auto compPointer = _compArray[id];
 				return static_cast<Component*>(compPointer);
+			}
+
+			template<typename T> void RequireComponent()
+			{
+				if ( !this ) return;
+				bool has = HasComponent<T>();
+				if ( !has ) AddComponent<T>();
 			}
 
 			/*

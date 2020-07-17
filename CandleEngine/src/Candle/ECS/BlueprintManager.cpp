@@ -35,7 +35,7 @@ namespace Candle {
 
 	void BlueprintManager::Update()
 	{
-		std::vector<long> _idToDelete;
+		std::vector<size_t> _idToDelete;
 
 		for ( auto& bp : _blueprints ) {
 			if ( !bp.second->IsAlive() ) {
@@ -43,7 +43,7 @@ namespace Candle {
 			}
 		}
 
-		for ( long i : _idToDelete ) {
+		for ( size_t i : _idToDelete ) {
 			if ( _blueprints[i]->HasChildren() ) {
 				for ( auto& child : _blueprints[i]->GetChilds() ) {
 					_blueprints.erase(child.first);

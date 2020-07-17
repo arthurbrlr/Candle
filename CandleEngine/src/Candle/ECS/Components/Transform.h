@@ -8,7 +8,7 @@ namespace Candle {
 	class Transform : public Component {
 
 		public:
-			Transform(glm::vec3 position = { 0, 0, 0 }, glm::vec3 rotation = { 0, 0, 0 }, glm::vec3 scale = { 1, 1, 1 }); /* Constructor */
+			Transform(Blueprint* parent, glm::vec3 position = { 0, 0, 0 }, glm::vec3 rotation = { 0, 0, 0 }, glm::vec3 scale = { 1, 1, 1 }); /* Constructor */
 			void OnEditor() override; /* Used by the engine editor to display informations about the component */
 
 				// Methods

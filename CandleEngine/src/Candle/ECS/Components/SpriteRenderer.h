@@ -41,7 +41,7 @@ namespace Candle {
 	class SpriteRenderer : public Component {
 
 		public:
-			SpriteRenderer(const Shared<Texture2D>& texture = nullptr); /* Constructor */
+			SpriteRenderer(Blueprint* parent, const Shared<Texture2D>& texture = nullptr); /* Constructor */
 			void OnEditor() override; /* Used by the engine editor to display informations about the component */
 
 				/* --- Setters --- */

@@ -3,8 +3,9 @@
 
 namespace Candle {
 
-	AnimationController::AnimationController()
+	AnimationController::AnimationController(Blueprint* parent)
 	{
+		AttachToBlueprint(parent);
 		_name = "AnimationController";
 	}
 
