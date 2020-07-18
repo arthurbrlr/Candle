@@ -235,6 +235,12 @@ namespace Candle {
 	}
 
 
+	void WindowsWindow::SetTitle(const std::string& title)
+	{
+		glfwSetWindowTitle(_window, title.c_str());
+	}
+
+
 	bool WindowsWindow::IsVSync() const
 	{
 		return _data._vsync;

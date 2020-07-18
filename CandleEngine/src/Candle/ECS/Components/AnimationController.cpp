@@ -1,5 +1,7 @@
 #include "cdlpch.h"
 #include "AnimationController.h"
+#include "SpriteRenderer.h"
+#include "Candle/ECS/Blueprint.h"
 
 namespace Candle {
 
@@ -7,11 +9,17 @@ namespace Candle {
 	{
 		AttachToBlueprint(parent);
 		_name = "AnimationController";
+
+		_blueprint->RequireComponent<SpriteRenderer>();
 	}
 
 
 	void AnimationController::OnEditor()
 	{
+		if ( _animations.size() == 0 ) {
+			ImGui::Text("WIP");
+			return;
+		}
 		static float animSpeed = (float)_animations[_currentAnimation]._animationSpeed;
 		ImGui::Text("Animation Speed:");
 		ImGui::DragFloat("s", &animSpeed, 0.1, 0.);

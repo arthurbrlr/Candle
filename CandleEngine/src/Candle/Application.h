@@ -28,6 +28,8 @@ namespace Candle {
 				_instance->GetWindow().SetFullscreen(state); 
 			}
 
+			static void SetTitle(const std::string& title) { _instance->GetWindow().SetTitle(title); }
+
 			inline Window& GetWindow() const { return *_window; }
 			
 			inline static uint32_t GetWidth() { return _instance->GetWindow().GetWidth(); }

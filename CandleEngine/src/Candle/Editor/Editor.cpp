@@ -66,80 +66,79 @@ namespace Candle {
 		*/
 	void Editor::ShowMainMenu()
 	{
+		static char newSceneNameBuffer[32];
+		static bool createNewSceneModal = false;
+
 		if ( ImGui::BeginMainMenuBar() ) {
-			if ( ImGui::BeginMenu("File") ) {
-
-				{			
-					if ( ImGui::BeginMenu("Open", "Ctrl+O") ) {
-						bool endMenu = false;
-						/*
-						for ( const auto& entry : std::filesystem::recursive_directory_iterator("D:/_code/Candle/CandleBird/res") ) {
-							
-							ImGui::MenuItem(entry.path().string().c_str());
-
-							
-							if ( entry.is_directory() ) {
-								CINFO("Directory {0}", entry.path().stem().string().c_str());
-								if ( endMenu ) {
-									CINFO("End Menu");
-									ImGui::EndMenu();
-									endMenu = false;
-									CINFO("End menu = false");
-								}
-								ImGui::BeginMenu(entry.path().stem().string().c_str());
-								endMenu = true;
-								CINFO("End menu = true");
-							} else {
-								ImGui::MenuItem(entry.path().string().c_str());
-							}
-						}
-						if ( endMenu ) {
-							CINFO("End Menu");
-							ImGui::EndMenu();
-						}
-						*/
-						ImGui::EndMenu();
-					}
-
-					if ( ImGui::MenuItem("New Scene") ) {
-						Scene* newScene = new EmptyScene();
-						uint32_t newSceneID = newScene->GetID();
-						SceneManagement::AddScene(newScene);
-						SceneManagement::LoadScene(newSceneID);
-					}
-
-					if ( ImGui::BeginMenu("Open Scene") ) {
-						for ( auto scene : SceneManagement::AllScenes() ) {
-							if ( ImGui::MenuItem(scene.second->GetName().c_str() + scene.first, "", false, scene.first != SceneManagement::CurrentScene()->GetID()) ) {
-								SceneManagement::LoadScene(scene.first);
-							}
-						}
-						ImGui::EndMenu();
-					}
-
+			if ( ImGui::BeginMenu("Scene") ) {
+				if ( ImGui::BeginMenu("Open Scene File", false) ) {
+					bool endMenu = false;
 					/*
-					if ( ImGui::BeginMenu("Open Recent") ) {
-						ImGui::MenuItem("fish_hat.c");
-						ImGui::MenuItem("fish_hat.inl");
-						ImGui::MenuItem("fish_hat.h");
-						if ( ImGui::BeginMenu("More..") ) {
-							ImGui::MenuItem("Hello");
-							ImGui::MenuItem("Sailor");
-							if ( ImGui::BeginMenu("Recurse..") ) {
-								//ShowExampleMenuFile();
+					for ( const auto& entry : std::filesystem::recursive_directory_iterator("D:/_code/Candle/CandleBird/res") ) {
+
+						ImGui::MenuItem(entry.path().string().c_str());
+
+
+						if ( entry.is_directory() ) {
+							CINFO("Directory {0}", entry.path().stem().string().c_str());
+							if ( endMenu ) {
+								CINFO("End Menu");
 								ImGui::EndMenu();
+								endMenu = false;
+								CINFO("End menu = false");
 							}
-							ImGui::EndMenu();
+							ImGui::BeginMenu(entry.path().stem().string().c_str());
+							endMenu = true;
+							CINFO("End menu = true");
+						} else {
+							ImGui::MenuItem(entry.path().string().c_str());
 						}
+					}
+					if ( endMenu ) {
+						CINFO("End Menu");
 						ImGui::EndMenu();
 					}
-					if ( ImGui::MenuItem("Save", "Ctrl+S") ) {}
-					if ( ImGui::MenuItem("Save As..") ) {}
 					*/
+					ImGui::EndMenu();
 				}
 
+				if ( ImGui::MenuItem("New Scene") ) {
+					//ImGui::OpenPopup("Create New Scene");
+					createNewSceneModal = true;
+					memset(newSceneNameBuffer, ' ', 32);
+				}
+
+				if ( ImGui::BeginMenu("Open Scene") ) {
+					for ( auto scene : SceneManagement::AllScenes() ) {
+						if ( ImGui::MenuItem(scene.second->GetName().c_str(), "", false, scene.first != SceneManagement::CurrentScene()->GetID()) ) {
+							SceneManagement::LoadScene(scene.first);
+						}
+					}
+					ImGui::EndMenu();
+				}
+
+				/*
+				if ( ImGui::BeginMenu("Open Recent") ) {
+					ImGui::MenuItem("fish_hat.c");
+					ImGui::MenuItem("fish_hat.inl");
+					ImGui::MenuItem("fish_hat.h");
+					if ( ImGui::BeginMenu("More..") ) {
+						ImGui::MenuItem("Hello");
+						ImGui::MenuItem("Sailor");
+						if ( ImGui::BeginMenu("Recurse..") ) {
+							//ShowExampleMenuFile();
+							ImGui::EndMenu();
+						}
+						ImGui::EndMenu();
+					}
+					ImGui::EndMenu();
+				}
+				if ( ImGui::MenuItem("Save", "Ctrl+S") ) {}
+				if ( ImGui::MenuItem("Save As..") ) {}
+				*/
 				ImGui::EndMenu();
 			}
+
 			/*
 			if ( ImGui::BeginMenu("Edit") ) {
 				if ( ImGui::MenuItem("Undo", "CTRL+Z") ) {}
@@ -152,6 +151,21 @@ namespace Candle {
 			}
 			*/
 			ImGui::EndMainMenuBar();
+		}
+
+		if ( createNewSceneModal ) ImGui::OpenPopup("Create New Scene");
+		if ( ImGui::BeginPopupModal("Create New Scene", NULL, ImGuiWindowFlags_AlwaysAutoResize) ) {
+			ImGui::InputText("Name", newSceneNameBuffer, 32);
+			if ( ( ImGui::Button("Create") || Input::IsKeyPressed(CDL_KEY_SPACE) ) && newSceneNameBuffer ) {
+				Scene* newScene = new EmptyScene();
+				newScene->SetName(newSceneNameBuffer);
+				uint32_t newSceneID = newScene->GetID();
+				SceneManagement::AddScene(newScene);
+				SceneManagement::LoadScene(newSceneID);
+				createNewSceneModal = false;
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::EndPopup();
 		}
 	}
 
@@ -439,6 +453,11 @@ namespace Candle {
 		
 		Blueprint* bpShowed = nullptr;
 		if ( bpSelected != -1 ) bpShowed = &(*BlueprintManager::All()[bpSelected]);
+
+		if (Input::IsKeyPressed(CDL_KEY_LEFT_CONTROL) && Input::OnKeyDown(CDL_KEY_D) ) {
+			CTRACE("Control D -> Copy Entity");
+		}
+
 		ShowComponentsOf(bpShowed);
 
 
@@ -489,7 +508,7 @@ namespace Candle {
 			bool isAlive = bp->IsAlive();
 			ImGui::Checkbox("alive", &isAlive);
 			if ( !isAlive ) bp->Destroy();
-			std::string bpid = "ID : " + std::to_string(bp->GetID());
+			std::string bpid = "Entity ID : " + std::to_string(bp->GetID());
 			ImGui::Text(bpid.c_str());
 
 			for (ComponentID id = 0; id < MaxComponents; id++) {
@@ -502,8 +521,25 @@ namespace Candle {
 					ImGui::Checkbox("Active", &component->IsActive());
 					component->OnEditor();
 					ImGui::TreePop();
-					ImGui::Separator();
 				}
+
+				std::string alertBoxTitle = "Remove Component " + component->GetName();
+				if ( ImGui::ArrowButton(alertBoxTitle.c_str(), ImGuiDir_Down) )
+					ImGui::OpenPopup(alertBoxTitle.c_str());
+
+				if ( ImGui::BeginPopupModal(alertBoxTitle.c_str(), NULL, ImGuiWindowFlags_NoResize) ) {
+					if ( ImGui::Button("Remove") ) {
+						CTRACE("Delete component {0}", component->GetName());
+						ImGui::CloseCurrentPopup();
+					}
+					ImGui::SameLine();
+					if ( ImGui::Button("Cancel") ) {
+						ImGui::CloseCurrentPopup();
+					}
+					ImGui::EndMenu();
+				}
+
+				ImGui::Separator();
 
 			}
 
@@ -526,7 +562,6 @@ namespace Candle {
 			}
 
 			if (ImGui::BeginPopup("EditorAddComponentPopup")) {
-			
 				if (ImGui::MenuItem("Transform", "", false, !bp->HasComponent<Transform>())) bp->AddComponent<Transform>();
 				if (ImGui::MenuItem("SpriteRenderer", "", false, !bp->HasComponent<SpriteRenderer>())) bp->AddComponent<SpriteRenderer>();
 				if (ImGui::MenuItem("AnimationController", "", false, !bp->HasComponent<AnimationController>())) bp->AddComponent<AnimationController>();
@@ -536,11 +571,12 @@ namespace Candle {
 
 			if ( ImGui::BeginPopup("EditorAddScriptPopup") ) {
 
-				for ( auto it = ScriptManager::get().begin(); it != ScriptManager::get().end(); it++ ) {
-					script_creator func = *it;
-					Script* _ptr = func();
-					//Unique<Script> ptr(_ptr);
-					if ( ImGui::MenuItem(_ptr->GetName().c_str(), "") ) {
+				auto& scripts = ScriptManager::Get().GetScripts();
+				auto& scriptsNames = ScriptManager::Get().GetScriptsNames();
+
+				for ( int i = 0; i < scripts.size(); i++) {
+					if ( ImGui::MenuItem(scriptsNames[i].c_str(), "") ) {
+						Script* _ptr = (*scripts[i])();
 						bp->AddScript(_ptr);
 					}
 				}

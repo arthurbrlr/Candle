@@ -39,6 +39,8 @@ namespace Candle {
 
 		_currentScene = sceneID;
 		_scenes[sceneID]->Load();
+
+		Application::SetTitle("Candle - " +_scenes[sceneID]->GetName());
 	}
 
 

@@ -5,6 +5,11 @@
 
 namespace Candle {
 
+	Transform::Transform(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
+		: _position(position), _rotation(rotation), _scale(scale)
+	{
+		_name = "Transform";
+	}
 
 	Transform::Transform(Blueprint* parent, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
 		: _position(position), _rotation(rotation), _scale(scale)
@@ -21,11 +26,11 @@ namespace Candle {
 		ImGui::DragFloat3("p", glm::value_ptr(_position), 0.1);
 
 		ImGui::Text("Scale:");
-		ImGui::DragFloat3("s", glm::value_ptr(_scale), 0.1, 0);
+		ImGui::DragFloat3("s", glm::value_ptr(_scale), 0.1, 0, 1000);
 
 
 		ImGui::Text("Rotation:");
-		ImGui::DragFloat3("r", glm::value_ptr(_rotation), 0.1);
+		ImGui::DragFloat3("r", glm::value_ptr(_rotation), 0.1, 0, 360);
 
 		UpdateMatrix();
 	}

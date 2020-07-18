@@ -20,6 +20,7 @@ namespace Candle {
 			inline void SetEventCallback(const EventCallbackFunction & callback) override { _data._eventCallback = callback; }
 			void SetVSync(bool enabled) override;
 			void SetFullscreen(bool state) override;
+			void SetTitle(const std::string& title) override;
 			void ResizeViewport() const override;
 
 			inline void* GetNativeWindow() const override { return _window; };

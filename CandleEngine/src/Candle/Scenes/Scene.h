@@ -24,6 +24,8 @@ namespace Candle {
 			virtual void OnEvent(Event & event) {}
 			virtual void OnEditor() {}
 
+			void SetName(const char* name) { _sceneName = name; }
+
 			Shared<FrameBuffer> & GetFrameBuffer() { return _sceneBuffer; }
 			Shared<Texture2D> GetTexture() { return _sceneTexture; }
 			uint32_t GetID() { return _sceneID; }

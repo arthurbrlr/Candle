@@ -53,9 +53,9 @@ namespace Candle {
 			}
 
 
-			inline const void Awake() { _isAwake = true; }
-			inline const void Sleep() { _isAwake = false; }
-			inline const void Destroy() { _isAlive = false; }
+			const void Awake();
+			const void Sleep();
+			const void Destroy();
 
 			template<typename T> bool HasComponent() const { return _compBitset[GetComponentID<T>()]; }
 			template<typename T> T& GetComponent() const
@@ -65,13 +65,8 @@ namespace Candle {
 				return *static_cast<T*>(compPointer);
 			}
 
-			bool HasComponentOfID(size_t id) const { return _compBitset[id]; }
-			Component* GetComponentOfID(size_t id) const
-			{
-				CASSERT(HasComponentOfID(id), "Blueprint has no component of type T");
-				auto compPointer = _compArray[id];
-				return static_cast<Component*>(compPointer);
-			}
+			bool HasComponentOfID(size_t id) const;
+			Component* GetComponentOfID(size_t id) const;
 
 			template<typename T> void RequireComponent()
 			{
@@ -97,26 +92,9 @@ namespace Candle {
 			std::unordered_map<size_t, Blueprint*> GetChilds() { return _childs; }
 			Blueprint* GetParent() { return _parent; }
 
-			void AddChild(Blueprint* child) 
-			{ 
-				_childs[child->GetID()] = child;
-				_hasChildren = true;
-				child->SetParent(this);
-			}
-
-			void RemoveChild(size_t childID)
-			{
-				try {
-					_childs.erase(childID);
-				} catch ( std::exception e ) {
-					CDL_ERROR(e.what());
-				}
-			}
-
-			void SetParent(Blueprint* parent)
-			{
-				_parent = parent;
-			}
+			void AddChild(Blueprint* child);
+			void RemoveChild(size_t childID);
+			void SetParent(Blueprint* parent);
 
 			inline void SetName(const std::string & name) { _name = name; }
 

@@ -35,5 +35,11 @@
     <ClInclude Include="src\Scripts\RandomMovementAgent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Scripts\RandomGridGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TestScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

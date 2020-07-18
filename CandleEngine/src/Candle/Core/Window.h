@@ -33,6 +33,7 @@ namespace Candle {
 			virtual void SetEventCallback(const EventCallbackFunction& callback) = 0;
 			virtual void SetVSync(bool enabled) = 0;
 			virtual void SetFullscreen(bool state) = 0;
+			virtual void SetTitle(const std::string& title) = 0;
 			virtual void ResizeViewport() const = 0;
 
 

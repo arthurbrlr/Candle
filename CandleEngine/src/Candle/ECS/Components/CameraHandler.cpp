@@ -16,6 +16,7 @@ namespace Candle {
 		_camera = std::make_unique<PerspectiveCamera>(1920, 1080);
 
 		_blueprint->RequireComponent<Transform>();
+		if ( CameraManagement::GetMainCameraID() == -1 ) CameraManagement::RegisterMainCamera(parent->GetID());
 	}
 
 
@@ -35,6 +36,7 @@ namespace Candle {
 		}
 
 		_blueprint->RequireComponent<Transform>();
+		if ( CameraManagement::GetMainCameraID() == -1 ) CameraManagement::RegisterMainCamera(parent->GetID());
 	}
 
 
@@ -72,15 +74,15 @@ namespace Candle {
 			case Orthographic:
 				camWidth  = ( float )dynamic_cast<OrthographicCamera*>( _camera.get() )->GetHorizontalValue();
 				camHeight =	( float )dynamic_cast<OrthographicCamera*>( _camera.get() )->GetVerticalValue();
-				ImGui::DragFloat("Horizontal", &camWidth, 0.1);
-				ImGui::DragFloat("Vertical", &camHeight, 0.1);
+				ImGui::DragFloat("Horizontal", &camWidth, 0.5, 0, 10);
+				ImGui::DragFloat("Vertical", &camHeight, 0.5, 0, 10);
 				dynamic_cast<OrthographicCamera*>( _camera.get() )->SetProjection(-camWidth, camWidth, -camHeight, camHeight);
 				break;
 			case Perspective:
 				camWidth = (float)dynamic_cast<PerspectiveCamera*>( _camera.get() )->GetWidth();
 				camHeight = (float)dynamic_cast<PerspectiveCamera*>( _camera.get() )->GetHeight();
-				ImGui::DragFloat("Width", &camWidth);
-				ImGui::DragFloat("Height", &camHeight);
+				ImGui::DragFloat("Width", &camWidth, 1, 0, 3840);
+				ImGui::DragFloat("Height", &camHeight, 1, 0, 3160);
 				dynamic_cast<PerspectiveCamera*>( _camera.get() )->SetWidth(camWidth);
 				dynamic_cast<PerspectiveCamera*>( _camera.get() )->SetHeight(camHeight);
 				break;

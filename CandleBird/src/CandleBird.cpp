@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include "TestScene.h"
 #include <Candle/EntryPoint.h>
 
 
@@ -11,7 +12,8 @@ public:
 		Candle::ECS::Add(new RenderSystem()); // temporary
 		Candle::ECS::Add(new LineRenderSystem()); // temporary
 		SceneManagement::AddScene(new GameScene());
-		SceneManagement::LoadScene(gameSceneID);
+		SceneManagement::AddScene(new TestScene());
+		SceneManagement::LoadScene(testSceneID);
 	}
 
 	~GameApplication()

@@ -50,39 +50,58 @@ namespace Candle {
 	typedef Script* ( *script_creator )( void );
 
 	class ScriptManager {
-	public:
-		typedef std::vector<script_creator>::iterator iterator;
+		public:
+			typedef std::vector<script_creator>::iterator iterator;
 
-		static void Update();
+			static void Update();
 
-		static ScriptManager& get()
-		{
-			static ScriptManager instance;
-			return instance;
-		}
+			static ScriptManager& Get()
+			{
+				static ScriptManager instance;
+				return instance;
+			}
 
-		void add(script_creator creator)
-		{
-			_scripts.push_back(creator);
-		}
+			void Add(script_creator creator)
+			{
+				_scripts.push_back(creator);
+			}
 
-		iterator begin() { return _scripts.begin(); }
-		iterator end() { return _scripts.end(); }
+			void Add(std::string str)
+			{
+				_scriptsNames.push_back(str);
+			}
 
-	private:
-		std::vector<script_creator> _scripts;
+			std::vector<script_creator>& GetScripts()
+			{
+				return _scripts;
+			}
+
+			std::vector<std::string>& GetScriptsNames()
+			{
+				return _scriptsNames;
+			}
+
+		private:
+			std::vector<script_creator> _scripts;
+			std::vector<std::string> _scriptsNames;
 
 	};
 
 	class ScriptRegistration {
-	public:
-		ScriptRegistration(script_creator creator)
-		{
-			ScriptManager::get().add(creator);
-		}
+		public:
+			ScriptRegistration(script_creator creator)
+			{
+				ScriptManager::Get().Add(creator);
+			}
+
+			ScriptRegistration(std::string str)
+			{
+				ScriptManager::Get().Add(str);
+			}
 	};
 
 #define AUTO_REGISTER_SCRIPT(script) \
-    ScriptRegistration _Script_registration_ ##script(&script_factory<script>);
+    ScriptRegistration _Script_registration_ ##script(&script_factory<script>); \
+	ScriptRegistration _Script_registration_names_ ##script(#script);
 
 }

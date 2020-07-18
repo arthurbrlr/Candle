@@ -6,6 +6,17 @@
 
 namespace Candle {
 
+	SpriteRenderer::SpriteRenderer(const Shared<Texture2D>& texture)
+		: _texture(texture)
+	{
+		_name = "SpriteRenderer";
+		if ( _texture != nullptr && _texture->IsTransparent() ) {
+			_flags |= SpriteRendererFlags_Transparent;
+		} else {
+			_flags &= ~SpriteRendererFlags_Transparent;
+		}
+	}
+
 	SpriteRenderer::SpriteRenderer(Blueprint* parent, const Shared<Texture2D>& texture)
 		: _texture(texture)
 	{
