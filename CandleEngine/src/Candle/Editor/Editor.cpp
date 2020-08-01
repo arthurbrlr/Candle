@@ -30,7 +30,7 @@ namespace Candle {
 		ShowPostProcessingPipeline();
 			   		 	  	  	 
 		ECS::OnEditor();
-		SceneManagement::CurrentScene()->OnEditor();
+		if ( SceneManagement::CurrentScene() ) SceneManagement::CurrentScene()->OnEditor();
 
 		static bool demo = true;
 		ImGui::ShowDemoWindow(&demo);
@@ -118,7 +118,10 @@ namespace Candle {
 
 				if ( ImGui::BeginMenu("Open Scene") ) {
 					for ( auto scene : SceneManagement::AllScenes() ) {
-						if ( ImGui::MenuItem(scene.second->GetName().c_str(), "", false, scene.first != SceneManagement::CurrentScene()->GetID()) ) {
+						if ( !scene.second ) continue;
+						bool enabled = true;
+						if ( SceneManagement::CurrentScene() ) enabled = SceneManagement::CurrentScene()->GetID() != scene.first;
+						if ( ImGui::MenuItem(scene.second->GetName().c_str(), "", false, enabled) ) {
 							SceneManagement::LoadScene(scene.first);
 						}
 					}
@@ -310,8 +313,12 @@ namespace Candle {
 			ImVec2 viewerSize = ImVec2(windowSize.x * 0.99f, windowSize.x * 0.99f / (float)aspectRatio);
 			ImVec2 cursorPos = ImVec2(( windowSize.x - viewerSize.x ) * 0.5f, ( windowSize.y - viewerSize.y ) * 0.5f);
 			ImGui::SetCursorPos(cursorPos);
-			ImGui::Image((void*)(intptr_t)SceneManagement::FinalSceneTexture()->GetID(), viewerSize, ImVec2(0, 1), ImVec2(1, 0));
-
+			Shared<Texture2D> currentScene = SceneManagement::FinalSceneTexture();
+			if ( currentScene ) {
+				ImGui::Image((void*)(intptr_t)currentScene->GetID(), viewerSize, ImVec2(0, 1), ImVec2(1, 0));
+			} else {
+				CERROR("No scene currently.");
+			}
 		} else {
 			_eb.MouseInGameViewport = false;
 			_eb.RenderGameView = false;

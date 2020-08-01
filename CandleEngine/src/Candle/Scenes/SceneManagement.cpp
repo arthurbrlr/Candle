@@ -53,6 +53,7 @@ namespace Candle {
 
 	void SceneManagement::OnRender()
 	{
+		if ( _currentScene == -1 ) return;
 		_scenes[_currentScene]->GetFrameBuffer()->Bind();
 			// v temp line
 		RenderCommands::SetLinesRendering(Editor::Variables().DrawLines);
@@ -86,6 +87,7 @@ namespace Candle {
 
 	void SceneManagement::OnEvent(Event& event)
 	{
+		if ( _currentScene == -1 ) return;
 		_scenes[_currentScene]->OnEvent(event);
 	}
 

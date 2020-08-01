@@ -165,7 +165,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{F9C416B5-3A1F-4121-8BAB-FEA78C451105}</ProjectGuid>
     <RootNamespace>CandleEngine</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -234,8 +234,8 @@
       <AdditionalDependencies>glfw3.lib;opengl32.lib;user32.lib;Gdi32.lib;Shell32.lib;glew32s.lib;ImGui.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y "$(OutDir)candleengine.lib" "$(SolutionDir)bin\$(Configuration)-$(Platform)\Sandbox\"
-xcopy /y "$(OutDir)candleengine.lib" "$(SolutionDir)bin\$(Configuration)-$(Platform)\CandleTester\"</Command>
+      <Command>xcopy /y "$(OutDir)candleengine.lib" "$(SolutionDir)bin\$(Configuration)-$(Platform)\CandleTester\"
+xcopy /y "$(OutDir)candleengine.lib" "$(SolutionDir)bin\$(Configuration)-$(Platform)\CandleTemplate\"</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>imgui.lib;glfw3.lib;opengl32.lib;glew32s.lib;openal32.lib;</AdditionalDependencies>

@@ -104,7 +104,6 @@ namespace Candle {
 					Editor::OnUpdate();
 					Editor::Display();
 				}
-				
 			}
 
 			_window->OnUpdate();
