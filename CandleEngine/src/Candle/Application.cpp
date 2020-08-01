@@ -139,12 +139,33 @@ namespace Candle {
 			return true;
 		}
 
-
-		if ( e.GetKeyCode() == CDL_KEY_ESCAPE ) {
-			_running = false;
-			return true;
-		}
-
 		return false;
+	}
+
+
+
+	uint32_t Application::GetWidth() 
+	{ 
+		return _instance->GetWindow().GetWidth(); 
+	}
+
+	uint32_t Application::GetHeight()
+	{
+		return _instance->GetWindow().GetHeight(); 
+	}
+
+	double Application::AspectRatio() 
+	{
+		return _instance->GetWindow().GetWidth() / (double)_instance->GetWindow().GetHeight(); 
+	}
+
+	bool Application::IsFullScreen()
+	{
+		return _instance->Get()._fullscreened; 
+	}
+
+	void Application::Stop()
+	{
+		_instance->_running = false;
 	}
 }

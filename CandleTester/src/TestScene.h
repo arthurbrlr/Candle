@@ -5,6 +5,7 @@ using namespace Candle;
 
 #include "TestECS.h"
 #include "Scripts/RandomGridGenerator.h"
+#include "Scripts/UUIDTest.h"
 
 static uint32_t testSceneID;
 

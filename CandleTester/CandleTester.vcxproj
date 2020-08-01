@@ -16,9 +16,10 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{542184A9-3355-4E51-B346-ABCC484D26D4}</ProjectGuid>
+    <ProjectGuid>{A4BB1AC3-88D3-4BDD-B873-36A234CCEE68}</ProjectGuid>
     <RootNamespace>CandleBird</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <ProjectName>CandleTester</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -130,11 +131,12 @@
     <ClInclude Include="src\Scripts\PlayerScript.h" />
     <ClInclude Include="src\Scripts\RandomGridGenerator.h" />
     <ClInclude Include="src\Scripts\RandomMovementAgent.h" />
+    <ClInclude Include="src\Scripts\UUIDTest.h" />
     <ClInclude Include="src\TestECS.h" />
     <ClInclude Include="src\TestScene.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\CandleBird.cpp" />
+    <ClCompile Include="src\CandleTester.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

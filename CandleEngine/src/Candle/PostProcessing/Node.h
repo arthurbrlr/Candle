@@ -2,7 +2,7 @@
 
 #include "Candle/CandleCore.h"
 
-#include "Utility/Data/Graph.h"
+#include "Utility/DataStruct/Graph.h"
 #include "Candle/Assets/Assets.h"
 #include "Candle/Renderer/FrameBuffer.h"
 

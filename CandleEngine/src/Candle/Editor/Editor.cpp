@@ -33,7 +33,7 @@ namespace Candle {
 		SceneManagement::CurrentScene()->OnEditor();
 
 		static bool demo = true;
-		//ImGui::ShowDemoWindow(&demo);
+		ImGui::ShowDemoWindow(&demo);
 
 
 			// Do not modify this line
@@ -68,8 +68,16 @@ namespace Candle {
 	{
 		static char newSceneNameBuffer[32];
 		static bool createNewSceneModal = false;
+		static bool closeApplicationRequest = false;
 
 		if ( ImGui::BeginMainMenuBar() ) {
+			if ( ImGui::BeginMenu("File") ) {
+				if ( ImGui::MenuItem("Close") ) {
+					closeApplicationRequest = true;
+				}
+				ImGui::EndMenu();
+			}
+
 			if ( ImGui::BeginMenu("Scene") ) {
 				if ( ImGui::BeginMenu("Open Scene File", false) ) {
 					bool endMenu = false;
@@ -153,6 +161,21 @@ namespace Candle {
 			ImGui::EndMainMenuBar();
 		}
 
+			/* Close application popup */
+		if ( closeApplicationRequest ) ImGui::OpenPopup("Close Candle Editor");
+		if ( ImGui::BeginPopupModal("Close Candle Editor", NULL, ImGuiWindowFlags_AlwaysAutoResize) ) {
+			ImGui::Text("Close Application ?", newSceneNameBuffer, 32);
+			if ( ImGui::Button("Confirm") ) {
+				Application::Stop();
+			}
+			ImGui::SameLine();
+			if ( ImGui::Button("Cancel") ) {
+				closeApplicationRequest = false;
+				ImGui::CloseCurrentPopup();
+			}
+			ImGui::EndPopup();
+		}
+
 		if ( createNewSceneModal ) ImGui::OpenPopup("Create New Scene");
 		if ( ImGui::BeginPopupModal("Create New Scene", NULL, ImGuiWindowFlags_AlwaysAutoResize) ) {
 			ImGui::InputText("Name", newSceneNameBuffer, 32);
@@ -167,6 +190,8 @@ namespace Candle {
 			}
 			ImGui::EndPopup();
 		}
+
+
 	}
 
 

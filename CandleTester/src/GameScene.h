@@ -75,11 +75,6 @@ class GameScene : public Scene {
 
 		void OnEditor() override
 		{
-			ImGui::Begin("GameScene");
-			{
-				ImGui::Text("Test");
-			}
-			ImGui::End();
 		}
 
 

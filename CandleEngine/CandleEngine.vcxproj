@@ -97,7 +97,7 @@
     <ClInclude Include="src\Res\EngineShaders.h" />
     <ClInclude Include="src\Candle\Editor\GUI\GuiAPI.h" />
     <ClInclude Include="src\Candle\Editor\GUI\GuiNode_Implementation.h" />
-    <ClInclude Include="src\Utility\Data\Graph.h" />
+    <ClInclude Include="src\Utility\DataStruct\Graph.h" />
     <ClInclude Include="src\Utility\Maths\Noise.h" />
     <ClInclude Include="src\Utility\Maths\OpenSimplexNoise.h" />
     <ClInclude Include="src\Utility\System\AudioLoader.h" />
@@ -235,7 +235,7 @@
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y "$(OutDir)candleengine.lib" "$(SolutionDir)bin\$(Configuration)-$(Platform)\Sandbox\"
-xcopy /y "$(OutDir)candleengine.lib" "$(SolutionDir)bin\$(Configuration)-$(Platform)\CandleBird\"</Command>
+xcopy /y "$(OutDir)candleengine.lib" "$(SolutionDir)bin\$(Configuration)-$(Platform)\CandleTester\"</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>imgui.lib;glfw3.lib;opengl32.lib;glew32s.lib;openal32.lib;</AdditionalDependencies>
