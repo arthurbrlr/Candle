@@ -33,7 +33,7 @@ namespace Candle {
 		if ( SceneManagement::CurrentScene() ) SceneManagement::CurrentScene()->OnEditor();
 
 		static bool demo = true;
-		ImGui::ShowDemoWindow(&demo);
+		//ImGui::ShowDemoWindow(&demo);
 
 
 			// Do not modify this line
@@ -316,8 +316,6 @@ namespace Candle {
 			Shared<Texture2D> currentScene = SceneManagement::FinalSceneTexture();
 			if ( currentScene ) {
 				ImGui::Image((void*)(intptr_t)currentScene->GetID(), viewerSize, ImVec2(0, 1), ImVec2(1, 0));
-			} else {
-				CERROR("No scene currently.");
 			}
 		} else {
 			_eb.MouseInGameViewport = false;
