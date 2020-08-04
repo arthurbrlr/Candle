@@ -8,6 +8,10 @@ After messing around with the existing code base of Dried, I realised it would b
 There's no real goal behind that project other than learning how a modern game engine should work, ultimately, I'd like to create some small games using Candle, but there are severall features that are missing to even think about it.
 
 ---
+#### Project Structure:
+- CandleEngine: Engine source code,
+- CandleTester: Client application for testing purposes,
+- CandleTemplate: Template client application, can be used to start creating a game from scratch.
 
 #### Using:
 - C++ as the main programming language for the engine and the client,
@@ -26,6 +30,7 @@ There's no real goal behind that project other than learning how a modern game e
 
 #### What comes next [(trello board)](https://trello.com/b/zaCBNTEl/candleengine):
 - Refactoring the Entity class,
+- Scene serialisation,
 - 2D Physics,
 - Text Rendering,
 - Audio listeners and streaming from disk,
