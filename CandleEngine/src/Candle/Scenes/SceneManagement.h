@@ -26,5 +26,7 @@ namespace Candle {
 			static std::unordered_map<uint32_t, Shared<Scene>> _scenes;
 			static uint32_t _currentScene;
 			static Shared<Texture2D> _finalTexture;
+
+			static void RenderScene();
 	};
 }

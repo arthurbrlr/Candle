@@ -183,11 +183,24 @@ namespace Candle {
 		if ( ImGui::BeginPopupModal("Create New Scene", NULL, ImGuiWindowFlags_AlwaysAutoResize) ) {
 			ImGui::InputText("Name", newSceneNameBuffer, 32);
 			if ( ( ImGui::Button("Create") || Input::IsKeyPressed(CDL_KEY_SPACE) ) && newSceneNameBuffer ) {
-				Scene* newScene = new EmptyScene();
-				newScene->SetName(newSceneNameBuffer);
-				uint32_t newSceneID = newScene->GetID();
-				SceneManagement::AddScene(newScene);
-				SceneManagement::LoadScene(newSceneID);
+				std::string newSceneName(newSceneNameBuffer);
+				bool valid = true;
+
+				for ( auto& scene : SceneManagement::AllScenes() ) {
+					if ( !scene.second ) continue;
+					if ( scene.second->GetName() == newSceneName ) {
+						CDL_INFO("Invalid scene name!");
+						valid = false;
+					}
+				}
+
+				if ( valid ) {
+					Scene* newScene = new EmptyScene();
+					newScene->SetName(newSceneNameBuffer);
+					uint32_t newSceneID = newScene->GetID();
+					SceneManagement::AddScene(newScene);
+					SceneManagement::LoadScene(newSceneID);
+				}
 				createNewSceneModal = false;
 				ImGui::CloseCurrentPopup();
 			}

@@ -40,55 +40,7 @@ class RenderSystem : public Candle::System {
 
 		void OnRenderUpdate() override
 		{
-			std::vector<Candle::Shared<Candle::Blueprint>> bps = Candle::BlueprintManager::Get<Candle::SpriteRenderer>();
-
-			if (bps.size() == 0) return;
-
-			double t1 = Time::Milliseconds();
-
-			Candle::Renderer2D::BeginScene();
-			Candle::Renderer2D::GetStats()->Reset();
-
-				/* Sprite Rendering */
-			for (auto& bp : bps) {
-
-				Candle::SpriteRenderer& srComp = bp->GetComponent<Candle::SpriteRenderer>();
-				
-				if (!srComp.IsActive()) continue;
-
-				if (bp->HasComponent<Candle::AnimationController>()) {
-					bool animBool = bp->GetComponent<Candle::AnimationController>().GetCurrentAnimation(*_animptr);
-
-					if (animBool) {
-						srComp.SetTextureCoordinates(_animptr->GetKeyframes()[_animptr->GetCurrentKeyFrameIndex()].textureCoordinates);
-					}
-				}
-
-				if (bp->HasComponent<Candle::Transform>()) {
-					Candle::Renderer2D::DrawSprite(srComp, bp->GetComponent<Candle::Transform>());
-				} else {
-					Candle::Renderer2D::DrawSprite(srComp);
-				}
-					
-			}
-
-
-				// Sprite part test
-			Candle::SpritePart part1 = { "part1" , {0, 1, 1}, { 0, 1, 0, 1 }, { 0.1, 0.1 } };
-			Candle::SpritePart part2 = { "part2" , {1, 0, 1}, { 0, 1, 0, 1 }, { 0.2, 0.2 } };
-			Candle::SpritePart part3 = { "part3" , {0, 0, 1}, { 0, 1, 0, 1 }, { 0.3, 0.1 } };
-
-			std::vector<Candle::SpritePart> parts = {
-				part1,
-				part2,
-				part3
-			};
-
-			//Candle::Renderer2D::DrawPartialSprite(Transform(nullptr), Assets::GetTexture2D("dodo"), parts, false);
-
-
-			Candle::Renderer2D::EndScene();
-			Candle::Renderer2D::GetStats()->ecsSpriteRenderTime = Time::Milliseconds() - t1;
+			
 		}
 
 

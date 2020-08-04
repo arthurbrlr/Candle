@@ -11,9 +11,9 @@ public:
 	{
 		Candle::ECS::Add(new RenderSystem()); // temporary
 		Candle::ECS::Add(new LineRenderSystem()); // temporary
-		//SceneManagement::AddScene(new GameScene());
-		//SceneManagement::AddScene(new TestScene());
-		//SceneManagement::LoadScene(testSceneID);
+		SceneManagement::AddScene(new GameScene());
+		SceneManagement::AddScene(new TestScene());
+		SceneManagement::LoadScene(testSceneID);
 	}
 
 	~GameApplication()

@@ -13,16 +13,20 @@ namespace Candle {
 	PostProcessingNode::PostProcessingNode(const std::string & name, uint32_t width, uint32_t height, NodeData data, const std::vector<FrameBufferType> & bufferTypes)
 		: _textureWidth(width), _textureHeight(height), _data(data)
 	{
+		_nodeID = postProcessingNodeID++;
+		_nodeName = name;
 
 		int textureSamplers[4] = { 0, 1, 2, 3 };
 		Shared<Shader> shader = Assets::GetShader(name);
 		if (shader != nullptr) {
 			shader->Bind();
 			shader->SetIntArray("u_textures", textureSamplers, 4);
+		} else {
+			_valid = false;
+			return;
 		}
 		
-		_nodeID = postProcessingNodeID++;
-		_nodeName = name;
+		
 		_buffer = FrameBuffer::Create(bufferTypes, width, height);
 
 		/*

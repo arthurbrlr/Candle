@@ -1,5 +1,6 @@
 #include "cdlpch.h"
 #include "SceneManagement.h"
+#include "EmptyScene.h"
 
 #include "Candle/Application.h"
 #include "Candle/Renderer/Renderer.h"
@@ -17,6 +18,10 @@ namespace Candle {
 
 	void SceneManagement::Init()
 	{
+		if ( _currentScene == -1 ) {
+			AddScene(new EmptyScene());
+			LoadScene(_currentScene);
+		}
 	}
 
 
@@ -55,10 +60,12 @@ namespace Candle {
 	{
 		if ( _currentScene == -1 ) return;
 		_scenes[_currentScene]->GetFrameBuffer()->Bind();
-			// v temp line
+		// v temp line
 		RenderCommands::SetLinesRendering(Editor::Variables().DrawLines);
 		RenderCommands::Clear();
-		ECS::Render();
+		
+		RenderScene();
+
 			// v temp line
 		RenderCommands::SetLinesRendering(false);
 		_scenes[_currentScene]->GetFrameBuffer()->Unbind(CDL_APP_WIDTH, CDL_APP_HEIGHT);
@@ -66,9 +73,9 @@ namespace Candle {
 
 			// Move postprocessing out of here
 		_finalTexture = _scenes[_currentScene]->GetTexture();
-		PostProcessing::SetRenderViewport(glm::vec4(0, 0, CDL_APP_WIDTH, CDL_APP_HEIGHT));
 		
-		if ( PostProcessing::GetFinalNodeID() != -1 ) {
+		if ( PostProcessing::Use() ) {
+			PostProcessing::SetRenderViewport(glm::vec4(0, 0, CDL_APP_WIDTH, CDL_APP_HEIGHT));
 			PostProcessing::Process(_finalTexture);
 			_finalTexture = PostProcessing::GetFinalTexture();
 		}
@@ -80,7 +87,9 @@ namespace Candle {
 	{
 		RenderCommands::SetLinesRendering(Editor::Variables().DrawLines);
 		RenderCommands::Clear();
-		ECS::Render();
+
+		RenderScene();
+
 		RenderCommands::SetLinesRendering(false);
 	}
 
@@ -89,6 +98,63 @@ namespace Candle {
 	{
 		if ( _currentScene == -1 ) return;
 		_scenes[_currentScene]->OnEvent(event);
+	}
+
+
+	void SceneManagement::RenderScene()
+	{
+		Animation* _animptr = new Animation("default", {});
+		std::vector<Shared<Blueprint>> bps = BlueprintManager::Get<SpriteRenderer>();
+
+		if ( bps.size() == 0 ) return;
+
+		double t1 = Time::Milliseconds();
+
+		Renderer2D::BeginScene();
+		Renderer2D::GetStats()->Reset();
+
+		/* Sprite Rendering */
+		for ( auto& bp : bps ) {
+
+			SpriteRenderer& srComp = bp->GetComponent<SpriteRenderer>();
+
+			if ( !srComp.IsActive() ) continue;
+
+			if ( bp->HasComponent<AnimationController>() ) {
+				bool animBool = bp->GetComponent<AnimationController>().GetCurrentAnimation(*_animptr);
+
+				if ( animBool ) {
+					srComp.SetTextureCoordinates(_animptr->GetKeyframes()[_animptr->GetCurrentKeyFrameIndex()].textureCoordinates);
+				}
+			}
+
+			if ( bp->HasComponent<Transform>() ) {
+				Renderer2D::DrawSprite(srComp, bp->GetComponent<Transform>());
+			} else {
+				Renderer2D::DrawSprite(srComp);
+			}
+
+		}
+
+
+		// Sprite part test
+		SpritePart part1 = { "part1" , {0, 1, 1}, { 0, 1, 0, 1 }, { 0.1, 0.1 } };
+		SpritePart part2 = { "part2" , {1, 0, 1}, { 0, 1, 0, 1 }, { 0.2, 0.2 } };
+		SpritePart part3 = { "part3" , {0, 0, 1}, { 0, 1, 0, 1 }, { 0.3, 0.1 } };
+
+		std::vector<SpritePart> parts = {
+			part1,
+			part2,
+			part3
+		};
+
+		//Renderer2D::DrawPartialSprite(Transform(nullptr), Assets::GetTexture2D("dodo"), parts, false);
+
+
+		Renderer2D::EndScene();
+		Renderer2D::GetStats()->ecsSpriteRenderTime = Time::Milliseconds() - t1;
+
+		delete _animptr;
 	}
 
 }

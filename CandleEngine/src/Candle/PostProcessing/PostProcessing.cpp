@@ -11,25 +11,25 @@ namespace Candle {
 			{0},
 			{1}
 		};
-		AddNode(PostProcessingNode::New("brigthFilter", 960, 540, brigthFilterData));
+		AddNode(PostProcessingNode::New("brigthFilter", 960, 540, brigthFilterData), _usePostProcessing);
 
 		NodeData verticalBlurData = {
 			{1},
 			{2}
 		};
-		AddNode(PostProcessingNode::New("verticalBlur", 960, 540, verticalBlurData));
+		AddNode(PostProcessingNode::New("verticalBlur", 960, 540, verticalBlurData), _usePostProcessing);
 
 		NodeData horizontalBlurData = {
 			{2},
 			{3}
 		};
-		AddNode(PostProcessingNode::New("horizontalBlur", 960, 540, horizontalBlurData));
+		AddNode(PostProcessingNode::New("horizontalBlur", 960, 540, horizontalBlurData), _usePostProcessing);
 
 		NodeData bloomData = {
 			{0, 3},
 			{}
 		};
-		AddNode(PostProcessingNode::New("bloom", 1920, 1080, bloomData));
+		AddNode(PostProcessingNode::New("bloom", 1920, 1080, bloomData), _usePostProcessing);
 	}
 
 
@@ -42,8 +42,16 @@ namespace Candle {
 	}
 
 
+	void PostProcessingPipeline::AddNode(Shared<PostProcessingNode> node, bool& success)
+	{
+		success = node->IsValid();
+		_graph[node->GetID()] = std::move(node);
+	}
+
+
 	void PostProcessingPipeline::Process(Shared<Texture2D> sceneTexture)
 	{
+		if ( !_usePostProcessing ) return;
 		for (auto& it : _graph) {
 			it.second->ResetNode();
 		}

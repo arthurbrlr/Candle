@@ -41,10 +41,12 @@ namespace Candle {
 
 			const NodeData Data() const { return _data; }
 			bool IsUsed() const { return _used; }
+			bool IsValid() const { return _valid; }
 
 
 		private:
 			bool _used = true;
+			bool _valid = false;
 			NodeData _data;
 		
 			std::vector<Shared<Texture2D>> _inputTextures;

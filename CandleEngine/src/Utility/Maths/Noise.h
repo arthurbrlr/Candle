@@ -8,6 +8,8 @@
 
 namespace Candle {
 
+    typedef const char* UUID;
+
 	class Noise {
 
 		public:
@@ -51,20 +53,20 @@ namespace Candle {
                 for ( i = 0; i < 8; i++ ) {
                     ss << dis(gen);
                 }
-                ss << "-";
+                //ss << "-";
                 for ( i = 0; i < 4; i++ ) {
                     ss << dis(gen);
                 }
-                ss << "-4";
-                for ( i = 0; i < 3; i++ ) {
+                //ss << "-";
+                for ( i = 0; i < 4; i++ ) {
                     ss << dis(gen);
                 }
-                ss << "-";
+                //ss << "-";
                 ss << dis2(gen);
                 for ( i = 0; i < 3; i++ ) {
                     ss << dis(gen);
                 }
-                ss << "-";
+                //ss << "-";
                 for ( i = 0; i < 12; i++ ) {
                     ss << dis(gen);
                 };
