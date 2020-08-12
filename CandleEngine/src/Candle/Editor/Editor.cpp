@@ -347,7 +347,7 @@ namespace Candle {
 	{
 		ImGui::Begin("Assets");
 		{
-			if (ImGui::CollapsingHeader("Shaders Loaded")) {
+			if (ImGui::CollapsingHeader("Shaders (res/shaders)")) {
 				for (auto& shader : Candle::Assets::GetAllShaders()) {
 					if (shader.second == nullptr) continue;
 					std::string headerName = "Shader " + std::to_string(shader.second->GetID()) + " : " + shader.second->GetName();
@@ -393,7 +393,7 @@ namespace Candle {
 
 			ImGui::Spacing();
 
-			if (ImGui::CollapsingHeader("Textures Loaded")) {
+			if (ImGui::CollapsingHeader("Textures (res/textures)")) {
 				for (auto& texture : Candle::Assets::GetAllTexture2D()) {
 					if (texture.second == nullptr) continue;
 					if (ImGui::TreeNode(texture.first.c_str())) {
@@ -408,6 +408,10 @@ namespace Candle {
 			}
 
 		}
+		if ( ImGui::Button("Reload all assets") ) {
+			Assets::Reload();
+		}
+
 		ImGui::End();
 	}
 

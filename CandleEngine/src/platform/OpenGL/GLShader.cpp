@@ -84,7 +84,7 @@ namespace Candle {
 
 		}
 		else {
-			CASSERT(false, "Couldn't open shader file");
+			CERROR("Couldn't open shader file");
 		}
 
 		return filestring;

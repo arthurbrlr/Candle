@@ -6,6 +6,8 @@
 #include "Candle/Renderer/FrameBuffer.h"
 #include "Candle/Assets/Texture2D.h"
 
+#include "Burst/Burst.h"
+
 namespace Candle {
 
 	static uint32_t sceneID = 0;
@@ -37,6 +39,7 @@ namespace Candle {
 			Shared<FrameBuffer> _sceneBuffer;
 			Shared<Texture2D> _sceneTexture;
 
+			Burst::Registery _sceneRegistery;
 	};
 
 }
