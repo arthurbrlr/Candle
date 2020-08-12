@@ -6,7 +6,7 @@
 #include "Candle/Renderer/FrameBuffer.h"
 #include "Candle/Assets/Texture2D.h"
 
-#include "Burst/Burst.h"
+#include "Burst.h"
 
 namespace Candle {
 

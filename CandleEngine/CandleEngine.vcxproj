@@ -223,7 +223,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);CANDLE_PLATFORM_WINDOWS;CANDLE_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;GLEW_STATIC</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)CandleEngine\src;$(SolutionDir)CandleEngine\trdp;$(SolutionDir)CandeEngine\platform;$(SolutionDir)CandleEngine\trdp\spdlog\include;$(SolutionDir)CandleEngine\trdp\GLFW\include;$(SolutionDir)CandleEngine\trdp\GLEW\include;$(SolutionDir)CandleEngine\trdp\ImGui;$(SolutionDir)CandleEngine\trdp\glm;$(SolutionDir)CandleEngine\trdp\stb_image;$(SolutionDir)CandleEngine\trdp\OpenAL</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)CandleEngine\src;$(SolutionDir)CandleEngine\trdp;$(SolutionDir)CandeEngine\platform;$(SolutionDir)CandleEngine\trdp\spdlog\include;$(SolutionDir)CandleEngine\trdp\GLFW\include;$(SolutionDir)CandleEngine\trdp\GLEW\include;$(SolutionDir)CandleEngine\trdp\ImGui;$(SolutionDir)CandleEngine\trdp\glm;$(SolutionDir)CandleEngine\trdp\stb_image;$(SolutionDir)CandleEngine\trdp\OpenAL;$(SolutionDir)CandleEngine\trdp\Burst\Burst\src</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>cdlpch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -238,10 +238,10 @@
 xcopy /y "$(OutDir)candleengine.lib" "$(SolutionDir)bin\$(Configuration)-$(Platform)\CandleTemplate\"</Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>imgui.lib;glfw3.lib;opengl32.lib;glew32s.lib;openal32.lib;</AdditionalDependencies>
+      <AdditionalDependencies>imgui.lib;glfw3.lib;opengl32.lib;glew32s.lib;openal32.lib;burst.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)CandleEngine\trdp\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)CandleEngine\trdp\Burst\Burst\lib\Release;$(SolutionDir)CandleEngine\trdp\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -252,7 +252,7 @@ xcopy /y "$(OutDir)candleengine.lib" "$(SolutionDir)bin\$(Configuration)-$(Platf
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)CandleEngine\src;$(SolutionDir)CandleEngine\trdp;$(SolutionDir)CandeEngine\platform;$(SolutionDir)CandleEngine\trdp\spdlog\include;$(SolutionDir)CandleEngine\trdp\GLFW\include;$(SolutionDir)CandleEngine\trdp\GLEW\include;$(SolutionDir)CandleEngine\trdp\ImGui;$(SolutionDir)CandleEngine\trdp\glm;$(SolutionDir)CandleEngine\trdp\stb_image;$(SolutionDir)CandleEngine\trdp\OpenAL</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)CandleEngine\src;$(SolutionDir)CandleEngine\trdp;$(SolutionDir)CandeEngine\platform;$(SolutionDir)CandleEngine\trdp\spdlog\include;$(SolutionDir)CandleEngine\trdp\GLFW\include;$(SolutionDir)CandleEngine\trdp\GLEW\include;$(SolutionDir)CandleEngine\trdp\ImGui;$(SolutionDir)CandleEngine\trdp\glm;$(SolutionDir)CandleEngine\trdp\stb_image;$(SolutionDir)CandleEngine\trdp\OpenAL;$(SolutionDir)CandleEngine\trdp\Burst\Burst\src</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);CANDLE_PLATFORM_WINDOWS;CANDLE_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;GLEW_STATIC</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>cdlpch.h</PrecompiledHeaderFile>
@@ -266,14 +266,14 @@ xcopy /y "$(OutDir)candleengine.lib" "$(SolutionDir)bin\$(Configuration)-$(Platf
       <AdditionalDependencies>glfw3.lib;opengl32.lib;user32.lib;Gdi32.lib;Shell32.lib;glew32s.lib;ImGui.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y "$(OutDir)candleengine.lib" "$(SolutionDir)bin\$(Configuration)-$(Platform)\Sandbox\"
-xcopy /y "$(OutDir)candleengine.lib" "$(SolutionDir)bin\$(Configuration)-$(Platform)\CandleBird\"</Command>
+      <Command>xcopy /y "$(OutDir)candleengine.lib" "$(SolutionDir)bin\$(Configuration)-$(Platform)\CandleTester\"
+xcopy /y "$(OutDir)candleengine.lib" "$(SolutionDir)bin\$(Configuration)-$(Platform)\CandleTemplate\"</Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>imgui.lib;glfw3.lib;opengl32.lib;glew32s.lib;openal32.lib;</AdditionalDependencies>
+      <AdditionalDependencies>imgui.lib;glfw3.lib;opengl32.lib;glew32s.lib;openal32.lib;burst.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)CandleEngine\trdp\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)CandleEngine\trdp\Burst\Burst\lib\Release;$(SolutionDir)CandleEngine\trdp\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Deploy|x64'">
@@ -284,7 +284,7 @@ xcopy /y "$(OutDir)candleengine.lib" "$(SolutionDir)bin\$(Configuration)-$(Platf
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)CandleEngine\src;$(SolutionDir)CandleEngine\trdp;$(SolutionDir)CandeEngine\platform;$(SolutionDir)CandleEngine\trdp\spdlog\include;$(SolutionDir)CandleEngine\trdp\GLFW\include;$(SolutionDir)CandleEngine\trdp\GLEW\include;$(SolutionDir)CandleEngine\trdp\ImGui;$(SolutionDir)CandleEngine\trdp\glm;$(SolutionDir)CandleEngine\trdp\stb_image;$(SolutionDir)CandleEngine\trdp\OpenAL</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)CandleEngine\src;$(SolutionDir)CandleEngine\trdp;$(SolutionDir)CandeEngine\platform;$(SolutionDir)CandleEngine\trdp\spdlog\include;$(SolutionDir)CandleEngine\trdp\GLFW\include;$(SolutionDir)CandleEngine\trdp\GLEW\include;$(SolutionDir)CandleEngine\trdp\ImGui;$(SolutionDir)CandleEngine\trdp\glm;$(SolutionDir)CandleEngine\trdp\stb_image;$(SolutionDir)CandleEngine\trdp\OpenAL;$(SolutionDir)CandleEngine\trdp\Burst\Burst\src</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);CANDLE_PLATFORM_WINDOWS;CANDLE_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;GLEW_STATIC</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>cdlpch.h</PrecompiledHeaderFile>
@@ -298,14 +298,14 @@ xcopy /y "$(OutDir)candleengine.lib" "$(SolutionDir)bin\$(Configuration)-$(Platf
       <AdditionalDependencies>glfw3.lib;opengl32.lib;user32.lib;Gdi32.lib;Shell32.lib;glew32s.lib;ImGui.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y "$(OutDir)candleengine.lib" "$(SolutionDir)bin\$(Configuration)-$(Platform)\Sandbox\"
-xcopy /y "$(OutDir)candleengine.lib" "$(SolutionDir)bin\$(Configuration)-$(Platform)\CandleBird\"</Command>
+      <Command>xcopy /y "$(OutDir)candleengine.lib" "$(SolutionDir)bin\$(Configuration)-$(Platform)\CandleTester\"
+xcopy /y "$(OutDir)candleengine.lib" "$(SolutionDir)bin\$(Configuration)-$(Platform)\CandleTemplate\"</Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>imgui.lib;glfw3.lib;opengl32.lib;glew32s.lib;openal32.lib;</AdditionalDependencies>
+      <AdditionalDependencies>imgui.lib;glfw3.lib;opengl32.lib;glew32s.lib;openal32.lib;burst.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)CandleEngine\trdp\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)CandleEngine\trdp\Burst\Burst\lib\Release;$(SolutionDir)CandleEngine\trdp\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

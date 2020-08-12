@@ -75,7 +75,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)CandleEngine\src;$(SolutionDir)CandleEngine\trdp\spdlog\include;$(SolutionDir)CandleEngine\trdp\GLFW\include;$(SolutionDir)CandleEngine\trdp\GLEW\include;$(SolutionDir)CandleEngine\trdp\ImGui;$(SolutionDir)CandleEngine\trdp\glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)CandleEngine\src;$(SolutionDir)CandleEngine\trdp\spdlog\include;$(SolutionDir)CandleEngine\trdp\GLFW\include;$(SolutionDir)CandleEngine\trdp\GLEW\include;$(SolutionDir)CandleEngine\trdp\ImGui;$(SolutionDir)CandleEngine\trdp\glm;$(SolutionDir)CandleEngine\trdp\Burst\Burst\src</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions);CANDLE_PLATFORM_WINDOWS;</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -93,7 +93,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)CandleEngine\src;$(SolutionDir)CandleEngine\trdp\spdlog\include;$(SolutionDir)CandleEngine\trdp\GLFW\include;$(SolutionDir)CandleEngine\trdp\GLEW\include;$(SolutionDir)CandleEngine\trdp\ImGui;$(SolutionDir)CandleEngine\trdp\glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)CandleEngine\src;$(SolutionDir)CandleEngine\trdp\spdlog\include;$(SolutionDir)CandleEngine\trdp\GLFW\include;$(SolutionDir)CandleEngine\trdp\GLEW\include;$(SolutionDir)CandleEngine\trdp\ImGui;$(SolutionDir)CandleEngine\trdp\glm;$(SolutionDir)CandleEngine\trdp\Burst\Burst\src</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions);CANDLE_RELEASE;CANDLE_PLATFORM_WINDOWS;</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -113,7 +113,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)CandleEngine\src;$(SolutionDir)CandleEngine\trdp\spdlog\include;$(SolutionDir)CandleEngine\trdp\GLFW\include;$(SolutionDir)CandleEngine\trdp\GLEW\include;$(SolutionDir)CandleEngine\trdp\ImGui;$(SolutionDir)CandleEngine\trdp\glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)CandleEngine\src;$(SolutionDir)CandleEngine\trdp\spdlog\include;$(SolutionDir)CandleEngine\trdp\GLFW\include;$(SolutionDir)CandleEngine\trdp\GLEW\include;$(SolutionDir)CandleEngine\trdp\ImGui;$(SolutionDir)CandleEngine\trdp\glm;$(SolutionDir)CandleEngine\trdp\Burst\Burst\src</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions);CANDLE_RELEASE;CANDLE_PLATFORM_WINDOWS;</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
