@@ -33,7 +33,7 @@ namespace Candle {
 		if ( SceneManagement::CurrentScene() ) SceneManagement::CurrentScene()->OnEditor();
 
 		static bool demo = true;
-		ImGui::ShowDemoWindow(&demo);
+		//ImGui::ShowDemoWindow(&demo);
 
 
 			// Do not modify this line
