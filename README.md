@@ -6,8 +6,13 @@ After messing around with the existing code base of Dried, I realised it would b
 
 There's no real goal behind that project other than learning how a modern game engine should work, ultimately, I'd like to create some small games using Candle, but there are severall features that are missing to even think about it.
 
-## Download and launch Candle
-Warning: Build only on Windows!
+## Using Candle
+***Warning: Build only on Windows!***
+
+#### Testing:
+You can download the `/Demo` folder. It contains the executable for CandleTester along with some placeholder shaders and "art" I made. For now scenes are hardcoded so there's not that much you can do with it, but I plan on adding scene serialisation in files soon.
+
+#### Building:
 
 In Git Bash, navigate to the folder of your choice and enter the following command:<br>
 `git clone --recurse-submodules git://github.com/arthurbrlr/Candle`
