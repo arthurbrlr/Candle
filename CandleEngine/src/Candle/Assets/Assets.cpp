@@ -95,7 +95,7 @@ namespace Candle {
 		int i = 0;
 
 		try {
-			for (const auto& entry : std::filesystem::directory_iterator(parentFolder)) {
+			for (const auto& entry : std::filesystem::recursive_directory_iterator(parentFolder)) {
 				if ( entry.path().extension().string() != ".glsl" && entry.path().extension().string() != ".GLSL" ) continue;
 				LoadShader(entry.path().string(), entry.path().stem().string());
 			}

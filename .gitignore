@@ -348,3 +348,12 @@ CodeSources.txt
 game.txt
 list.md
 ImGui.lib
+/CandleTester/res/audio
+/CandleTester/res/textures/tilesetUI-test.png
+/CandleTester/res/textures/tileset1.png
+/CandleTester/res/textures/tileground.png
+/CandleTester/res/textures/landscape1.png
+/CandleTester/res/textures/gameBackground.png
+/CandleTester/res/textures/dude_animation_sheet.png
+/CandleTester/res/textures/cursor.png
+/CandleTester/res/textures/checkerboard.png

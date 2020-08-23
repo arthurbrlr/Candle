@@ -21,6 +21,7 @@ namespace Candle {
 		if (shader != nullptr) {
 			shader->Bind();
 			shader->SetIntArray("u_textures", textureSamplers, 4);
+			_valid = true;
 		} else {
 			_valid = false;
 			return;
