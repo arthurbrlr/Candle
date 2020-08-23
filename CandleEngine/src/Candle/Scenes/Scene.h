@@ -6,12 +6,18 @@
 #include "Candle/Renderer/FrameBuffer.h"
 #include "Candle/Assets/Texture2D.h"
 
-#include "Burst.h"
+#include "Burst/Registery.h"
+#include "Utility/Maths/Noise.h"
 
 namespace Candle {
 
+	typedef std::string UUID;
+
 	static uint32_t sceneID = 0;
 
+	class Entity;
+	class SceneManagement;
+	class ECS;
 
 	class Scene {
 
@@ -20,7 +26,7 @@ namespace Candle {
 			virtual ~Scene() {}
 
 			virtual void Load() = 0;
-			virtual void Unload() {}
+			virtual void Unload();
 
 			virtual void OnUpdate() = 0;
 			virtual void OnEvent(Event & event) {}
@@ -39,7 +45,11 @@ namespace Candle {
 			Shared<FrameBuffer> _sceneBuffer;
 			Shared<Texture2D> _sceneTexture;
 
-			Burst::Registery _sceneRegistery;
+			Burst::Registery<> _sceneRegistery;
+
+			friend class Entity;
+			friend class SceneManagement;
+			friend class ECS;
 	};
 
 }

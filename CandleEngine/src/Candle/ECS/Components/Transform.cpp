@@ -1,16 +1,24 @@
 #include "cdlpch.h"
 #include "Transform.h"
 
-#include "Candle/ECS/Blueprint.h"
+#include "Candle/ECS/Entity.h"
 
 namespace Candle {
+
+	Transform::Transform()
+		: Component::Component()
+	{
+		UpdateMatrix();
+	}
+
 
 	Transform::Transform(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
 		: _position(position), _rotation(rotation), _scale(scale)
 	{
-		_name = "Transform";
+		UpdateMatrix();
 	}
 
+	/*
 	Transform::Transform(Blueprint* parent, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
 		: _position(position), _rotation(rotation), _scale(scale)
 	{
@@ -18,7 +26,7 @@ namespace Candle {
 		UpdateMatrix();
 		_name = "Transform";
 	}
-
+	*/
 
 	void Transform::OnEditor()
 	{
@@ -133,11 +141,18 @@ namespace Candle {
 	{
 		_transformMatrix = glm::mat4(1.0f);
 
-		bool hasParentTransform = _blueprint != nullptr && _blueprint->HasParent() && _blueprint->GetParent()->HasComponent<Transform>();
+			/* Get parent transform */
+		if ( _entity != -1 ) {
+			Entity thisEntity = { SceneManagement::CurrentScene().get(), _entity };
 
-		if ( hasParentTransform ) {
-			Transform& parentTransform = _blueprint->GetParent()->GetComponent<Transform>();
-			_transformMatrix = parentTransform.Get();
+			bool hasParentTransform = thisEntity.HasComponent<HierarchyComponent>()
+								&& thisEntity.GetComponent<HierarchyComponent>().HasParent()
+								&& thisEntity.GetComponent<HierarchyComponent>().GetParent().HasComponent<Transform>();
+
+			if ( hasParentTransform ) {
+				Transform& parentTransform = thisEntity.GetComponent<HierarchyComponent>().GetParent().GetComponent<Transform>();
+				_transformMatrix = parentTransform.Get();
+			}
 		}
 
 		/* Translate */
@@ -150,13 +165,24 @@ namespace Candle {
 
 		/* Scaling */
 		_transformMatrix = glm::scale(_transformMatrix, _scale);
+		
 
-		if ( _blueprint != nullptr && _blueprint->HasChildren() ) {
-			for ( auto& child : _blueprint->GetChilds() ) {
-				if ( child.second->HasComponent<Transform>() ) {
-					child.second->GetComponent<Transform>().ForceTransformUpdate();
+			/* Update child entities */
+		if ( _entity != -1 ) {
+
+			Entity thisEntity = { SceneManagement::CurrentScene().get(), _entity };
+			if ( thisEntity.HasComponent<HierarchyComponent>() && thisEntity.GetComponent<HierarchyComponent>().HasChilds() ) {
+
+				for ( auto child : thisEntity.GetComponent<HierarchyComponent>().GetChilds() ) {
+					Entity childEntity = { SceneManagement::CurrentScene().get(), child };
+
+					if ( childEntity.HasComponent<Transform>() ) {
+						childEntity.GetComponent<Transform>().ForceTransformUpdate();
+					}
 				}
+
 			}
 		}
+
 	}
 }

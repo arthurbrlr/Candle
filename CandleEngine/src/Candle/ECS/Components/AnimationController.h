@@ -10,7 +10,8 @@ namespace Candle {
 	class AnimationController : public Component {
 
 		public:
-			AnimationController(Blueprint* parent);
+			//AnimationController(Blueprint* blueprint);
+			AnimationController() = default;
 			void OnEditor() override;
 
 			AnimationController& AddAnimation(Animation& animation);
@@ -23,6 +24,8 @@ namespace Candle {
 		private:
 			int _currentAnimation = -1;
 			std::vector<Animation> _animations;
+
+			CANDLE_DECL_COMPONENT(AnimationController)
 
 	};
 

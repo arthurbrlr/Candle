@@ -2,8 +2,7 @@
 
 #include "Candle/CandleCore.h"
 
-#include "BlueprintManager.h"
-#include "SystemManager.h"
+#include "Entity.h"
 
 namespace Candle {
 
@@ -26,13 +25,15 @@ namespace Candle {
 
 			static void Init();
 			
-			static Blueprint& New(const std::string & name = "candleBlueprint");
-			static void Add(Shared<Blueprint> blueprint);
-			static void Add(System * system);
-			static void Remove(size_t blueprintID);
-			static void ClearBlueprints();
+			static Entity New(const std::string & name = "candleEntity");
+			//static void Add(Shared<Blueprint> blueprint);
+			//static void Add(System * system);
+			static void Remove(Burst::Entity nativeEntity);
+			static void Clear();
 
-			static Shared<Blueprint> GetBlueprint(size_t blueprintID);
+			//static Shared<Blueprint> GetBlueprint(size_t blueprintID);
+			static Entity ViewEntity(Burst::Entity entityID);
+			static std::unordered_map<Burst::Entity, Burst::Entity> ViewAllEntities();
 
 			static void Update();
 			static void Render();

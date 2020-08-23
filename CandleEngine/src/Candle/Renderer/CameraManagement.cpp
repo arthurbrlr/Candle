@@ -6,39 +6,40 @@
 namespace Candle {
 
 	CameraManagement CameraManagement::_instance;
-	size_t CameraManagement::_mainCameraBlueprintID = -1;
+	Burst::Entity CameraManagement::_mainCameraEntity = -1;
 	glm::mat4 CameraManagement::_viewProjectionMatrix = glm::mat4(0);
 	glm::mat4 CameraManagement::_dummy = glm::mat4(0);
 
 
 	void CameraManagement::Init()
 	{
-		_mainCameraBlueprintID = -1;
+		_mainCameraEntity = -1;
 	}
 
 
 	void CameraManagement::UpdateView()
 	{
-		if ( _mainCameraBlueprintID != -1 && ECS::GetBlueprint(_mainCameraBlueprintID) != nullptr ) {
-			_viewProjectionMatrix = ECS::GetBlueprint(_mainCameraBlueprintID)->GetComponent<CameraHandler>().UpdatePVMatrix();
+		if ( _mainCameraEntity != -1 ) {
+			if (ECS::ViewEntity(_mainCameraEntity).HasComponent<CameraHandler>() )
+				_viewProjectionMatrix = ECS::ViewEntity(_mainCameraEntity).GetComponent<CameraHandler>().UpdatePVMatrix();
 		} else {
-			_mainCameraBlueprintID = -1;
+			_mainCameraEntity = -1;
 		}
 	}
 
 
-	void CameraManagement::RegisterMainCamera(size_t mainCameraBlueprintID)
+	void CameraManagement::RegisterMainCamera(Burst::Entity mainCameraBlueprintID)
 	{
-		if (_mainCameraBlueprintID != -1 )
-			ECS::GetBlueprint(_mainCameraBlueprintID)->GetComponent<CameraHandler>().SetAsMainCamera(false);
-		_mainCameraBlueprintID = mainCameraBlueprintID;
+		if (_mainCameraEntity != -1 )
+			ECS::ViewEntity(_mainCameraEntity).GetComponent<CameraHandler>().SetAsMainCamera(false);
+		_mainCameraEntity = mainCameraBlueprintID;
 	}
 
 
 	glm::mat4& CameraManagement::GetProjectionMatrix()
 	{
-		if ( _mainCameraBlueprintID != -1 ) {
-			return ECS::GetBlueprint(_mainCameraBlueprintID)->GetComponent<CameraHandler>().GetProjection();
+		if ( _mainCameraEntity != -1 ) {
+			return ECS::ViewEntity(_mainCameraEntity).GetComponent<CameraHandler>().GetProjection();
 		}
 
 		return _dummy;
@@ -47,8 +48,8 @@ namespace Candle {
 
 	glm::mat4& CameraManagement::GetViewMatrix()
 	{
-		if ( _mainCameraBlueprintID != -1 ) {
-			return ECS::GetBlueprint(_mainCameraBlueprintID)->GetComponent<CameraHandler>().GetView();
+		if ( _mainCameraEntity != -1 ) {
+			return ECS::ViewEntity(_mainCameraEntity).GetComponent<CameraHandler>().GetView();
 		}
 
 		return _dummy;
@@ -57,7 +58,7 @@ namespace Candle {
 
 	Transform& CameraManagement::GetCameraTransform()
 	{
-		return ECS::GetBlueprint(_mainCameraBlueprintID)->GetComponent<Transform>();
+		return ECS::ViewEntity(_mainCameraEntity).GetComponent<Transform>();
 	}
 
 }

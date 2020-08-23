@@ -41,8 +41,9 @@ namespace Candle {
 	class SpriteRenderer : public Component {
 
 		public:
-			SpriteRenderer(const Shared<Texture2D>& texture = nullptr); /* Constructor */
-			SpriteRenderer(Blueprint* parent, const Shared<Texture2D>& texture = nullptr); /* Constructor */
+			//SpriteRenderer(Blueprint* parent, const Shared<Texture2D>& texture = nullptr); /* Constructor */
+			SpriteRenderer() : Component() {}
+			SpriteRenderer(const Shared<Texture2D>& texture); /* Constructor */
 			void OnEditor() override; /* Used by the engine editor to display informations about the component */
 
 				/* --- Setters --- */
@@ -78,7 +79,7 @@ namespace Candle {
 
 
 		private:
-			Shared<Texture2D> _texture;
+			Shared<Texture2D> _texture = nullptr;
 			glm::vec4 _defaultTextureCoordinates = { 0, 1, 0, 1 };
 			uint32_t _rendererLayer = 0;
 			SpriteRendererFlags _flags = SpriteRendererFlags_None;
@@ -91,5 +92,7 @@ namespace Candle {
 				// Returns the quad (min_x, max_x, min_y, max_y) relative to the anchor position
 			glm::vec4 GetOffsetsFromAnchor(SpriteAnchor anchor) const;
 			bool CheckFlag(SpriteRendererFlags_ flag) const;
+
+			CANDLE_DECL_COMPONENT(SpriteRenderer)
 	};
 }

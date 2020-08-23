@@ -1,6 +1,7 @@
 #include "cdlpch.h"
 #include "SpriteRenderer.h"
 
+#include "imgui.h"
 #include "Candle/Assets/Assets.h"
 
 
@@ -9,7 +10,6 @@ namespace Candle {
 	SpriteRenderer::SpriteRenderer(const Shared<Texture2D>& texture)
 		: _texture(texture)
 	{
-		_name = "SpriteRenderer";
 		if ( _texture != nullptr && _texture->IsTransparent() ) {
 			_flags |= SpriteRendererFlags_Transparent;
 		} else {
@@ -17,6 +17,7 @@ namespace Candle {
 		}
 	}
 
+	/*
 	SpriteRenderer::SpriteRenderer(Blueprint* parent, const Shared<Texture2D>& texture)
 		: _texture(texture)
 	{
@@ -28,7 +29,7 @@ namespace Candle {
 			_flags &= ~SpriteRendererFlags_Transparent;
 		}
 	}
-
+	*/
 
 	void SpriteRenderer::OnEditor()
 	{

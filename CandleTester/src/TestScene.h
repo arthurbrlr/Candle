@@ -20,11 +20,11 @@ public:
 
 	void Load() override
 	{
-		Blueprint& camera = ECS::New("camera");
-		camera.AddComponent<Transform>();
+		Entity camera = ECS::New("camera");
+		camera.AddComponent<Transform>(glm::vec3{ 0, 0, 10 });
 		camera.AddComponent<CameraHandler>(CameraType::Perspective, CDL_APP_WIDTH, CDL_APP_HEIGHT).SetAsMainCamera(true);
 
-		Blueprint& master = ECS::New("map generator");
+		Entity master = ECS::New("map generator");
 		master.AddScript<RandomGridGenerator>();
 	}
 

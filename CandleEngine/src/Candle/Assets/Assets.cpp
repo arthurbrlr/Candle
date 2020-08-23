@@ -91,11 +91,12 @@ namespace Candle {
 
 	void Assets::LoadAllShaders()
 	{
-		std::string parentFolder = "res/shaders";
+		std::string parentFolder = "res";
 		int i = 0;
 
 		try {
 			for (const auto& entry : std::filesystem::directory_iterator(parentFolder)) {
+				if ( entry.path().extension().string() != ".glsl" && entry.path().extension().string() != ".GLSL" ) continue;
 				LoadShader(entry.path().string(), entry.path().stem().string());
 			}
 		} catch (std::exception e) {
@@ -110,7 +111,7 @@ namespace Candle {
 	{
 		Unique<Shader> shader = Shader::Create(path);
 		//if (_shaders.find(name) != _shaders.end()) return;
-		_shaders.emplace(name, std::move(shader));
+		_instance->_shaders.emplace(name, std::move(shader));
 	}
 
 
@@ -128,11 +129,11 @@ namespace Candle {
 
 	void Assets::LoadAllTextures()
 	{
-		std::string parentFolder = "res/textures";
+		std::string parentFolder = "res";
 		int i = 0;
 
 		try {
-			for (const auto& entry : std::filesystem::directory_iterator(parentFolder)) {
+			for (const auto& entry : std::filesystem::recursive_directory_iterator(parentFolder)) {
 				if (entry.path().extension().string() != ".png" && entry.path().extension().string() != ".PNG") continue;
 				LoadTexture(entry.path().string(), entry.path().stem().string());
 			}
@@ -146,9 +147,14 @@ namespace Candle {
 
 	void Assets::LoadTexture(const std::string & path, const std::string & name)
 	{
-		Unique<Texture2D> texture = Texture2D::Create(path);
-		//if (_textures2D.find(name) != _textures2D.end()) return;
-		_textures2D.emplace(name, std::move(texture));
+		try {
+			Unique<Texture2D> texture = Texture2D::Create(path);
+			if ( texture->GetWidth() == 0 || texture->GetHeight() == 0 ) throw std::bad_alloc();
+			//if (_textures2D.find(name) != _textures2D.end()) return;
+			_instance->_textures2D.emplace(name, std::move(texture));
+		} catch ( std::exception e ) {
+			CERROR("Couldn't load texture {0}: {1}", path, e.what());
+		}
 	}
 
 

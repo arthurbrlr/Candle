@@ -1,10 +1,9 @@
 #include "cdlpch.h"
 #include "AnimationController.h"
 #include "SpriteRenderer.h"
-#include "Candle/ECS/Blueprint.h"
 
 namespace Candle {
-
+	/*
 	AnimationController::AnimationController(Blueprint* parent)
 	{
 		AttachToBlueprint(parent);
@@ -12,7 +11,7 @@ namespace Candle {
 
 		_blueprint->RequireComponent<SpriteRenderer>();
 	}
-
+	*/
 
 	void AnimationController::OnEditor()
 	{

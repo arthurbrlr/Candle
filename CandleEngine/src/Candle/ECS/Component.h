@@ -1,59 +1,42 @@
 #pragma once
 
 #include "Candle/CandleCore.h"
-#include "Candle/Events/Event.h"
+#include "Burst/Component.h"
+#include "Candle/Scenes/SceneManagement.h"
 
 #include "imgui.h"
 
-#include <type_traits>
-#include <bitset>
-
 namespace Candle {
 
-	class Component;
-	class Blueprint;
-	typedef std::size_t ComponentID;
+#define CANDLE_DECL_COMPONENT(type) \
+								public: \
+									const std::string GetComponentName() override { return #type; } \
+									BURST_DECL_COMPONENT(type)
 
-	inline ComponentID GetUniqueComponentID()
-	{
-		static ComponentID lastID{ 0u };
-		return lastID++;
-	}
+#define CANDLE_COMPONENT(type)	BURST_COMPONENT(type)
 
-
-	template<typename T>
-	inline ComponentID GetComponentID()
-	{
-		bool isCompat = std::is_base_of<Component, T>::value;
-		CASSERT(isCompat, "Template mush inherit from Component");
-
-		static ComponentID typeID = GetUniqueComponentID();
-		return typeID;
-	}
-
-	constexpr std::size_t MaxComponents{ 32 };
-	typedef std::bitset<MaxComponents> ComponentBitSet;
-	typedef std::array<Component*, MaxComponents> ComponentArray;
-
-	class Component {
+	class Component : public Burst::Component {
 
 		public:
+			Component() : Burst::Component() {}
 			virtual ~Component() {}
 
-			virtual void OnEditor() {};
+			virtual void OnEditor() = 0;
+			virtual const std::string GetComponentName() = 0;
 
-			inline void AttachToBlueprint(Blueprint* parent) { _blueprint = parent; }
-			inline Blueprint& GetParent() const { return *_blueprint; }
+			bool IsActive() const { return _isActive; }
+			void SetActive(bool state) { _isActive = state; }
 
-			inline const std::string & GetName() { return _name; }
-			inline bool & IsActive() { return _isActive; }
-
-			inline void SetActive(bool state) { _isActive = state; }
+			template<typename T>
+			void RequireComponent()
+			{
+				Entity thisEntity = { SceneManagement::CurrentScene().get(), _entity };
+				if ( !thisEntity.HasComponent<T>() ) {
+					thisEntity.AddComponent<T>();
+				}
+			}
 
 		protected:
-			std::string _name = "candleComponent";
-			Blueprint* _blueprint = nullptr;
 			bool _isActive = true;
 	};
-
 }

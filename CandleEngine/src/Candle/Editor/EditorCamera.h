@@ -45,8 +45,10 @@ namespace Candle {
 			OrthographicCamera _orthographic;
 			PerspectiveCamera _perspective;
 
-			Transform* _cameraTransform;
-			Transform* _targetTransform;
+			//Transform* _cameraTransform;
+			//Transform* _targetTransform;
+			Transform _cameraTransform;
+			Transform _targetTransform;
 			
 			double _distanceFromTarget = 7;
 			glm::vec2 _distanceFromTargetVector; /* Distance on both axis */

@@ -8,8 +8,9 @@ namespace Candle {
 	class Transform : public Component {
 
 		public:
-			Transform(glm::vec3 position = { 0, 0, 0 }, glm::vec3 rotation = { 0, 0, 0 }, glm::vec3 scale = { 1, 1, 1 }); /* Constructor */
-			Transform(Blueprint* parent, glm::vec3 position = { 0, 0, 0 }, glm::vec3 rotation = { 0, 0, 0 }, glm::vec3 scale = { 1, 1, 1 }); /* Constructor */
+			//Transform(Blueprint* parent, glm::vec3 position = { 0, 0, 0 }, glm::vec3 rotation = { 0, 0, 0 }, glm::vec3 scale = { 1, 1, 1 }); /* Constructor */
+			Transform();
+			Transform(glm::vec3 position, glm::vec3 rotation = { 0, 0, 0 }, glm::vec3 scale = { 1, 1, 1 }); /* Constructor */
 			void OnEditor() override; /* Used by the engine editor to display informations about the component */
 
 				// Methods
@@ -34,10 +35,14 @@ namespace Candle {
 			Transform& SetScale(const glm::vec3 newScale);			/* Set the relative scale */
 
 		private:
-			glm::vec3 _position, _scale, _rotation;
+			glm::vec3 _position = { 0, 0, 0 },
+					  _scale	= { 1, 1, 1 },
+					  _rotation = { 0, 0, 0 };
 			glm::mat4 _transformMatrix = glm::mat4(0);
 
 			void UpdateMatrix();
+
+			CANDLE_DECL_COMPONENT(Transform)
 	};
 
 }

@@ -70,12 +70,12 @@ namespace Candle {
 
 			static void BuildDockSpace();
 			static void ShowMainMenu();
-			static void ShowMasterWindow();
+			static void ShowSettingsWindow(bool* show);
 			static void ShowEditorViewer();
 			static void ShowGameViewer();
 			static void ShowAssetsWindow();
 			static void ShowSceneHierarchy();
-			static void ShowComponentsOf(Blueprint* bp);
+			static void ShowComponentsOf(Entity& entity);
 			static void ShowPostProcessingPipeline();
 			static void ShowRendererWindow();
 

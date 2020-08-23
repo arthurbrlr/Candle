@@ -1,8 +1,8 @@
 #include "cdlpch.h"
 #include "ECS.h"
 
+#include "Candle/Core/Time.h"
 #include "Components/EngineComponents.h"
-#include "Systems/EngineSystems.h"
 
 namespace Candle {
 
@@ -10,44 +10,55 @@ namespace Candle {
 
 	void ECS::Init()
 	{
-		Add(new AnimationSystem());
+		//Add(new AnimationSystem());
 	}
 
 
-	Blueprint& ECS::New(const std::string & name)
+	Entity ECS::New(const std::string & name)
 	{
-		return BlueprintManager::Add(name);
+		Entity newEntity = Entity{ SceneManagement::CurrentScene().get() };
+		newEntity.SetName(name);
+		return newEntity;
 	}
 
 
-	void ECS::Add(Shared<Blueprint> blueprint)
+	//void ECS::Add(Shared<Blueprint> blueprint)
+	//{
+	//	BlueprintManager::Add(blueprint);
+	//}
+	
+
+	//void ECS::Add(System* system)
+	//{
+	//	SystemManager::Add(system);
+	//}
+
+
+	void ECS::Remove(Burst::Entity nativeEntity)
 	{
-		BlueprintManager::Add(blueprint);
+		Entity toRemove{ SceneManagement::CurrentScene().get(), nativeEntity };
+		if ( toRemove.HasComponent<HierarchyComponent>() ) {
+			toRemove.GetComponent<HierarchyComponent>().Clear();
+		}
+		SceneManagement::CurrentScene()->_sceneRegistery.RemoveEntity(nativeEntity);
 	}
 
 
-	void ECS::Add(System* system)
+	void ECS::Clear()
 	{
-		SystemManager::Add(system);
 	}
 
 
-	void ECS::Remove(size_t blueprintID)
+	Entity ECS::ViewEntity(Burst::Entity entityID)
 	{
-		BlueprintManager::Remove(blueprintID);
+		// TODO : Check if the entityID exist in scene registery
+		return Entity{ SceneManagement::CurrentScene().get(), entityID };
 	}
 
 
-	void ECS::ClearBlueprints()
+	std::unordered_map<Burst::Entity, Burst::Entity> ECS::ViewAllEntities()
 	{
-		BlueprintManager::Clear();
-	}
-
-
-	Shared<Blueprint> ECS::GetBlueprint(size_t blueprintID)
-	{
-		if ( BlueprintManager::All()[blueprintID] != nullptr) return BlueprintManager::All()[blueprintID];
-		return nullptr;
+		return SceneManagement::CurrentScene()->_sceneRegistery.ViewEntities();
 	}
 
 
@@ -55,11 +66,15 @@ namespace Candle {
 	{
 		_stats.ResetUpdateStats();
 		double t1 = Time::Milliseconds();
-		BlueprintManager::Update();
+		//BlueprintManager::Update();
 		double t2 = Time::Milliseconds();
-		ScriptManager::Update();
+		
+		for ( auto scriptComponent : SceneManagement::CurrentScene()->_sceneRegistery.View<ScriptComponent>() ) {
+			( (ScriptComponent*) scriptComponent.second )->OnUpdate();
+		}
+
 		double t3 = Time::Milliseconds();
-		SystemManager::Update();
+		//SystemManager::Update();
 		double t4 = Time::Milliseconds();
 
 		_stats.bpManagerUpdateTime = t2 - t1;
@@ -70,13 +85,13 @@ namespace Candle {
 
 	void ECS::Render()
 	{
-		SystemManager::OnRender();
+		//SystemManager::OnRender();
 	}
 
 
 	void ECS::OnEditor()
 	{
-		SystemManager::OnEditor();
+		//SystemManager::OnEditor();
 	}
 
 }

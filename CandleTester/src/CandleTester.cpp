@@ -9,8 +9,6 @@ public:
 	GameApplication(const std::string & appName)
 		: Candle::Application(appName)
 	{
-		Candle::ECS::Add(new RenderSystem()); // temporary
-		Candle::ECS::Add(new LineRenderSystem()); // temporary
 		SceneManagement::AddScene(new GameScene());
 		SceneManagement::AddScene(new TestScene());
 		SceneManagement::LoadScene(testSceneID);

@@ -4,7 +4,6 @@
 	Candle Precompiled Header
 */
 
-#include <iostream>
 #include <utility>
 #include <memory>
 #include <algorithm>

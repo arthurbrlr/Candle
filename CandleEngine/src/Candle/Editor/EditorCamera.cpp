@@ -16,8 +16,8 @@ namespace Candle {
 		_orthographic = OrthographicCamera(-_aspectRatio * _zoomLevel, _aspectRatio * _zoomLevel, -_zoomLevel, _zoomLevel);
 		_perspective = PerspectiveCamera(width, height);
 		
-		_cameraTransform = new Transform(nullptr);
-		_targetTransform = new Transform(nullptr);
+		//_cameraTransform = new Transform(nullptr);
+		//_targetTransform = new Transform(nullptr);
 
 		UpdateCameraPosition();
 		UpdateViewMatrix();
@@ -41,26 +41,26 @@ namespace Candle {
 		bool changed = false;
 
 		if ( Input::IsKeyPressed(CDL_KEY_UP) ) {
-			_cameraTransform->Move({ 0, 5.f * (float)Time::FixedDeltaTime(), 0 });
-			_targetTransform->Move({ 0, 5.f * (float)Time::FixedDeltaTime(), 0 });
+			_cameraTransform.Move({ 0, 5.f * (float)Time::FixedDeltaTime(), 0 });
+			_targetTransform.Move({ 0, 5.f * (float)Time::FixedDeltaTime(), 0 });
 			changed = true;
 		}
 
 		if ( Input::IsKeyPressed(CDL_KEY_DOWN) ) {
-			_cameraTransform->Move({ 0, -5.f * (float)Time::FixedDeltaTime(), 0 });
-			_targetTransform->Move({ 0, -5.f * (float)Time::FixedDeltaTime(), 0 });
+			_cameraTransform.Move({ 0, -5.f * (float)Time::FixedDeltaTime(), 0 });
+			_targetTransform.Move({ 0, -5.f * (float)Time::FixedDeltaTime(), 0 });
 			changed = true;
 		}
 
 		if ( Input::IsKeyPressed(CDL_KEY_LEFT) ) {
-			_cameraTransform->Move({ -5.f * (float)Time::FixedDeltaTime(), 0, 0 });
-			_targetTransform->Move({ -5.f * (float)Time::FixedDeltaTime(), 0, 0 });
+			_cameraTransform.Move({ -5.f * (float)Time::FixedDeltaTime(), 0, 0 });
+			_targetTransform.Move({ -5.f * (float)Time::FixedDeltaTime(), 0, 0 });
 			changed = true;
 		}
 
 		if ( Input::IsKeyPressed(CDL_KEY_RIGHT) ) {
-			_cameraTransform->Move({ 5.f * (float)Time::FixedDeltaTime(), 0, 0 });
-			_targetTransform->Move({ 5.f * (float)Time::FixedDeltaTime(), 0, 0 });
+			_cameraTransform.Move({ 5.f * (float)Time::FixedDeltaTime(), 0, 0 });
+			_targetTransform.Move({ 5.f * (float)Time::FixedDeltaTime(), 0, 0 });
 			changed = true;
 		}
 
@@ -74,28 +74,28 @@ namespace Candle {
 	{
 		bool changed = false;
 
-		glm::vec3 currentTargetPos = _targetTransform->GetPosition();
-		glm::vec3 forward = _cameraTransform->GetForward();
-		glm::vec3 right = _cameraTransform->GetRight();
+		glm::vec3 currentTargetPos = _targetTransform.GetPosition();
+		glm::vec3 forward = _cameraTransform.GetForward();
+		glm::vec3 right = _cameraTransform.GetRight();
 
 
 		if ( Input::IsKeyPressed(CDL_KEY_UP) ) {
-			_targetTransform->Move(-5.f * (float)Time::FixedDeltaTime() * forward);
+			_targetTransform.Move(-5.f * (float)Time::FixedDeltaTime() * forward);
 			changed = true;
 		}
 
 		if ( Input::IsKeyPressed(CDL_KEY_DOWN) ) {
-			_targetTransform->Move(5.f * (float)Time::FixedDeltaTime() * forward);
+			_targetTransform.Move(5.f * (float)Time::FixedDeltaTime() * forward);
 			changed = true;
 		}
 
 		if ( Input::IsKeyPressed(CDL_KEY_LEFT) ) {
-			_targetTransform->Move(-5.f * (float)Time::FixedDeltaTime() * right);
+			_targetTransform.Move(-5.f * (float)Time::FixedDeltaTime() * right);
 			changed = true;
 		}
 
 		if ( Input::IsKeyPressed(CDL_KEY_RIGHT) ) {
-			_targetTransform->Move(5.f * (float)Time::FixedDeltaTime() * right);
+			_targetTransform.Move(5.f * (float)Time::FixedDeltaTime() * right);
 			changed = true;
 		}
 
@@ -110,7 +110,7 @@ namespace Candle {
 
 	void EditorCamera::ResetView()
 	{
-		_targetTransform->SetPosition({ 0, 0, 0 });
+		_targetTransform.SetPosition({ 0, 0, 0 });
 		_angleAroundPlayer = 0;
 		_pitch = 0;
 		_distanceFromTarget = 7;
@@ -134,14 +134,14 @@ namespace Candle {
 		_view = glm::mat4(1.0f);
 
 		// Rotation
-		_view = glm::rotate(_view, glm::radians(_cameraTransform->GetRotation().x), glm::vec3(1.f, 0.f, 0.f));
-		_view = glm::rotate(_view, glm::radians(_cameraTransform->GetRotation().y), glm::vec3(0.f, 1.f, 0.f));
-		_view = glm::rotate(_view, glm::radians(_cameraTransform->GetRotation().z), glm::vec3(0.f, 0.f, 1.f));
+		_view = glm::rotate(_view, glm::radians(_cameraTransform.GetRotation().x), glm::vec3(1.f, 0.f, 0.f));
+		_view = glm::rotate(_view, glm::radians(_cameraTransform.GetRotation().y), glm::vec3(0.f, 1.f, 0.f));
+		_view = glm::rotate(_view, glm::radians(_cameraTransform.GetRotation().z), glm::vec3(0.f, 0.f, 1.f));
 
-		_view = glm::rotate(_view, glm::radians((float)_pitch), _cameraTransform->GetRight());
+		_view = glm::rotate(_view, glm::radians((float)_pitch), _cameraTransform.GetRight());
 
 		// Translation
-		glm::vec3 negativeCameraPos = glm::vec3(-_cameraTransform->GetPosition().x, -_cameraTransform->GetPosition().y, -_cameraTransform->GetPosition().z);
+		glm::vec3 negativeCameraPos = glm::vec3(-_cameraTransform.GetPosition().x, -_cameraTransform.GetPosition().y, -_cameraTransform.GetPosition().z);
 		_view = glm::translate(_view, negativeCameraPos);
 	}
 
@@ -153,21 +153,21 @@ namespace Candle {
 			_distanceFromTarget * std::sin(glm::radians(_pitch))
 		};
 
-		double theta = _targetTransform->GetRotation().y + _angleAroundPlayer;
+		double theta = _targetTransform.GetRotation().y + _angleAroundPlayer;
 
 		double cameraXOffset = _distanceFromTargetVector.x * std::sin(glm::radians(theta));
 		double cameraZOffset = _distanceFromTargetVector.x * std::cos(glm::radians(theta));
 
 		glm::vec3 cameraPos = {
-			_targetTransform->GetPosition().x + cameraXOffset,
-			_targetTransform->GetPosition().y + _distanceFromTargetVector.y,
-			_targetTransform->GetPosition().z + cameraZOffset
+			_targetTransform.GetPosition().x + cameraXOffset,
+			_targetTransform.GetPosition().y + _distanceFromTargetVector.y,
+			_targetTransform.GetPosition().z + cameraZOffset
 		};
-		_cameraTransform->SetPosition(cameraPos);
+		_cameraTransform.SetPosition(cameraPos);
 
-		glm::vec3 currentRotation = _cameraTransform->GetRotation();
-		currentRotation.y = - ( _targetTransform->GetRotation().y + _angleAroundPlayer );
-		_cameraTransform->SetRotation(currentRotation);
+		glm::vec3 currentRotation = _cameraTransform.GetRotation();
+		currentRotation.y = - ( _targetTransform.GetRotation().y + _angleAroundPlayer );
+		_cameraTransform.SetRotation(currentRotation);
 	}
 
 
@@ -224,8 +224,8 @@ namespace Candle {
 			double dx = ( event.GetPX() - event.GetX() ) * Time::FixedDeltaTime() * _zoomLevel;
 			double dy = ( event.GetPY() - event.GetY() ) * Time::FixedDeltaTime() * _zoomLevel;
 
-			_targetTransform->Move({ dx, -dy, 0 });
-			_cameraTransform->Move({ dx, -dy, 0 });
+			_targetTransform.Move({ dx, -dy, 0 });
+			_cameraTransform.Move({ dx, -dy, 0 });
 
 			UpdateViewMatrix();
 		}
@@ -283,7 +283,7 @@ namespace Candle {
 
 	const Transform& EditorCamera::GetTargetTransform() const
 	{
-		return *_targetTransform; 
+		return _targetTransform; 
 	}
 
 	const double EditorCamera::GetRatio() const
@@ -298,12 +298,12 @@ namespace Candle {
 
 	const glm::vec3 EditorCamera::GetPosition() const
 	{
-		return _cameraTransform->GetPosition(); 
+		return _cameraTransform.GetPosition();
 	}
 
 	const glm::vec3 EditorCamera::GetRotation() const
 	{
-		return _cameraTransform->GetPosition(); 
+		return _cameraTransform.GetPosition();
 	}
 
 	const bool EditorCamera::UseOrthographic() const

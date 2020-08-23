@@ -2,43 +2,31 @@
 #include "CameraHandler.h"
 
 #include "Candle/Renderer/CameraManagement.h"
-#include "Candle/ECS/Blueprint.h"
+//#include "Candle/ECS/Blueprint.h"
+#include "Candle/ECS/Entity.h"
 #include "Transform.h"
-
+#include "imgui.h"
 
 namespace Candle {
 
-	CameraHandler::CameraHandler(Blueprint* parent)
-		: _type(Perspective)
+	CameraHandler::CameraHandler(CameraType type, double horizontalSize, double verticalSize)
+		: _type(type)
 	{
-		AttachToBlueprint(parent);
-		_name = "CameraHandler";
-		_camera = std::make_unique<PerspectiveCamera>(1920, 1080);
-
-		_blueprint->RequireComponent<Transform>();
-		if ( CameraManagement::GetMainCameraID() == -1 ) CameraManagement::RegisterMainCamera(parent->GetID());
-	}
-
-
-	CameraHandler::CameraHandler(Blueprint* parent, CameraType type, double horizontalSize, double verticalSize)
-	{
-		AttachToBlueprint(parent);
-		_name = "CameraHandler";
-		_type = type;
-
 		switch ( type ) {
 		case CameraType::Orthographic:
-			_camera = std::make_unique<OrthographicCamera>(-horizontalSize / 2, horizontalSize / 2, -verticalSize / 2, verticalSize / 2);
+			_camera = new OrthographicCamera(-horizontalSize / 2, horizontalSize / 2, -verticalSize / 2, verticalSize / 2);
 			break;
 		case CameraType::Perspective:
-			_camera = std::make_unique<PerspectiveCamera>(horizontalSize, verticalSize);
+			_camera = new PerspectiveCamera(horizontalSize, verticalSize);
 			break;
 		}
-
-		_blueprint->RequireComponent<Transform>();
-		if ( CameraManagement::GetMainCameraID() == -1 ) CameraManagement::RegisterMainCamera(parent->GetID());
 	}
 
+	CameraHandler::~CameraHandler()
+	{
+		if ( _camera ) delete _camera;
+		_camera = nullptr;
+	}
 
 	void CameraHandler::OnEditor()
 	{
@@ -54,10 +42,12 @@ namespace Candle {
 
 			if ( previousSelected != orthoSelected ) {
 				if ( orthoSelected ) {
-					_camera.reset(new OrthographicCamera(-1.78, 1.78, -1, 1));
+					delete _camera;
+					_camera = new OrthographicCamera(-1.78, 1.78, -1., 1.);
 					_type = Orthographic;
 				} else {
-					_camera.reset(new PerspectiveCamera(1920, 1080));
+					delete _camera;
+					_camera = new PerspectiveCamera(1920, 1080);
 					_type = Perspective;
 				}
 			}
@@ -70,35 +60,39 @@ namespace Candle {
 		static float camWidth;
 		static float camHeight;
 
+		if ( !_camera ) {
+			CERROR("Error: CameraHandler has no Camera pointer attached to it!");
+			return;
+		}
 		switch ( _type ) {
 			case Orthographic:
-				camWidth  = ( float )dynamic_cast<OrthographicCamera*>( _camera.get() )->GetHorizontalValue();
-				camHeight =	( float )dynamic_cast<OrthographicCamera*>( _camera.get() )->GetVerticalValue();
+				camWidth = (float)( (OrthographicCamera*)_camera )->GetHorizontalValue();
+				camHeight = (float)( (OrthographicCamera*)_camera )->GetVerticalValue();
 				ImGui::DragFloat("Horizontal", &camWidth, 0.5, 0, 10);
 				ImGui::DragFloat("Vertical", &camHeight, 0.5, 0, 10);
-				dynamic_cast<OrthographicCamera*>( _camera.get() )->SetProjection(-camWidth, camWidth, -camHeight, camHeight);
+				( (OrthographicCamera*)_camera )->SetProjection(-camWidth, camWidth, -camHeight, camHeight);
 				break;
 			case Perspective:
-				camWidth = (float)dynamic_cast<PerspectiveCamera*>( _camera.get() )->GetWidth();
-				camHeight = (float)dynamic_cast<PerspectiveCamera*>( _camera.get() )->GetHeight();
+				camWidth = (float)( (PerspectiveCamera*)_camera )->GetWidth();
+				camHeight = (float)( (PerspectiveCamera*)_camera )->GetHeight();
 				ImGui::DragFloat("Width", &camWidth, 1, 0, 3840);
 				ImGui::DragFloat("Height", &camHeight, 1, 0, 3160);
-				dynamic_cast<PerspectiveCamera*>( _camera.get() )->SetWidth(camWidth);
-				dynamic_cast<PerspectiveCamera*>( _camera.get() )->SetHeight(camHeight);
+				( (PerspectiveCamera*)_camera )->SetWidth(camWidth);
+				( (PerspectiveCamera*)_camera )->SetHeight(camHeight);
 				break;
 		}
 
 		static bool isMain;
-		isMain = CameraManagement::GetMainCameraID() == _blueprint->GetID();
+		isMain = CameraManagement::GetMainCameraID() == _entity;
 		ImGui::Checkbox("Main Camera", &isMain);
-		if ( isMain ) CameraManagement::RegisterMainCamera(_blueprint->GetID());
+		if ( isMain ) SetAsMainCamera(true);
 	}
 
 
 	CameraHandler& CameraHandler::SetAsMainCamera(bool state)
 	{
 		_isMainCamera = state;
-		if ( state ) CameraManagement::RegisterMainCamera(_blueprint->GetID());
+		if ( state ) CameraManagement::RegisterMainCamera(_entity);
 		return *this;
 	}
 
@@ -112,7 +106,9 @@ namespace Candle {
 
 	void CameraHandler::ComputeViewMatrix()
 	{
-		Transform& transform = _blueprint->GetComponent<Transform>();
+		Entity support = { SceneManagement::CurrentScene().get(), _entity };
+		if ( !support.HasComponent<Transform>() ) RequireComponent<Transform>();
+		Transform& transform = support.GetComponent<Transform>();
 
 		_viewMatrix = glm::mat4(1.0f);
 

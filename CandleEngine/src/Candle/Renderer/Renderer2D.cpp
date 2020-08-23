@@ -15,8 +15,8 @@ namespace Candle {
 
 	void Renderer2D::Init()
 	{
-		_data->defaultSpriteRenderer = std::make_shared<SpriteRenderer>(nullptr, Assets::GetTexture2D("CDL_TEXTURE_DEFAULT"));
-		_data->texturedSpriteRenderer = std::make_shared<SpriteRenderer>(nullptr, Assets::GetTexture2D("CDL_TEXTURE_WHITE"));
+		_data->defaultSpriteRenderer = std::make_shared<SpriteRenderer>(Assets::GetTexture2D("CDL_TEXTURE_DEFAULT"));
+		_data->texturedSpriteRenderer = std::make_shared<SpriteRenderer>(Assets::GetTexture2D("CDL_TEXTURE_WHITE"));
 
 			/* Full Screen Init */
 		_data->fullscreenVertexArray = VertexArray::Create();
@@ -200,7 +200,7 @@ namespace Candle {
 
 	void Renderer2D::DrawTexturedQuad(const glm::vec3 & position, const glm::vec2 & size, double rotation, Shared<Texture2D> texture)
 	{
-		SpriteRenderer spriteRenderer(nullptr, texture);
+		SpriteRenderer spriteRenderer(texture);
 		DrawSprite(position, size, rotation, spriteRenderer);
 	}
 
@@ -230,7 +230,7 @@ namespace Candle {
 	{
 		glm::vec4 textureCoords = texturePart->GetTextureCoords();
 		Shared<Texture2D> texture = texturePart->GetTexture();
-		SpriteRenderer spriteRenderer(nullptr, texture);
+		SpriteRenderer spriteRenderer(texture);
 		spriteRenderer.SetTextureCoordinates(textureCoords);
 		DrawSprite(position, size, rotation, spriteRenderer);
 	}
@@ -346,7 +346,7 @@ namespace Candle {
 
 	void Renderer2D::DrawSprite(const SpriteRenderer & sprite)
 	{
-		Transform transform(nullptr);
+		Transform transform;
 		DrawSprite(sprite, transform);
 	}
 
@@ -440,9 +440,9 @@ namespace Candle {
 
 	void Renderer2D::DrawPartialSprite(const Transform & transform, const Shared<Texture2D> & texture, const std::vector<SpritePart> & parts, bool fixed)
 	{
-		Shared<SpriteRenderer> partSprite = std::make_shared<SpriteRenderer>(nullptr, texture);
+		Shared<SpriteRenderer> partSprite = std::make_shared<SpriteRenderer>(texture);
 		partSprite->SetFixedInViewport(fixed);
-		Shared<Transform> partTransform = std::make_shared<Transform>(nullptr);
+		Shared<Transform> partTransform = std::make_shared<Transform>();
 
 		for (int i = 0; i < parts.size(); i++) {
 

@@ -14,4 +14,10 @@ namespace Candle {
 		_sceneTexture = Candle::Texture2D::Create(_sceneBuffer->Get(Candle::FrameBufferType::Texture), CDL_APP_WIDTH, CDL_APP_HEIGHT);
 	}
 
+
+	void Scene::Unload()
+	{
+		_sceneRegistery.Clear();
+	}
+
 }

@@ -11,8 +11,12 @@ namespace Candle {
 	class CameraHandler : public Component {
 
 		public:
-			CameraHandler(Blueprint* parent);
-			CameraHandler(Blueprint* parent, CameraType type, double horizontalSize, double verticalSize);
+			//CameraHandler(Blueprint* parent);
+			//CameraHandler(Blueprint* parent, CameraType type, double horizontalSize, double verticalSize);
+			CameraHandler() = default;
+			CameraHandler(CameraType type, double horizontalSize, double verticalSize);
+			~CameraHandler();
+
 			void OnEditor() override;
 
 			CameraHandler& SetAsMainCamera(bool state);
@@ -25,12 +29,14 @@ namespace Candle {
 			glm::mat4& GetProjection();
 
 		private:
-			Unique<RawCamera> _camera;
-			CameraType _type;
+			RawCamera* _camera = nullptr;
+			CameraType _type = Perspective;
 			glm::mat4 _viewMatrix = glm::mat4(0);
 			bool _isMainCamera = true;
 
 			void ComputeViewMatrix();
+
+			CANDLE_DECL_COMPONENT(CameraHandler)
 
 	};
 

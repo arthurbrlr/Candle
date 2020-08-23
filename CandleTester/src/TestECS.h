@@ -9,8 +9,8 @@ static bool useOrthoCamera = true;
 
 static std::pair<double, double> GetMouseScreenCoordinates()
 {
-	double screenWidth = CDL_APP_WIDTH;
-	double screenHeight = CDL_APP_HEIGHT;
+	double screenWidth = Candle::CDL_APP_WIDTH;
+	double screenHeight = Candle::CDL_APP_HEIGHT;
 
 	std::pair<double, double> mousePixelPos = Candle::Input::GetMousePos();
 	
@@ -22,7 +22,7 @@ static std::pair<double, double> GetMouseScreenCoordinates()
 
 	// Later, the renderer won't be part of the ECS so the OnRenderUpdate() will have to be ditched
 	// of the system manager, and ECS::Render() should be deleted
-
+/*
 class RenderSystem : public Candle::System {
 
 	public:
@@ -110,8 +110,8 @@ class LineRenderSystem : public Candle::System {
 		static std::vector<glm::vec3> _lines;
 
 		float _defaultVertices[14] = {
-			0., 0., 0., /**/ .7, .5, .5, 1.,
-			0., 0., 0., /**/ .5, .5, .7, 1.
+			0., 0., 0.,  .7, .5, .5, 1.,
+			0., 0., 0.,  .5, .5, .7, 1.
 		};
 
 		uint32_t _defaultIndices[2] = {
@@ -121,3 +121,4 @@ class LineRenderSystem : public Candle::System {
 };
 
 std::vector<glm::vec3> LineRenderSystem::_lines;
+*/

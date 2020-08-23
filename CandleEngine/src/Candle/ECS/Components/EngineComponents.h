@@ -1,11 +1,18 @@
 #pragma once
 
-	// Essentials
+	// Helpers
+#include "EntityTagComponent.h"
+#include "HierarchyComponent.h"
+
+	// Basics
 #include "CameraHandler.h"
 #include "Transform.h"
 
-	// Renderable
+	// Renderer 2D
 #include "SpriteRenderer.h"
 
 	// Animations
 #include "AnimationController.h"
+
+	// Scripting
+#include "ScriptComponent.h"

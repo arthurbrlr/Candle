@@ -2,6 +2,7 @@
 #include "Editor.h"
 
 #include "Candle/Core/Input.h"
+#include "Candle/ECS/Script.h"
 #include "Candle/Scenes/EmptyScene.h"
 #include "Candle/Scenes/SceneManagement.h"
 #include "Candle/Renderer/CameraManagement.h"
@@ -10,14 +11,13 @@ namespace Candle {
 
 	void Editor::Display()
 	{
-		double t1 = Time::Milliseconds();
+		//double t1 = Time::Milliseconds();
 			// Do not modify this line
 		_eb.ReadInputs = true;
 		_imguiLayer->Begin();
 		BuildDockSpace();
 
 		ShowMainMenu();
-		ShowMasterWindow();
 		ShowRendererWindow();
 
 		_eb.ReadInputs = false;
@@ -33,14 +33,14 @@ namespace Candle {
 		if ( SceneManagement::CurrentScene() ) SceneManagement::CurrentScene()->OnEditor();
 
 		static bool demo = true;
-		//ImGui::ShowDemoWindow(&demo);
+		ImGui::ShowDemoWindow(&demo);
 
 
 			// Do not modify this line
-		double t2 = Time::Milliseconds();
-		ImGui::Begin("EditorTime");
-		ImGui::Text("%.5f", t2 - t1);
-		ImGui::End();
+		//double t2 = Time::Milliseconds();
+		//ImGui::Begin("EditorTime");
+		//ImGui::Text("%.5f", t2 - t1);
+		//ImGui::End();
 		_imguiLayer->End();
 		_eb.ReadInputs = false;
 	}
@@ -66,12 +66,18 @@ namespace Candle {
 		*/
 	void Editor::ShowMainMenu()
 	{
-		static char newSceneNameBuffer[32];
+		static char newSceneNameBuffer[32]{ ' ' };
 		static bool createNewSceneModal = false;
 		static bool closeApplicationRequest = false;
+		static bool showSettingsWindow = false;
 
 		if ( ImGui::BeginMainMenuBar() ) {
 			if ( ImGui::BeginMenu("File") ) {
+				if ( ImGui::MenuItem("Settings") ) {
+					showSettingsWindow = true;
+				}
+				ImGui::Separator();
+
 				if ( ImGui::MenuItem("Close") ) {
 					closeApplicationRequest = true;
 				}
@@ -79,34 +85,71 @@ namespace Candle {
 			}
 
 			if ( ImGui::BeginMenu("Scene") ) {
-				if ( ImGui::BeginMenu("Open Scene File", false) ) {
+				if ( ImGui::BeginMenu("Open Scene File") ) {
 					bool endMenu = false;
-					/*
-					for ( const auto& entry : std::filesystem::recursive_directory_iterator("D:/_code/Candle/CandleBird/res") ) {
-
-						ImGui::MenuItem(entry.path().string().c_str());
 
 
-						if ( entry.is_directory() ) {
-							CINFO("Directory {0}", entry.path().stem().string().c_str());
-							if ( endMenu ) {
-								CINFO("End Menu");
-								ImGui::EndMenu();
-								endMenu = false;
-								CINFO("End menu = false");
+					static char pBuf[256] = { 0 };
+					static size_t len = 256;
+					static std::string executablePath;
+
+					if ( pBuf[0] == 0 ) {
+#ifdef _WIN64
+						int bytes = GetModuleFileName(NULL, pBuf, len);
+#else
+						int bytes = MIN(readlink("/proc/self/exe", pBuf, len), len - 1);
+						if ( bytes >= 0 )
+							pBuf[bytes] = '\0';
+						CTRACE(pBuf);
+#endif
+						executablePath = std::string(pBuf);
+						size_t lastBackSlash = executablePath.find_last_of('\\');
+						executablePath = executablePath.substr(0, lastBackSlash);
+					}
+
+					try {
+						for ( const auto& entry : std::filesystem::recursive_directory_iterator(executablePath) ) {
+
+								// Erase executablePath from currentPath
+							std::string currentPath = entry.path().string();
+							size_t pos = currentPath.find(executablePath);
+
+							if ( pos != std::string::npos ) {
+								currentPath.erase(pos, executablePath.length() + 1);
 							}
-							ImGui::BeginMenu(entry.path().stem().string().c_str());
-							endMenu = true;
-							CINFO("End menu = true");
-						} else {
-							ImGui::MenuItem(entry.path().string().c_str());
+
+							if ( !entry.is_directory() ) {
+								if ( ImGui::MenuItem(currentPath.c_str()) ) {
+									Assets::LoadTexture(entry.path().string(), currentPath);
+								}
+							}
+							/*
+							if ( entry.is_directory() ) {
+								CINFO("Directory {0}", entry.path().stem().string().c_str());
+								if ( endMenu ) {
+									CINFO("End Menu");
+									ImGui::EndMenu();
+									endMenu = false;
+									CINFO("End menu = false");
+								}
+								ImGui::BeginMenu(entry.path().stem().string().c_str());
+								endMenu = true;
+								CINFO("End menu = true");
+							} else {
+								ImGui::MenuItem(entry.path().string().c_str());
+							}
+							*/
 						}
+						/*
+						if ( endMenu ) {
+							CINFO("End Menu");
+							ImGui::EndMenu();
+						}
+						*/
+					} catch ( std::exception e ) {
+						CERROR(e.what());
 					}
-					if ( endMenu ) {
-						CINFO("End Menu");
-						ImGui::EndMenu();
-					}
-					*/
+
 					ImGui::EndMenu();
 				}
 
@@ -166,13 +209,13 @@ namespace Candle {
 
 			/* Close application popup */
 		if ( closeApplicationRequest ) ImGui::OpenPopup("Close Candle Editor");
-		if ( ImGui::BeginPopupModal("Close Candle Editor", NULL, ImGuiWindowFlags_AlwaysAutoResize) ) {
+		if ( ImGui::BeginPopupModal("Close Candle Editor", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize) ) {
 			ImGui::Text("Close Application ?", newSceneNameBuffer, 32);
-			if ( ImGui::Button("Confirm") ) {
+			if ( ImGui::Button("Confirm") || Input::OnKeyDown(CDL_KEY_ENTER) ) {
 				Application::Stop();
 			}
 			ImGui::SameLine();
-			if ( ImGui::Button("Cancel") ) {
+			if ( ImGui::Button("Cancel") || Input::OnKeyDown(CDL_KEY_ESCAPE) ) {
 				closeApplicationRequest = false;
 				ImGui::CloseCurrentPopup();
 			}
@@ -182,7 +225,7 @@ namespace Candle {
 		if ( createNewSceneModal ) ImGui::OpenPopup("Create New Scene");
 		if ( ImGui::BeginPopupModal("Create New Scene", NULL, ImGuiWindowFlags_AlwaysAutoResize) ) {
 			ImGui::InputText("Name", newSceneNameBuffer, 32);
-			if ( ( ImGui::Button("Create") || Input::IsKeyPressed(CDL_KEY_SPACE) ) && newSceneNameBuffer ) {
+			if ( ( ImGui::Button("Create") || Input::OnKeyDown(CDL_KEY_ENTER) ) && newSceneNameBuffer[0] != ' ') {
 				std::string newSceneName(newSceneNameBuffer);
 				bool valid = true;
 
@@ -204,9 +247,18 @@ namespace Candle {
 				createNewSceneModal = false;
 				ImGui::CloseCurrentPopup();
 			}
+
+			ImGui::SameLine();
+			if ( ImGui::Button("Cancel") || Input::OnKeyDown(CDL_KEY_ESCAPE) ) {
+				createNewSceneModal = false;
+				ImGui::CloseCurrentPopup();
+			}
+
 			ImGui::EndPopup();
 		}
 
+
+		if (showSettingsWindow) ShowSettingsWindow(&showSettingsWindow);
 
 	}
 
@@ -216,24 +268,32 @@ namespace Candle {
 			Display general informations about the engine and hardware
 			e.g: FrameTime, GPU used, etc...
 		*/
-	void Editor::ShowMasterWindow()
+	void Editor::ShowSettingsWindow(bool* show)
 	{
-		ImGui::Begin("Master");
+		if (ImGui::Begin("Settings", show) )
 		{
-			ImGui::TextColored(ImVec4(0.6f, 0.85f, 0.65f, 1.0f), "Candle Engine v0.1.6");
+			if ( ImGui::BeginTabBar("SettingsTabBar") ) {
+				if ( ImGui::BeginTabItem("Infos") ) {
+					ImGui::TextColored(ImVec4(0.6f, 0.85f, 0.65f, 1.0f), "Candle Engine v0.1.6");
 
-			ImGui::Spacing();
+					ImGui::Spacing();
 
-			ImGui::TextColored(ImVec4(0.6f, 0.85f, 0.65f, 1.0f), _eb.ContextVersion.c_str());
-			ImGui::TextColored(ImVec4(0.6f, 0.85f, 0.65f, 1.0f), _eb.HardwareVendor.c_str());
-			ImGui::TextColored(ImVec4(0.6f, 0.85f, 0.65f, 1.0f), _eb.HardwareRenderer.c_str());
+					ImGui::TextColored(ImVec4(0.6f, 0.85f, 0.65f, 1.0f), _eb.ContextVersion.c_str());
+					ImGui::TextColored(ImVec4(0.6f, 0.85f, 0.65f, 1.0f), _eb.HardwareVendor.c_str());
+					ImGui::TextColored(ImVec4(0.6f, 0.85f, 0.65f, 1.0f), _eb.HardwareRenderer.c_str());
 
-			ImGui::Spacing();
+					ImGui::Spacing();
 
-			ImGui::Text("Frame time: %3f ms", Candle::Time::FixedDeltaTime() * 1000.f);
-			ImGui::Text("Scaled Delta time: %3f ms", Candle::Time::DeltaTime() * 1000.f);
-			ImGui::SliderFloat("Time Factor", &_eb.TimeFactor, 0, 10);
-			Time::TimeScale(_eb.TimeFactor);
+					ImGui::Text("Frame time: %3f ms", Candle::Time::FixedDeltaTime() * 1000.f);
+					ImGui::Text("Scaled Delta time: %3f ms", Candle::Time::DeltaTime() * 1000.f);
+					ImGui::SliderFloat("Time Factor", &_eb.TimeFactor, 0, 10);
+					Time::TimeScale(_eb.TimeFactor);
+
+					ImGui::EndTabItem();
+				}
+
+				ImGui::EndTabBar();
+			}
 
 			ImGui::Spacing();
 
@@ -303,6 +363,12 @@ namespace Candle {
 			ImVec2 cursorPos = ImVec2((windowSize.x - viewerSize.x) * 0.5f, (windowSize.y - viewerSize.y) * 0.5f);
 			ImGui::SetCursorPos(cursorPos);
 			ImGui::Image((void*)(intptr_t)_editorTexture->GetID(), viewerSize, ImVec2(0, 1), ImVec2(1, 0));
+
+
+				// Editor view raycasting
+
+
+
 		} else {
 			_eb.MouseInEditorViewport = false;
 		}
@@ -346,8 +412,13 @@ namespace Candle {
 	void Editor::ShowAssetsWindow()
 	{
 		ImGui::Begin("Assets");
+
+		//if ( ImGui::Button("Reload all assets") ) {
+		//	Assets::Reload();
+		//}
+
 		{
-			if (ImGui::CollapsingHeader("Shaders (res/shaders)")) {
+			if (ImGui::CollapsingHeader("Shaders")) {
 				for (auto& shader : Candle::Assets::GetAllShaders()) {
 					if (shader.second == nullptr) continue;
 					std::string headerName = "Shader " + std::to_string(shader.second->GetID()) + " : " + shader.second->GetName();
@@ -369,7 +440,7 @@ namespace Candle {
 							ImGui::Text("Location"); ImGui::NextColumn();
 							ImGui::Separator();
 
-							for (  auto& uniform : shader.second->GetUniforms()) {
+							for ( auto& uniform : shader.second->GetUniforms() ) {
 								ImGui::Text(uniform.first.c_str()); ImGui::NextColumn();
 								ImGui::Text(ShaderUniformStringFromType(uniform.second.type).c_str()); ImGui::NextColumn();
 								ImGui::Text(std::to_string(uniform.second.length).c_str()); ImGui::NextColumn();
@@ -384,8 +455,8 @@ namespace Candle {
 
 						ImGui::TreePop();
 
-						char* shaderCode = (char*)shader.second->GetCode().c_str();
-						ImGui::InputTextMultiline("Shader Code", shaderCode, IM_ARRAYSIZE(shaderCode));
+						char* shaderCode = (char*)(shader.second->GetCode().c_str());
+						ImGui::Text(shaderCode);
 					}
 
 				}
@@ -393,7 +464,7 @@ namespace Candle {
 
 			ImGui::Spacing();
 
-			if (ImGui::CollapsingHeader("Textures (res/textures)")) {
+			if (ImGui::CollapsingHeader("Textures")) {
 				for (auto& texture : Candle::Assets::GetAllTexture2D()) {
 					if (texture.second == nullptr) continue;
 					if (ImGui::TreeNode(texture.first.c_str())) {
@@ -407,9 +478,6 @@ namespace Candle {
 				}
 			}
 
-		}
-		if ( ImGui::Button("Reload all assets") ) {
-			Assets::Reload();
 		}
 
 		ImGui::End();
@@ -425,53 +493,48 @@ namespace Candle {
 	{
 		ImGui::Begin("Scene Hierarchy");
 		static int selected = -1;
-		static size_t bpSelected;
-		bpSelected = -1;
+
+		static Burst::Entity hoveredEntity = -1;
+		//hoveredEntity = -1;
+
+		static Burst::Entity selectedEntity;
+		selectedEntity = -1;
+
 		int index = 0;
 
-		static bool openPopup = false;
-		bool windowFocusAndHovered = ImGui::IsWindowHovered();
-		/*
-		if (ImGui::Button("Save Changes")) {
-			CINFO("Saving blueprint data");
-		}
-		*/
+		static bool openHierarchyPopup = false;
+		static bool openEntityPopup = false;
 
+		bool windowFocusAndHovered = ImGui::IsWindowHovered();
+		
 		if (ImGui::Button("Clear Selection")) {
 			selected = -1;
-			bpSelected = -1;
+			selectedEntity = -1;
 		}
 
-	/*
-		for ( auto& scene : SceneManagement::AllScenes() ) {
-			if ( ImGui::TreeNode(std::to_string(scene.second->GetID()).c_str()) ) {
-
-
-
-				ImGui::TreePop();
-			}
-		}
-	*/
-		std::function<void(Blueprint*)> BuildBlueprintTree;
-		BuildBlueprintTree = [&index, &BuildBlueprintTree](Blueprint* currentBlueprint) -> void {
-			if ( currentBlueprint == nullptr ) return;
+		std::function<void(Entity&)> BuildEntityHierarchy;
+		BuildEntityHierarchy = [&index, &BuildEntityHierarchy](Entity& currentEntity) -> void {
+			
 			index++;
 			ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
-			if ( !currentBlueprint->GetViewInEditor() ) return;
 
-			std::string blueprintEditor = currentBlueprint->GetName();
-
-			if ( currentBlueprint->HasChildren() ) {
+			std::string entityName = currentEntity.GetComponent<EntityTagComponent>().GetName();
+			bool hasHierarchy = currentEntity.HasComponent<HierarchyComponent>();
+			if ( hasHierarchy && currentEntity.GetComponent<HierarchyComponent>().HasChilds() ) {
 
 				if ( selected == index ) {
 					node_flags |= ImGuiTreeNodeFlags_Selected;
-					bpSelected = currentBlueprint->GetID();
+					selectedEntity = currentEntity.GetNativeEntity();
 				}
-				bool node_open = ImGui::TreeNodeEx(blueprintEditor.c_str(), node_flags);
+				
+				bool node_open = ImGui::TreeNodeEx(entityName.c_str(), node_flags);
+				if ( ImGui::IsItemHovered() ) hoveredEntity = currentEntity.GetNativeEntity();
 				if ( ImGui::IsItemClicked() ) selected = index;
+
 				if ( node_open ) {
-					for ( auto& child : currentBlueprint->GetChilds() ) {
-						BuildBlueprintTree(child.second);
+					for ( auto& child : currentEntity.GetComponent<HierarchyComponent>().GetChilds() ) {
+						Entity childEntity = Entity{ SceneManagement::CurrentScene().get(), child };
+						BuildEntityHierarchy(childEntity);
 					}
 					ImGui::TreePop();
 				}
@@ -481,53 +544,57 @@ namespace Candle {
 				node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
 				if ( selected == index ) {
 					node_flags |= ImGuiTreeNodeFlags_Selected;
-					bpSelected = currentBlueprint->GetID();
+					selectedEntity = currentEntity.GetNativeEntity();
 				}
-				ImGui::TreeNodeEx(blueprintEditor.c_str(), node_flags);
-				if ( ImGui::IsItemClicked()) selected = index;
+				ImGui::TreeNodeEx(entityName.c_str(), node_flags);
+				if ( ImGui::IsItemClicked() ) selected = index;
+				if ( ImGui::IsItemHovered() ) hoveredEntity = currentEntity.GetNativeEntity();
 
 			}
 
 		};
 
 
-		for (auto& bp : BlueprintManager::All()) {
-			
-			if ( bp.second == nullptr || !bp.second->GetViewInEditor() || bp.second->HasParent() ) continue;
-			BuildBlueprintTree(&(*bp.second));
-
+		for (auto& entity : ECS::ViewAllEntities() ) {
+			Entity currentEntity = Entity{ SceneManagement::CurrentScene().get(), entity.second };
+			bool hasHierarchy = currentEntity.HasComponent<HierarchyComponent>();
+			if ( !hasHierarchy || ( hasHierarchy && !currentEntity.GetComponent<HierarchyComponent>().HasParent() ) )
+				BuildEntityHierarchy(currentEntity);
 		}
 		
-		Blueprint* bpShowed = nullptr;
-		if ( bpSelected != -1 ) bpShowed = &(*BlueprintManager::All()[bpSelected]);
+		if ( selectedEntity != -1 ) {
+			Entity entityToShow = ECS::ViewEntity(selectedEntity);
+			ShowComponentsOf(entityToShow);
+		} else {
+			ImGui::Begin("Entity Components");
+			ImGui::End();
+		}
 
-		if (Input::IsKeyPressed(CDL_KEY_LEFT_CONTROL) && Input::OnKeyDown(CDL_KEY_D) ) {
+
+		if ( Input::IsKeyPressed(CDL_KEY_LEFT_CONTROL) && Input::OnKeyDown(CDL_KEY_D) ) {
 			CTRACE("Control D -> Copy Entity");
 		}
 
-		ShowComponentsOf(bpShowed);
 
-
-		if ( (Input::IsMouseButtonPressed(1) || openPopup) && windowFocusAndHovered ) {
-
-			openPopup = true;
-
-			ImGui::OpenPopup("sceneHierarchyPopup");
+		if ( (Input::IsMouseButtonPressed(1) || openHierarchyPopup) && windowFocusAndHovered ) {
+			openHierarchyPopup = true;
+			ImGui::OpenPopup("popup_hierarchy");
 		}
 
-		if (ImGui::BeginPopup("sceneHierarchyPopup"))
-		{
-			if (ImGui::MenuItem("New Blueprint")) {
-				ECS::New();
+		if (ImGui::BeginPopup("popup_hierarchy")) {
+
+			if (ImGui::MenuItem("New Entity")) {
+				ECS::New("new_entity");
 			}
-			if (selected != -1 && bpSelected != -1 ) if (ImGui::MenuItem("Remove Blueprint")) {
-				ECS::Remove(bpSelected);
+
+			if (selected != -1 && selectedEntity != -1 ) if (ImGui::MenuItem("Delete Entity")) {
+				ECS::Remove(selectedEntity);
 			}
 			ImGui::EndPopup();
 		}
-		
-		if ( (Input::IsMouseButtonPressed(0) || Input::IsMouseButtonPressed(2)) && openPopup) {
-			openPopup = false;
+
+		if ( (Input::IsMouseButtonPressed(0) || Input::IsMouseButtonPressed(2)) && openHierarchyPopup ) {
+			openHierarchyPopup = false;
 			ImGui::CloseCurrentPopup();
 		}
 
@@ -542,54 +609,43 @@ namespace Candle {
 			
 			@input Shared<Blueprint> : selected blueprint
 		*/
-	void Editor::ShowComponentsOf(Blueprint* bp)
+	void Editor::ShowComponentsOf(Entity& entity)
 	{
-		static char * bpName;
-		ImGui::Begin("Blueprint Properties");
+		if (ImGui::Begin("Entity Components")) {
 
-		if (bp != nullptr) {
-
-			bpName = (char*)bp->GetName().c_str();
-			ImGui::InputText("Name", bpName, IM_ARRAYSIZE(bpName));
+			ImGui::Text("Active: ");
 			ImGui::SameLine();
-			bool isAlive = bp->IsAlive();
+			bool isAlive = true;
 			ImGui::Checkbox("alive", &isAlive);
-			if ( !isAlive ) bp->Destroy();
-			std::string bpid = "Entity ID : " + std::to_string(bp->GetID());
-			ImGui::Text(bpid.c_str());
 
-			for (ComponentID id = 0; id < MaxComponents; id++) {
+			for ( auto comp : entity.GetAllComponents() ) {
 
-				if (!bp->HasComponentOfID(id)) continue;
-				auto component = bp->GetComponentOfID(id);
+				if ( typeid( *comp ) == typeid(HierarchyComponent) ) continue;
 
-				std::string menuTitle = component->GetName();
-				if (ImGui::TreeNodeEx(menuTitle.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
-					ImGui::Checkbox("Active", &component->IsActive());
-					component->OnEditor();
-					ImGui::TreePop();
-				}
+				std::string menuTitle = ( (Component*)comp )->GetComponentName();
+				if ( ImGui::CollapsingHeader(menuTitle.c_str(), ImGuiTreeNodeFlags_DefaultOpen) ) {
+					( (Component*)comp )->OnEditor();
 
-				std::string alertBoxTitle = "Remove Component " + component->GetName();
-				if ( ImGui::ArrowButton(alertBoxTitle.c_str(), ImGuiDir_Down) )
-					ImGui::OpenPopup(alertBoxTitle.c_str());
+					std::string alertBoxTitle = "Remove " + ( (Component*)comp )->GetComponentName();
+					if ( ImGui::ArrowButton(alertBoxTitle.c_str(), ImGuiDir_Down) )
+						ImGui::OpenPopup(alertBoxTitle.c_str());
 
-				if ( ImGui::BeginPopupModal(alertBoxTitle.c_str(), NULL, ImGuiWindowFlags_NoResize) ) {
-					if ( ImGui::Button("Remove") ) {
-						CTRACE("Delete component {0}", component->GetName());
-						ImGui::CloseCurrentPopup();
+					if ( ImGui::BeginPopupModal(alertBoxTitle.c_str(), NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove) ) {
+						if ( ImGui::Button("Remove") ) {
+							CTRACE("Delete component {0}", ( (Component*)comp )->GetComponentName());
+							ImGui::CloseCurrentPopup();
+						}
+						ImGui::SameLine();
+						if ( ImGui::Button("Cancel") ) {
+							ImGui::CloseCurrentPopup();
+						}
+						ImGui::EndMenu();
 					}
-					ImGui::SameLine();
-					if ( ImGui::Button("Cancel") ) {
-						ImGui::CloseCurrentPopup();
-					}
-					ImGui::EndMenu();
 				}
 
 				ImGui::Separator();
-
 			}
-
+			/*
 			for (auto& script : bp->Scripts()) {
 
 				std::string menuTitle = script->GetName();
@@ -599,6 +655,7 @@ namespace Candle {
 					ImGui::Separator();
 				}
 			}
+			*/
 
 			if (ImGui::Button("Add Component")) {
 				ImGui::OpenPopup("EditorAddComponentPopup");
@@ -609,30 +666,31 @@ namespace Candle {
 			}
 
 			if (ImGui::BeginPopup("EditorAddComponentPopup")) {
-				if (ImGui::MenuItem("Transform", "", false, !bp->HasComponent<Transform>())) bp->AddComponent<Transform>();
-				if (ImGui::MenuItem("SpriteRenderer", "", false, !bp->HasComponent<SpriteRenderer>())) bp->AddComponent<SpriteRenderer>();
-				if (ImGui::MenuItem("AnimationController", "", false, !bp->HasComponent<AnimationController>())) bp->AddComponent<AnimationController>();
-				if (ImGui::MenuItem("CameraHandler", "", false, !bp->HasComponent<CameraHandler>())) bp->AddComponent<CameraHandler>();
+
+					// Essentials
+				if (ImGui::MenuItem("Transform", "", false, !entity.HasComponent<Transform>())) entity.AddComponent<Transform>();
+				if (ImGui::MenuItem("CameraHandler", "", false, !entity.HasComponent<CameraHandler>())) entity.AddComponent<CameraHandler>();
+
+					// Renderer 2D
+				ImGui::Separator();
+				if (ImGui::MenuItem("SpriteRenderer", "", false, !entity.HasComponent<SpriteRenderer>())) entity.AddComponent<SpriteRenderer>();
+
+					// Animations
+				ImGui::Separator();
+				if (ImGui::MenuItem("AnimationController", "", false, !entity.HasComponent<AnimationController>())) entity.AddComponent<AnimationController>();
+
 				ImGui::EndPopup();
 			}
-
+			
 			if ( ImGui::BeginPopup("EditorAddScriptPopup") ) {
-
-				auto& scripts = ScriptManager::Get().GetScripts();
-				auto& scriptsNames = ScriptManager::Get().GetScriptsNames();
-
-				for ( int i = 0; i < scripts.size(); i++) {
-					if ( ImGui::MenuItem(scriptsNames[i].c_str(), "") ) {
-						Script* _ptr = (*scripts[i])();
-						bp->AddScript(_ptr);
+				for ( auto& [name, script] : EditorScriptRegistery::Get().Scripts() ) {
+					if ( ImGui::MenuItem(name.c_str(), "", false) ) {
+						Script* _ptr = (*script)();
+						entity.AddScript(_ptr);
 					}
 				}
 				ImGui::EndPopup();
 			}
-
-		} else {
-			std::string space = " ";
-			bpName = (char*)space.c_str();
 		}
 
 		ImGui::End();

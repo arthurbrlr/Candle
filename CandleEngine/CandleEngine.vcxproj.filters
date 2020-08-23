@@ -51,12 +51,6 @@
     <ClInclude Include="src\Candle\ECS\Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Candle\ECS\System.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Candle\ECS\Blueprint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\platform\OpenGL\GLShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -102,12 +96,6 @@
     <ClInclude Include="src\Candle\Core\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Candle\ECS\BlueprintManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Candle\ECS\SystemManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\platform\OpenGL\GLContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -124,12 +112,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Candle\ECS\Components\EngineComponents.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Candle\ECS\Systems\EngineSystems.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Candle\ECS\Systems\Physics2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Candle\ECS\Script.h">
@@ -151,9 +133,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Candle\ECS\Components\AnimationController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Candle\ECS\Systems\AnimationSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Candle\Assets\Texture.h">
@@ -276,6 +255,18 @@
     <ClInclude Include="src\Utility\DataStruct\Graph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Candle\ECS\Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Candle\ECS\Components\EntityTagComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Candle\ECS\Components\HierarchyComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Candle\ECS\Components\ScriptComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Candle\Application.cpp">
@@ -321,15 +312,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\platform\Windows\WindowsTime.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Candle\ECS\Blueprint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Candle\ECS\SystemManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Candle\ECS\BlueprintManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\platform\OpenGL\GLContext.cpp">
@@ -432,6 +414,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Candle\Editor\EditorCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Candle\ECS\Components\HierarchyComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Candle\ECS\Components\EngineComponents.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Candle\ECS\Components\ScriptComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Candle\ECS\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

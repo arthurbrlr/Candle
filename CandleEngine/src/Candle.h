@@ -27,14 +27,15 @@
 #include "Candle/Assets/Texture.h"
 #include "Candle/Assets/Shader.h"
 
+
+// ECS
 #include "Candle/ECS/ECS.h"
 #include "Candle/ECS/Components/EngineComponents.h"
-#include "Candle/ECS/Systems/EngineSystems.h"
-
-// ECS Refactor
+#include "Candle/ECS/Script.h"
 #include "Candle/Scenes/Scene.h"
 #include "Candle/Scenes/SceneManagement.h"
 
+// Physics
 #include "Candle/Physics/Raycast.h"
 #include "Candle/Physics/CollisionWorld.h"
 

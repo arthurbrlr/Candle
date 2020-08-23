@@ -1,6 +1,7 @@
 #include "cdlpch.h"
 #include "SceneManagement.h"
 #include "EmptyScene.h"
+#include "Candle/ECS/Entity.h"
 
 #include "Candle/Application.h"
 #include "Candle/Renderer/Renderer.h"
@@ -39,7 +40,7 @@ namespace Candle {
 			_scenes[_currentScene]->Unload();
 		}
 
-		ECS::ClearBlueprints();
+		//ECS::ClearBlueprints();
 		CameraManagement::Init();
 
 		_currentScene = sceneID;
@@ -103,10 +104,10 @@ namespace Candle {
 
 	void SceneManagement::RenderScene()
 	{
-		Animation* _animptr = new Animation("default", {});
-		std::vector<Shared<Blueprint>> bps = BlueprintManager::Get<SpriteRenderer>();
+		static Animation* _animptr = new Animation("default", {});
+		auto& sprites = _scenes[_currentScene]->_sceneRegistery.View<SpriteRenderer>();
 
-		if ( bps.size() == 0 ) return;
+		if ( sprites.size() == 0 ) return;
 
 		double t1 = Time::Milliseconds();
 
@@ -114,24 +115,24 @@ namespace Candle {
 		Renderer2D::GetStats()->Reset();
 
 		/* Sprite Rendering */
-		for ( auto& bp : bps ) {
+		for ( auto& sprite : sprites ) {
 
-			SpriteRenderer& srComp = bp->GetComponent<SpriteRenderer>();
+			SpriteRenderer* srComp = (SpriteRenderer*)sprite.second;
+			if ( !srComp->IsActive() ) continue;
 
-			if ( !srComp.IsActive() ) continue;
-
-			if ( bp->HasComponent<AnimationController>() ) {
-				bool animBool = bp->GetComponent<AnimationController>().GetCurrentAnimation(*_animptr);
+			Entity currentEntity = Entity{ _scenes[_currentScene].get(), sprite.first };
+			if ( currentEntity.HasComponent<AnimationController>() ) {
+				bool animBool = currentEntity.GetComponent<AnimationController>().GetCurrentAnimation(*_animptr);
 
 				if ( animBool ) {
-					srComp.SetTextureCoordinates(_animptr->GetKeyframes()[_animptr->GetCurrentKeyFrameIndex()].textureCoordinates);
+					srComp->SetTextureCoordinates(_animptr->GetKeyframes()[_animptr->GetCurrentKeyFrameIndex()].textureCoordinates);
 				}
 			}
 
-			if ( bp->HasComponent<Transform>() ) {
-				Renderer2D::DrawSprite(srComp, bp->GetComponent<Transform>());
+			if ( currentEntity.HasComponent<Transform>() ) {
+				Renderer2D::DrawSprite(*srComp, currentEntity.GetComponent<Transform>());
 			} else {
-				Renderer2D::DrawSprite(srComp);
+				Renderer2D::DrawSprite(*srComp);
 			}
 
 		}
@@ -154,7 +155,6 @@ namespace Candle {
 		Renderer2D::EndScene();
 		Renderer2D::GetStats()->ecsSpriteRenderTime = Time::Milliseconds() - t1;
 
-		delete _animptr;
 	}
 
 }
