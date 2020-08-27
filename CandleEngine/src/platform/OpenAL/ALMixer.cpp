@@ -30,8 +30,8 @@ namespace Candle {
 		CTRACE("OpenAL Vendor : {0}", alGetString(AL_VENDOR));
 
 			// temp
-		_emitters["footsteps"] = std::make_shared<ALAudioEmitter>("res/audio/footsteps.wav");
-		_emitters["finalFantasy"] = std::make_shared<ALAudioEmitter>("res/audio/ff7r2.wav");
+		//_emitters["footsteps"] = std::make_shared<ALAudioEmitter>("res/audio/footsteps.wav");
+		//_emitters["finalFantasy"] = std::make_shared<ALAudioEmitter>("res/audio/ff7r2.wav");
 
 	}
 

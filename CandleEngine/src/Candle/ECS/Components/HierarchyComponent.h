@@ -25,7 +25,11 @@ namespace Candle {
 			bool HasChilds();
 			bool HasParent();
 
+			void Serialize(std::fstream& sceneFile) override;
+			void Deserialize(std::fstream& sceneFile) override;
 			void OnEditor() override;
+
+			bool IsSerializable() override;
 
 		private:
 			Burst::Entity _parent = -1;

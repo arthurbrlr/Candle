@@ -16,7 +16,7 @@ namespace Candle {
 			virtual void OnEvent(Event & event) {}
 			virtual void OnEditor() {}
 			virtual void OnDestroy() {}
-			virtual const std::string& GetName() = 0;
+			virtual const std::string& GetName() { return "Script"; };
 
 			void AttachTo(Entity entity)
 			{

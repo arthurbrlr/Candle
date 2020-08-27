@@ -13,54 +13,87 @@
 
 namespace Candle {
 
-	uint32_t SceneManagement::_currentScene = -1;
-	std::unordered_map<uint32_t, Shared<Scene>> SceneManagement::_scenes;
+	Scene* SceneManagement::_currentScene = nullptr;
+	std::string SceneManagement::_currentSceneFilePath = "";
 	Shared<Texture2D> SceneManagement::_finalTexture = nullptr;
 
 	void SceneManagement::Init()
 	{
-		if ( _currentScene == -1 ) {
-			AddScene(new EmptyScene());
-			LoadScene(_currentScene);
-		}
+		CreateEmptyScene();
 	}
 
 
-	void SceneManagement::AddScene(Scene* scene)
+	void SceneManagement::CreateEmptyScene()
 	{
-		Shared<Scene> sceneptr(scene);
-		_scenes[scene->GetID()] = std::move(sceneptr);
-		_currentScene = scene->GetID();
+		if ( _currentScene ) {
+			_currentScene->Unload();
+			delete _currentScene;
+		}
+
+		_currentScene = new EmptyScene();
+		( (EmptyScene*)_currentScene )->Load();
+		_currentSceneFilePath = "";
+
+		Application::SetTitle("Candle - default");
 	}
 
 
-	void SceneManagement::LoadScene(uint32_t sceneID)
+	void SceneManagement::LoadScene(const std::string& scenePath)
 	{
-		if (_currentScene != -1) {
-			_scenes[_currentScene]->Unload();
+		if ( _currentScene ) {
+			delete _currentScene;
 		}
 
-		//ECS::ClearBlueprints();
 		CameraManagement::Init();
 
-		_currentScene = sceneID;
-		_scenes[sceneID]->Load();
+		_currentSceneFilePath = scenePath;
+		_currentScene = new Scene();
+		_currentScene->Load(scenePath);
 
-		Application::SetTitle("Candle - " +_scenes[sceneID]->GetName());
+		std::string sceneName = scenePath.substr(scenePath.find_last_of('\\') + 1, scenePath.size());
+		std::string applicationTitle = "Candle - " + sceneName;
+		Application::SetTitle(applicationTitle);
+	}
+
+
+	void SceneManagement::SaveCurrentScene(const std::string& scenePath)
+	{
+		if ( _currentScene && scenePath.size() == 0 ) {
+			_currentScene->Save(_currentSceneFilePath);
+		} else {
+			_currentScene->Save(scenePath);
+			_currentSceneFilePath = scenePath;
+
+			std::string sceneName = scenePath.substr(scenePath.find_last_of('\\') + 1, scenePath.size());
+			std::string applicationTitle = "Candle - " + sceneName;
+			Application::SetTitle(applicationTitle);
+		}
+	}
+
+
+	void SceneManagement::Reload()
+	{
+		if ( _currentSceneFilePath.size() == 0 ) {
+			CERROR("Error: can't reload modified empty scene");
+			return;
+		}
+
+		_currentScene->_sceneRegistery.Clear();
+		_currentScene->Load(_currentSceneFilePath);
 	}
 
 
 	void SceneManagement::OnUpdate()
 	{
 		ECS::Update();
-		_scenes[_currentScene]->OnUpdate();
+		_currentScene->OnUpdate();
 	}
 
 
 	void SceneManagement::OnRender()
 	{
-		if ( _currentScene == -1 ) return;
-		_scenes[_currentScene]->GetFrameBuffer()->Bind();
+		if ( !_currentScene ) return;
+		_currentScene->GetFrameBuffer()->Bind();
 		// v temp line
 		RenderCommands::SetLinesRendering(Editor::Variables().DrawLines);
 		RenderCommands::Clear();
@@ -69,11 +102,11 @@ namespace Candle {
 
 			// v temp line
 		RenderCommands::SetLinesRendering(false);
-		_scenes[_currentScene]->GetFrameBuffer()->Unbind(CDL_APP_WIDTH, CDL_APP_HEIGHT);
+		_currentScene->GetFrameBuffer()->Unbind(CDL_APP_WIDTH, CDL_APP_HEIGHT);
 
 
 			// Move postprocessing out of here
-		_finalTexture = _scenes[_currentScene]->GetTexture();
+		_finalTexture = _currentScene->GetTexture();
 		
 		if ( PostProcessing::Use() ) {
 			PostProcessing::SetRenderViewport(glm::vec4(0, 0, CDL_APP_WIDTH, CDL_APP_HEIGHT));
@@ -97,15 +130,15 @@ namespace Candle {
 
 	void SceneManagement::OnEvent(Event& event)
 	{
-		if ( _currentScene == -1 ) return;
-		_scenes[_currentScene]->OnEvent(event);
+		if ( !_currentScene ) return;
+		_currentScene->OnEvent(event);
 	}
 
 
 	void SceneManagement::RenderScene()
 	{
 		static Animation* _animptr = new Animation("default", {});
-		auto& sprites = _scenes[_currentScene]->_sceneRegistery.View<SpriteRenderer>();
+		auto& sprites = _currentScene->_sceneRegistery.View<SpriteRenderer>();
 
 		if ( sprites.size() == 0 ) return;
 
@@ -120,7 +153,7 @@ namespace Candle {
 			SpriteRenderer* srComp = (SpriteRenderer*)sprite.second;
 			if ( !srComp->IsActive() ) continue;
 
-			Entity currentEntity = Entity{ _scenes[_currentScene].get(), sprite.first };
+			Entity currentEntity = Entity{ _currentScene, sprite.first };
 			if ( currentEntity.HasComponent<AnimationController>() ) {
 				bool animBool = currentEntity.GetComponent<AnimationController>().GetCurrentAnimation(*_animptr);
 
@@ -138,7 +171,8 @@ namespace Candle {
 		}
 
 
-		// Sprite part test
+			// Sprite part test
+		/*
 		SpritePart part1 = { "part1" , {0, 1, 1}, { 0, 1, 0, 1 }, { 0.1, 0.1 } };
 		SpritePart part2 = { "part2" , {1, 0, 1}, { 0, 1, 0, 1 }, { 0.2, 0.2 } };
 		SpritePart part3 = { "part3" , {0, 0, 1}, { 0, 1, 0, 1 }, { 0.3, 0.1 } };
@@ -149,8 +183,9 @@ namespace Candle {
 			part3
 		};
 
-		//Renderer2D::DrawPartialSprite(Transform(nullptr), Assets::GetTexture2D("dodo"), parts, false);
-
+		Transform transform;
+		Renderer2D::DrawPartialSprite(transform, Assets::GetTexture2D("dodo"), parts, false);
+		*/
 
 		Renderer2D::EndScene();
 		Renderer2D::GetStats()->ecsSpriteRenderTime = Time::Milliseconds() - t1;

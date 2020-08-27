@@ -29,7 +29,7 @@ namespace Candle {
 		if ( _instance != nullptr ) {
 			CASSERT(false, "Two applications can't exist at the same time");
 		} else {
-		_instance = this;
+			_instance = this;
 		}
 
 		_window = Unique<Window>(Window::Create(WindowProperties(appName)));

@@ -29,6 +29,7 @@ namespace Candle {
 			}
 
 			static void SetTitle(const std::string& title) { _instance->GetWindow().SetTitle(title); }
+			static void SetChangesState(bool newState) { _instance->GetWindow().SetChangesState(newState); }
 
 			inline Window& GetWindow() const { return *_window; }
 			

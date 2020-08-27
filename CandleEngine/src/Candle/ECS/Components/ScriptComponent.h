@@ -30,6 +30,8 @@ namespace Candle {
 
 		void OnUpdate();
 
+		void Serialize(std::fstream& sceneFile) override;
+		void Deserialize(std::fstream& sceneFile) override;
 		void OnEditor() override;
 
 	private:

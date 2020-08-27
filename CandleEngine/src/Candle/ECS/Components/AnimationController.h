@@ -12,6 +12,9 @@ namespace Candle {
 		public:
 			//AnimationController(Blueprint* blueprint);
 			AnimationController() = default;
+
+			void Serialize(std::fstream& sceneFile) override {}
+			void Deserialize(std::fstream& sceneFile) override {}
 			void OnEditor() override;
 
 			AnimationController& AddAnimation(Animation& animation);

@@ -6,6 +6,7 @@
 #include "Candle/ECS/Entity.h"
 #include "Candle/ECS/ECS.h"
 #include "Candle/ECS/Components/CameraHandler.h"
+#include "Candle/Renderer/CameraManagement.h"
 
 #include "Candle/ECS/Components/EngineComponents.h"
 
@@ -15,18 +16,18 @@ namespace Candle {
 
 		public:
 			EmptyScene()
+				: Scene::Scene()
 			{
-				_sceneName = "Empty Scene";
 			}
 
-			void Load() override 
+			void Load(const std::string& sceneFilePath = "") override 
 			{
+				CameraManagement::Init();
 				Entity mainCamera = ECS::New("Camera");
 				mainCamera.AddComponent<CameraHandler>(CameraType::Perspective, 1920, 1080);
 				mainCamera.GetComponent<CameraHandler>().SetAsMainCamera(true);
 				mainCamera.AddComponent<Transform>(glm::vec3{ 0,0,10 });
 			}
-			void OnUpdate() override {}
 	};
 
 }

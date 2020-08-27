@@ -23,10 +23,10 @@ public:
 
 		if (Input::IsKeyPressed(CDL_KEY_A) && !Input::IsKeyPressed(CDL_KEY_D)) {
 			vel.x = -5;
-			_entity.GetComponent<SpriteRenderer>().FlipX(true);
+			if ( _entity.HasComponent<SpriteRenderer>() ) _entity.GetComponent<SpriteRenderer>().FlipX(true);
 		} else if (Input::IsKeyPressed(CDL_KEY_D) && !Input::IsKeyPressed(CDL_KEY_A)) {
 			vel.x = 5;
-			_entity.GetComponent<SpriteRenderer>().FlipX(false);
+			if ( _entity.HasComponent<SpriteRenderer>() ) _entity.GetComponent<SpriteRenderer>().FlipX(false);
 		} else {
 			vel.x = 0;
 		}

@@ -267,6 +267,21 @@
     <ClInclude Include="src\Candle\ECS\Components\ScriptComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Utility\System\Identifier.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Candle\Core\FileSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Candle\Assets\AssetHandle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utility\StringUtility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utility\System\SerializeUtility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Candle\Application.cpp">
@@ -426,6 +441,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Candle\ECS\Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\Windows\WindowsFileSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utility\System\SerializeUtility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

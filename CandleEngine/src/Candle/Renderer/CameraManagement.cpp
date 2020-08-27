@@ -20,8 +20,9 @@ namespace Candle {
 	void CameraManagement::UpdateView()
 	{
 		if ( _mainCameraEntity != -1 ) {
-			if (ECS::ViewEntity(_mainCameraEntity).HasComponent<CameraHandler>() )
-				_viewProjectionMatrix = ECS::ViewEntity(_mainCameraEntity).GetComponent<CameraHandler>().UpdatePVMatrix();
+			Entity mainCamera = { SceneManagement::CurrentScene(), _mainCameraEntity };
+			if ( mainCamera.HasComponent<CameraHandler>() )
+				_viewProjectionMatrix = mainCamera.GetComponent<CameraHandler>().UpdatePVMatrix();
 		} else {
 			_mainCameraEntity = -1;
 		}
@@ -30,8 +31,10 @@ namespace Candle {
 
 	void CameraManagement::RegisterMainCamera(Burst::Entity mainCameraBlueprintID)
 	{
-		if (_mainCameraEntity != -1 )
-			ECS::ViewEntity(_mainCameraEntity).GetComponent<CameraHandler>().SetAsMainCamera(false);
+		if ( _mainCameraEntity != -1 ) {
+			Entity mainCamera = { SceneManagement::CurrentScene(), _mainCameraEntity };
+			mainCamera.GetComponent<CameraHandler>().SetAsMainCamera(false);
+		}
 		_mainCameraEntity = mainCameraBlueprintID;
 	}
 
@@ -39,7 +42,8 @@ namespace Candle {
 	glm::mat4& CameraManagement::GetProjectionMatrix()
 	{
 		if ( _mainCameraEntity != -1 ) {
-			return ECS::ViewEntity(_mainCameraEntity).GetComponent<CameraHandler>().GetProjection();
+			Entity mainCamera = { SceneManagement::CurrentScene(), _mainCameraEntity };
+			return mainCamera.GetComponent<CameraHandler>().GetProjection();
 		}
 
 		return _dummy;
@@ -49,7 +53,8 @@ namespace Candle {
 	glm::mat4& CameraManagement::GetViewMatrix()
 	{
 		if ( _mainCameraEntity != -1 ) {
-			return ECS::ViewEntity(_mainCameraEntity).GetComponent<CameraHandler>().GetView();
+			Entity mainCamera = { SceneManagement::CurrentScene(), _mainCameraEntity };
+			return mainCamera.GetComponent<CameraHandler>().GetView();
 		}
 
 		return _dummy;
@@ -58,7 +63,8 @@ namespace Candle {
 
 	Transform& CameraManagement::GetCameraTransform()
 	{
-		return ECS::ViewEntity(_mainCameraEntity).GetComponent<Transform>();
+		Entity mainCamera = { SceneManagement::CurrentScene(), _mainCameraEntity };
+		return mainCamera.GetComponent<Transform>();
 	}
 
 }

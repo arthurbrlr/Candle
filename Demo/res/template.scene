@@ -1,0 +1,87 @@
+Entity:
+	Component:EntityTagComponent
+		name:Camera
+		uuid:88a3ba045b741cc6979cc2375b8838ac
+	Component:CameraHandler
+		mainCamera:1
+		camtype:1
+		camWidth:1920
+		camheight:1080
+	Component:Transform
+		position:0,0,10
+		scale:1,1,1
+		rotation:0,0,0
+
+Entity:
+	Component:EntityTagComponent
+		name:blue
+		uuid:d4090d7d898c1a049cf63331747ed50b
+	Component:Transform
+		position:-1,2,0
+		scale:1,1,1
+		rotation:0,0,0
+	Component:SpriteRenderer
+		texture:CDL_TEXTURE_WHITE
+		uvs:0,1,0,1
+		color:0,0.43038,1,1
+		layer:0
+		flags:0
+		anchor:4
+
+Entity:
+	Component:EntityTagComponent
+		name:red
+		uuid:da81de4d98bc9db59e04d34385069ff5
+	Component:Transform
+		position:0,0,0
+		scale:1,1,1
+		rotation:0,0,0
+	Component:HierarchyComponent
+		child:a448d7cb4c2c04078f0e0a3725291df7
+	Component:SpriteRenderer
+		texture:CDL_TEXTURE_WHITE
+		uvs:0,1,0,1
+		color:0.767932,0,0,1
+		layer:0
+		flags:0
+		anchor:4
+	Component:ScriptComponent
+		scriptsize:2
+			class PlayerScript:
+			class UUIDTest:
+
+Entity:
+	Component:EntityTagComponent
+		name:subred
+		uuid:a448d7cb4c2c04078f0e0a3725291df7
+	Component:HierarchyComponent
+		parent:da81de4d98bc9db59e04d34385069ff5
+		child:2d5ed9e533e270919ad01cf14b59cb97
+
+Entity:
+	Component:EntityTagComponent
+		name:yellow
+		uuid:0d5020efc73e17d8aaeb8287d6e5c2b6
+	Component:SpriteRenderer
+		texture:CDL_TEXTURE_WHITE
+		uvs:0,1,0,1
+		color:1,0.833333,0,1
+		layer:-1
+		flags:0
+		anchor:6
+
+Entity:
+	Component:EntityTagComponent
+		name:subred2
+		uuid:2d5ed9e533e270919ad01cf14b59cb97
+	Component:HierarchyComponent
+		parent:a448d7cb4c2c04078f0e0a3725291df7
+
+Asset:
+	type:texture2D
+	CDL_TEXTURE_DEFAULT
+
+Asset:
+	type:texture2D
+	CDL_TEXTURE_WHITE
+

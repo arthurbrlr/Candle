@@ -13,10 +13,12 @@ namespace Candle {
 		public:
 			//CameraHandler(Blueprint* parent);
 			//CameraHandler(Blueprint* parent, CameraType type, double horizontalSize, double verticalSize);
-			CameraHandler() = default;
+			CameraHandler();
 			CameraHandler(CameraType type, double horizontalSize, double verticalSize);
 			~CameraHandler();
 
+			void Serialize(std::fstream& sceneFile) override;
+			void Deserialize(std::fstream& sceneFile) override;
 			void OnEditor() override;
 
 			CameraHandler& SetAsMainCamera(bool state);

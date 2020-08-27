@@ -3,48 +3,13 @@
 #include "Candle/Scenes/Scene.h"
 #include "Burst/Types.h"
 
+#include "Utility/System/Identifier.h"
+
 #include "Components/EntityTagComponent.h"
 #include "Components/HierarchyComponent.h"
 #include "Components/ScriptComponent.h"
 
-#include <utility>
-
 namespace Candle {
-
-	static std::string NewUUID()
-	{
-		static std::random_device              rd;
-		static std::mt19937                    gen(rd());
-		static std::uniform_int_distribution<> dis(0, 15);
-		static std::uniform_int_distribution<> dis2(8, 11);
-
-		// TODO : keep track of existing UUIDs
-
-		std::stringstream ss;
-		int i;
-		ss << std::hex;
-		for ( i = 0; i < 8; i++ ) {
-			ss << dis(gen);
-		}
-		//ss << "-";
-		for ( i = 0; i < 4; i++ ) {
-			ss << dis(gen);
-		}
-		//ss << "-";
-		for ( i = 0; i < 4; i++ ) {
-			ss << dis(gen);
-		}
-		//ss << "-";
-		ss << dis2(gen);
-		for ( i = 0; i < 3; i++ ) {
-			ss << dis(gen);
-		}
-		//ss << "-";
-		for ( i = 0; i < 12; i++ ) {
-			ss << dis(gen);
-		};
-		return ss.str();
-	}
 
 	class Entity {
 
@@ -55,8 +20,25 @@ namespace Candle {
 			{
 				if ( entity == -1 ) {
 					UUID uuid = NewUUID();
-					_entity = scene->_sceneRegistery.NewEntity();
+					_entity = scene->_sceneRegistery.NewEntity(uuid);
 					AddComponent<EntityTagComponent>("Entity", uuid);
+				}
+			}
+
+
+			Entity(Scene* scene, const std::string& name, const UUID& uuid)
+				: _scene(scene)
+			{
+				Burst::Entity temp = scene->_sceneRegistery.GetEntityFromExternID(uuid);
+				if ( temp == -1 )
+					_entity = scene->_sceneRegistery.NewEntity(uuid);
+				else
+					_entity = temp;
+
+				if ( !HasComponent<EntityTagComponent>() )
+					AddComponent<EntityTagComponent>(name, uuid);
+				else {
+					SetName(name);
 				}
 			}
 
@@ -67,19 +49,18 @@ namespace Candle {
 				return *_scene->_sceneRegistery.AddComponent<T>(_entity, std::forward<TArgs>(args)...);
 			}
 
+
+			void RemoveComponent(Burst::Component* component)
+			{
+				_scene->_sceneRegistery.RemoveComponent(_entity, component);
+			}
+
+
 			template<typename T, typename... TArgs>
 			T& AddScript(TArgs&&... args)
 			{
 				T* newScript = new T(std::forward<TArgs>(args)...);
 				return (T&)*AddScript(newScript);
-				//if ( HasComponent<ScriptComponent>() ) {
-				//	newScript = GetComponent<ScriptComponent>().AddScript<T>(std::forward<TArgs>(args)...);
-				//	( (Script*)( newScript ) )->AttachTo(*this);
-				//} else {
-				//	newScript = AddComponent<ScriptComponent>().AddScript<T>(std::forward<TArgs>(args)...);
-				//	( (Script*)( newScript ) )->AttachTo(*this);
-				//}
-				//return *newScript;
 			}
 
 			Script* AddScript(Script* script);
@@ -111,8 +92,9 @@ namespace Candle {
 				}
 			}
 
-			const std::string& GetName()
+			const std::string GetName()
 			{
+				if ( _entity == -1 ) return "placeholder";
 				return GetComponent<EntityTagComponent>().GetName();
 			}
 
@@ -137,8 +119,8 @@ namespace Candle {
 
 
 		private:
-			Scene* _scene;
-			Burst::Entity _entity;
+			Scene* _scene = nullptr;
+			Burst::Entity _entity = -1;
 	};
 
 }

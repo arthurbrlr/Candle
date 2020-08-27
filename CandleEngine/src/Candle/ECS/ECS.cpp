@@ -16,7 +16,7 @@ namespace Candle {
 
 	Entity ECS::New(const std::string & name)
 	{
-		Entity newEntity = Entity{ SceneManagement::CurrentScene().get() };
+		Entity newEntity = Entity{ SceneManagement::CurrentScene() };
 		newEntity.SetName(name);
 		return newEntity;
 	}
@@ -36,11 +36,11 @@ namespace Candle {
 
 	void ECS::Remove(Burst::Entity nativeEntity)
 	{
-		Entity toRemove{ SceneManagement::CurrentScene().get(), nativeEntity };
+		Entity toRemove{ SceneManagement::CurrentScene(), nativeEntity };
 		if ( toRemove.HasComponent<HierarchyComponent>() ) {
 			toRemove.GetComponent<HierarchyComponent>().Clear();
 		}
-		SceneManagement::CurrentScene()->_sceneRegistery.RemoveEntity(nativeEntity);
+		SceneManagement::CurrentScene()->_sceneRegistery.RemoveEntity(toRemove.GetUUID());
 	}
 
 
@@ -49,14 +49,16 @@ namespace Candle {
 	}
 
 
-	Entity ECS::ViewEntity(Burst::Entity entityID)
+	Entity ECS::EntityFromUUID(const UUID& uuid)
 	{
-		// TODO : Check if the entityID exist in scene registery
-		return Entity{ SceneManagement::CurrentScene().get(), entityID };
+		Burst::Entity nativeEntity = SceneManagement::CurrentScene()->_sceneRegistery.GetEntityFromExternID(uuid);
+		if ( nativeEntity != -1 )
+			return Entity{ SceneManagement::CurrentScene(), nativeEntity };
+		return Entity{};
 	}
 
 
-	std::unordered_map<Burst::Entity, Burst::Entity> ECS::ViewAllEntities()
+	std::unordered_map<UUID, Burst::Entity> ECS::ViewAllEntities()
 	{
 		return SceneManagement::CurrentScene()->_sceneRegistery.ViewEntities();
 	}

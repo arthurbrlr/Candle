@@ -126,14 +126,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\GameScene.h" />
     <ClInclude Include="src\Scripts\MouseClickScript.h" />
     <ClInclude Include="src\Scripts\PlayerScript.h" />
     <ClInclude Include="src\Scripts\RandomGridGenerator.h" />
     <ClInclude Include="src\Scripts\RandomMovementAgent.h" />
     <ClInclude Include="src\Scripts\UUIDTest.h" />
     <ClInclude Include="src\TestECS.h" />
-    <ClInclude Include="src\TestScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CandleTester.cpp" />

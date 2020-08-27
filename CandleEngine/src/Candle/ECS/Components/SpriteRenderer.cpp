@@ -3,6 +3,7 @@
 
 #include "imgui.h"
 #include "Candle/Assets/Assets.h"
+#include "Utility/System/SerializeUtility.h"
 
 
 namespace Candle {
@@ -17,19 +18,43 @@ namespace Candle {
 		}
 	}
 
-	/*
-	SpriteRenderer::SpriteRenderer(Blueprint* parent, const Shared<Texture2D>& texture)
-		: _texture(texture)
+
+	void SpriteRenderer::Serialize(std::fstream& sceneFile)
 	{
-		AttachToBlueprint(parent);
-		_name = "SpriteRenderer";
-		if ( _texture != nullptr && _texture->IsTransparent() ) {
-			_flags |= SpriteRendererFlags_Transparent;
+		if ( _texture ) {
+			for ( auto& texture : Assets::GetAllTexture2D() ) {
+				if ( _texture == texture.second ) {
+					sceneFile << "\t\ttexture:" << texture.first << std::endl;
+					break;
+				}
+			}
 		} else {
-			_flags &= ~SpriteRendererFlags_Transparent;
+			sceneFile << "\t\ttexture:CDL_TEXTURE_WHITE" << std::endl;
 		}
+
+		SerializeFloat4(sceneFile, "uvs", _defaultTextureCoordinates);
+		SerializeFloat4(sceneFile, "color", _colorTint);
+		SerializeInt(sceneFile, "layer", _rendererLayer);
+		SerializeInt(sceneFile, "flags", _flags);
+		SerializeInt(sceneFile, "anchor", _anchor);
 	}
-	*/
+
+
+	void SpriteRenderer::Deserialize(std::fstream& sceneFile)
+	{
+		std::string line;
+
+		std::getline(sceneFile, line);
+		// will be replaced by asset handle
+		std::string textureAsset = line.substr(line.find_first_of(':') + 1, line.size());
+
+		GetSerializedFloat4(sceneFile, _defaultTextureCoordinates);
+		GetSerializedFloat4(sceneFile, _colorTint);
+		GetSerializedInt(sceneFile, _rendererLayer);
+		GetSerializedInt(sceneFile, _flags);
+		GetSerializedInt(sceneFile, ((int&)_anchor));
+	}
+
 
 	void SpriteRenderer::OnEditor()
 	{
@@ -47,11 +72,9 @@ namespace Candle {
 		}
 		ImGui::NextColumn();
 
-		static int selected_anchor = _anchor;
 		ImGui::Text("Anchor Point:");
 		ImGui::NextColumn();
-		ImGui::Combo("ap", &selected_anchor, spriteAnchor, IM_ARRAYSIZE(spriteAnchor));
-		_anchor = (SpriteAnchor)selected_anchor;
+		ImGui::Combo("ap", ((int*)&_anchor), spriteAnchor, IM_ARRAYSIZE(spriteAnchor));
 
 		ImGui::NextColumn();
 		ImGui::Text("Texture: ");
@@ -60,7 +83,7 @@ namespace Candle {
 		// TODO: complete edge cases for non textured quads
 		if ( ImGui::BeginCombo("t", "none") ) {
 			for ( auto& texture : Assets::GetAllTexture2D() ) {
-				const bool selected = _texture == texture.second;
+				bool selected = (_texture == texture.second);
 				if ( ImGui::Selectable(texture.first.c_str(), selected) ) {
 					_texture = texture.second;
 				}

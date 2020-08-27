@@ -36,6 +36,11 @@ namespace Candle {
 			style.Colors[ImGuiCol_WindowBg].w = 1.0;
 		}
 
+#ifdef CANDLE_PLATFORM_WINDOWS
+		ImFont* font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\SourceSansPro-Semibold.ttf", 16.0f);
+		if ( font ) io.FontDefault = io.Fonts->Fonts.back();
+#endif
+
 		ImGui_ImplGlfw_InitForOpenGL((GLFWwindow*)Application::Get().GetWindow().GetNativeWindow(), true);
 		ImGui_ImplOpenGL3_Init("#version 410");
 

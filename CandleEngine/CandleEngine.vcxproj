@@ -15,6 +15,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Candle\Assets\AssetHandle.h" />
     <ClInclude Include="src\Candle\Assets\Assets.h" />
     <ClInclude Include="src\Candle\Assets\Model.h" />
     <ClInclude Include="src\Candle\Assets\Shader.h" />
@@ -42,6 +43,7 @@
     <ClInclude Include="src\Candle\ECS\Components\Transform.h" />
     <ClInclude Include="src\Candle\ECS\ECS.h" />
     <ClInclude Include="src\Candle\ECS\Script.h" />
+    <ClInclude Include="src\Candle\Core\FileSystem.h" />
     <ClInclude Include="src\Candle\Layers\Layer.h" />
     <ClInclude Include="src\Candle\Layers\LayerStack.h" />
     <ClInclude Include="src\Candle\OrthographicCameraController.h" />
@@ -97,7 +99,10 @@
     <ClInclude Include="src\Utility\DataStruct\Graph.h" />
     <ClInclude Include="src\Utility\Maths\Noise.h" />
     <ClInclude Include="src\Utility\Maths\OpenSimplexNoise.h" />
+    <ClInclude Include="src\Utility\StringUtility.h" />
     <ClInclude Include="src\Utility\System\AudioLoader.h" />
+    <ClInclude Include="src\Utility\System\Identifier.h" />
+    <ClInclude Include="src\Utility\System\SerializeUtility.h" />
     <ClInclude Include="trdp\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +151,11 @@
     <ClCompile Include="src\platform\OpenGL\GLTexture.cpp" />
     <ClCompile Include="src\platform\OpenGL\GLVertexArray.cpp" />
     <ClCompile Include="src\platform\OpenGL\GLContext.cpp" />
+    <ClCompile Include="src\platform\Windows\WindowsFileSystem.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Deploy|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\platform\Windows\WindowsTime.cpp" />
     <ClCompile Include="src\platform\Windows\WindowsWindow.cpp" />
@@ -157,6 +167,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Deploy|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Utility\System\SerializeUtility.cpp" />
     <ClCompile Include="trdp\stb_image\stb_image.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -170,21 +181,21 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Deploy|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />

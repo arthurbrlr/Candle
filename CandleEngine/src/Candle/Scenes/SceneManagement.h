@@ -9,22 +9,27 @@ namespace Candle {
 
 		public:
 			static void Init();
-			static void AddScene(Scene* scene);
 
-			static void LoadScene(uint32_t sceneID);
+			static void CreateEmptyScene();
+			static void LoadScene(const std::string& scenePath);
+			static void SaveCurrentScene(const std::string& scenePath = "");
+			static void Reload();
+
 			static void OnUpdate();
 			static void OnRender();
 			static void OnEditorRender();
 			static void OnEvent(Event& event);
 
-			static Shared<Scene> CurrentScene() { return _scenes[_currentScene]; }
+			static Scene* CurrentScene() { return _currentScene; }
+
 			static Shared<Texture2D> FinalSceneTexture() { return _finalTexture; }
-			static Shared<Texture2D> SceneTexture() { return _scenes[_currentScene]->GetTexture(); }
-			static std::unordered_map<uint32_t, Shared<Scene>>& AllScenes() { return _scenes; }
+			static Shared<Texture2D> SceneTexture() { return _currentScene->GetTexture(); }
+
+			static bool HasNoFilePath() { return _currentSceneFilePath == ""; }
 
 		private:
-			static std::unordered_map<uint32_t, Shared<Scene>> _scenes;
-			static uint32_t _currentScene;
+			static Scene* _currentScene;
+			static std::string _currentSceneFilePath;
 			static Shared<Texture2D> _finalTexture;
 
 			static void RenderScene();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Candle/ECS/Component.h"
+#include "Utility/System/Identifier.h"
 
 namespace Candle {
 
@@ -19,14 +20,39 @@ namespace Candle {
 				strcpy(_entityName, name.c_str());
 			}
 
+			void SetUUID(const UUID& uuid)
+			{
+				_entityUUID = uuid;
+			}
+
 			const std::string GetName()
 			{
+				if ( _entityName[0] == '\0' ) return "placeHolderName";
 				return std::string(_entityName);
 			}
 
 			const UUID& GetUUID()
 			{
 				return _entityUUID;
+			}
+
+			void Serialize(std::fstream& sceneFile) override
+			{
+				sceneFile << "\t\tname:" << _entityName << std::endl;
+				sceneFile << "\t\tuuid:" << _entityUUID << std::endl;
+			}
+
+			void Deserialize(std::fstream& sceneFile) override 
+			{
+				std::string line;
+
+				std::getline(sceneFile, line);
+				std::string name = line.substr(line.find_first_of(':') + 1, line.size());
+				SetName(name);
+
+				std::getline(sceneFile, line);
+				std::string uuid = line.substr(line.find_first_of(':') + 1, line.size());
+				SetUUID(uuid);
 			}
 
 			void OnEditor() override
@@ -36,7 +62,7 @@ namespace Candle {
 			}
 
 		private:
-			char _entityName[32];
+			char _entityName[32] = { '\0' };
 			UUID _entityUUID;
 
 			CANDLE_DECL_COMPONENT(EntityTagComponent)

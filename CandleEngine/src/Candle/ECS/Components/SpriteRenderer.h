@@ -44,6 +44,9 @@ namespace Candle {
 			//SpriteRenderer(Blueprint* parent, const Shared<Texture2D>& texture = nullptr); /* Constructor */
 			SpriteRenderer() : Component() {}
 			SpriteRenderer(const Shared<Texture2D>& texture); /* Constructor */
+
+			void Serialize(std::fstream& sceneFile) override;
+			void Deserialize(std::fstream& sceneFile) override;
 			void OnEditor() override; /* Used by the engine editor to display informations about the component */
 
 				/* --- Setters --- */
@@ -81,7 +84,7 @@ namespace Candle {
 		private:
 			Shared<Texture2D> _texture = nullptr;
 			glm::vec4 _defaultTextureCoordinates = { 0, 1, 0, 1 };
-			uint32_t _rendererLayer = 0;
+			int _rendererLayer = 0;
 			SpriteRendererFlags _flags = SpriteRendererFlags_None;
 
 			double _tileMultiplier = 1.0;

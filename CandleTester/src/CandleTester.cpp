@@ -1,7 +1,11 @@
-#include "GameScene.h"
-#include "TestScene.h"
+#include <Candle.h>
 #include <Candle/EntryPoint.h>
 
+#include "Scripts/PlayerScript.h"
+#include "Scripts/MouseClickScript.h"
+#include "Scripts/RandomMovementAgent.h"
+#include "Scripts/RandomGridGenerator.h"
+#include "Scripts/UUIDTest.h"
 
 class GameApplication : public Candle::Application
 {
@@ -9,9 +13,6 @@ public:
 	GameApplication(const std::string & appName)
 		: Candle::Application(appName)
 	{
-		SceneManagement::AddScene(new GameScene());
-		SceneManagement::AddScene(new TestScene());
-		SceneManagement::LoadScene(testSceneID);
 	}
 
 	~GameApplication()

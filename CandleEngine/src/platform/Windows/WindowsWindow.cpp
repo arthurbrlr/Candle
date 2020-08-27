@@ -237,7 +237,19 @@ namespace Candle {
 
 	void WindowsWindow::SetTitle(const std::string& title)
 	{
+		_data._title = title;
 		glfwSetWindowTitle(_window, title.c_str());
+	}
+
+
+	void WindowsWindow::SetChangesState(bool newState)
+	{
+		if ( newState ) {
+			std::string unsavedChanges = _data._title + " (unsaved changes)";
+			glfwSetWindowTitle(_window, unsavedChanges.c_str());
+		} else {
+			glfwSetWindowTitle(_window, _data._title.c_str());
+		}
 	}
 
 

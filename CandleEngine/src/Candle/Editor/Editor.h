@@ -40,6 +40,8 @@ namespace Candle {
 		bool RenderGameView = true;
 		bool FullScreen = false;
 		bool ReadInputs = false;
+
+		bool wasSceneModified = false;
 	};
 
 	class Editor {
@@ -70,14 +72,15 @@ namespace Candle {
 
 			static void BuildDockSpace();
 			static void ShowMainMenu();
-			static void ShowSettingsWindow(bool* show);
+			static void ShowSettingsWindow(bool* showSettingsWindow);
 			static void ShowEditorViewer();
 			static void ShowGameViewer();
+			static void ShowTextEditor(bool* showTextEditor);
 			static void ShowAssetsWindow();
 			static void ShowSceneHierarchy();
 			static void ShowComponentsOf(Entity& entity);
 			static void ShowPostProcessingPipeline();
-			static void ShowRendererWindow();
+			static void ShowRendererWindow(bool* showRendererWindow);
 
 			static void ShowInformationToolTip(const std::string& description);
 

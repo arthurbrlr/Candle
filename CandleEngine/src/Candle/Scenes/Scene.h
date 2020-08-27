@@ -7,11 +7,9 @@
 #include "Candle/Assets/Texture2D.h"
 
 #include "Burst/Registery.h"
-#include "Utility/Maths/Noise.h"
+#include "Utility/System/Identifier.h"
 
 namespace Candle {
-
-	typedef std::string UUID;
 
 	static uint32_t sceneID = 0;
 
@@ -25,27 +23,24 @@ namespace Candle {
 			Scene();
 			virtual ~Scene() {}
 
-			virtual void Load() = 0;
-			virtual void Unload();
+			virtual void Load(const std::string& sceneFilePath);
+			void Unload(const std::string& sceneFilePath = "");
+			void Save(const std::string& sceneFilePath);
 
-			virtual void OnUpdate() = 0;
-			virtual void OnEvent(Event & event) {}
-			virtual void OnEditor() {}
-
-			void SetName(const char* name) { _sceneName = name; }
+			void OnUpdate() {};
+			void OnEvent(Event & event) {}
+			void OnEditor() {}
 
 			Shared<FrameBuffer> & GetFrameBuffer() { return _sceneBuffer; }
 			Shared<Texture2D> GetTexture() { return _sceneTexture; }
 			uint32_t GetID() { return _sceneID; }
-			const std::string& GetName() { return _sceneName; }
 
 		protected:
 			uint32_t _sceneID = 0;
-			std::string _sceneName;
 			Shared<FrameBuffer> _sceneBuffer;
 			Shared<Texture2D> _sceneTexture;
 
-			Burst::Registery<> _sceneRegistery;
+			Burst::Registery<UUID> _sceneRegistery;
 
 			friend class Entity;
 			friend class SceneManagement;

@@ -11,6 +11,9 @@ namespace Candle {
 			//Transform(Blueprint* parent, glm::vec3 position = { 0, 0, 0 }, glm::vec3 rotation = { 0, 0, 0 }, glm::vec3 scale = { 1, 1, 1 }); /* Constructor */
 			Transform();
 			Transform(glm::vec3 position, glm::vec3 rotation = { 0, 0, 0 }, glm::vec3 scale = { 1, 1, 1 }); /* Constructor */
+
+			void Serialize(std::fstream& sceneFile) override;
+			void Deserialize(std::fstream& sceneFile) override;
 			void OnEditor() override; /* Used by the engine editor to display informations about the component */
 
 				// Methods

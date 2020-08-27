@@ -32,8 +32,9 @@ namespace Candle {
 			static void Clear();
 
 			//static Shared<Blueprint> GetBlueprint(size_t blueprintID);
-			static Entity ViewEntity(Burst::Entity entityID);
-			static std::unordered_map<Burst::Entity, Burst::Entity> ViewAllEntities();
+			static std::unordered_map<UUID, Burst::Entity> ViewAllEntities();
+
+			static Entity EntityFromUUID(const UUID& uuid);
 
 			static void Update();
 			static void Render();

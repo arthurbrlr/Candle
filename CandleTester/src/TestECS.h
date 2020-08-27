@@ -17,39 +17,8 @@ static std::pair<double, double> GetMouseScreenCoordinates()
 	return { 2 * mousePixelPos.first / screenWidth - 1., 1. - 2 * mousePixelPos.second / screenHeight };
 }
 
-	// ----------------------------------------------
 
-
-	// Later, the renderer won't be part of the ECS so the OnRenderUpdate() will have to be ditched
-	// of the system manager, and ECS::Render() should be deleted
 /*
-class RenderSystem : public Candle::System {
-
-	public:
-		RenderSystem()
-		{
-			_animptr = new Candle::Animation("default", {});
-		}
-
-
-		~RenderSystem()
-		{
-			delete _animptr;
-		}
-
-
-		void OnRenderUpdate() override
-		{
-			
-		}
-
-
-	private:
-		Candle::Animation* _animptr;
-
-};
-
-
 class LineRenderSystem : public Candle::System {
 
 	public:

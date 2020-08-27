@@ -2,6 +2,7 @@
 #include "Transform.h"
 
 #include "Candle/ECS/Entity.h"
+#include "Utility/System/SerializeUtility.h"
 
 namespace Candle {
 
@@ -18,15 +19,23 @@ namespace Candle {
 		UpdateMatrix();
 	}
 
-	/*
-	Transform::Transform(Blueprint* parent, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
-		: _position(position), _rotation(rotation), _scale(scale)
+
+	void Transform::Serialize(std::fstream& sceneFile)
 	{
-		AttachToBlueprint(parent);
-		UpdateMatrix();
-		_name = "Transform";
+		SerializeFloat3(sceneFile, "position", _position);
+		SerializeFloat3(sceneFile, "scale", _scale);
+		SerializeFloat3(sceneFile, "rotation", _rotation);
 	}
-	*/
+
+
+	void Transform::Deserialize(std::fstream& sceneFile)
+	{
+		GetSerializedFloat3(sceneFile, _position);
+		GetSerializedFloat3(sceneFile, _scale);
+		GetSerializedFloat3(sceneFile, _rotation);
+		UpdateMatrix();
+	}
+
 
 	void Transform::OnEditor()
 	{
@@ -143,7 +152,7 @@ namespace Candle {
 
 			/* Get parent transform */
 		if ( _entity != -1 ) {
-			Entity thisEntity = { SceneManagement::CurrentScene().get(), _entity };
+			Entity thisEntity = { SceneManagement::CurrentScene(), _entity };
 
 			bool hasParentTransform = thisEntity.HasComponent<HierarchyComponent>()
 								&& thisEntity.GetComponent<HierarchyComponent>().HasParent()
@@ -170,11 +179,11 @@ namespace Candle {
 			/* Update child entities */
 		if ( _entity != -1 ) {
 
-			Entity thisEntity = { SceneManagement::CurrentScene().get(), _entity };
+			Entity thisEntity = { SceneManagement::CurrentScene(), _entity };
 			if ( thisEntity.HasComponent<HierarchyComponent>() && thisEntity.GetComponent<HierarchyComponent>().HasChilds() ) {
 
 				for ( auto child : thisEntity.GetComponent<HierarchyComponent>().GetChilds() ) {
-					Entity childEntity = { SceneManagement::CurrentScene().get(), child };
+					Entity childEntity = { SceneManagement::CurrentScene(), child };
 
 					if ( childEntity.HasComponent<Transform>() ) {
 						childEntity.GetComponent<Transform>().ForceTransformUpdate();
