@@ -1,6 +1,8 @@
 # Candle
 ## Started in March 2020 - Ongoing
 
+![Image of the Candle scene editor](https://www.abrlr.fr/res/candle_current.PNG)
+
 This is the "sequel" to Dried. With the lockdown in France and the Covid19 outbreak, I had quite a lot of spare time, so I decided to come back to a project I abandonned in September 2019.
 After messing around with the existing code base of Dried, I realised it would be near impossible to add new major systems, and I restarted from scratch, creating Candle.
 
