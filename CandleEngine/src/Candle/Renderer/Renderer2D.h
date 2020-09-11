@@ -150,7 +150,8 @@ namespace Candle {
 		uint32_t OpaqueQuads = 0;
 		uint32_t TransparentQuads = 0;
 		uint32_t LineCount = 0;
-		double ecsSpriteRenderTime = 0;
+		double renderingTime = 0;
+		double debugRenderingTime = 0;
 
 		uint32_t VertexCount() { return OpaqueQuads * 4 + TransparentQuads * 4; }
 		uint32_t IndicesCount() { return OpaqueQuads * 6 + TransparentQuads * 6; }
@@ -161,7 +162,8 @@ namespace Candle {
 			OpaqueQuads = 0;
 			TransparentQuads = 0;
 			LineCount = 0;
-			ecsSpriteRenderTime = 0;
+			renderingTime = 0;
+			debugRenderingTime = 0;
 		}
 
 	};
@@ -246,7 +248,7 @@ namespace Candle {
 
 
 				// ---- Lines ----
-			static void DrawLine(const glm::vec3 & a, const glm::vec3 & b, double width);
+			static void DrawLine(const glm::vec3 & a, const glm::vec3 & b, double thickness);
 
 		private:
 			static struct SceneData {

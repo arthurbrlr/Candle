@@ -11,6 +11,9 @@
 	// Renderer 2D
 #include "SpriteRenderer.h"
 
+	// Physics 2D
+#include "Collider2D.h"
+
 	// Animations
 #include "AnimationController.h"
 

@@ -3,6 +3,7 @@
 
 #include "Candle/Core/Time.h"
 #include "Components/EngineComponents.h"
+#include "Candle/Physics/CollisionDetection2D.h"
 
 namespace Candle {
 
@@ -71,8 +72,8 @@ namespace Candle {
 		//BlueprintManager::Update();
 		double t2 = Time::Milliseconds();
 		
-		for ( auto scriptComponent : SceneManagement::CurrentScene()->_sceneRegistery.View<ScriptComponent>() ) {
-			( (ScriptComponent*) scriptComponent.second )->OnUpdate();
+		for ( auto [nativeEntity, scriptComponent] : SceneManagement::CurrentScene()->_sceneRegistery.View<ScriptComponent>() ) {
+			( (ScriptComponent*) scriptComponent )->OnUpdate();
 		}
 
 		double t3 = Time::Milliseconds();

@@ -16,12 +16,16 @@ namespace Candle {
 		
 		glEnable(GL_DEPTH_TEST);
 
+		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+
+
 		//glEnable(GL_PROGRAM_POINT_SIZE);
 	}
 
 	void GLRendererAPI::Clear()
 	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	}
 
 

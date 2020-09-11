@@ -3,6 +3,8 @@
 #include "Candle/CandleCore.h"
 #include "Candle/ECS/Component.h"
 
+// TODO : clamp rotation to -360, 360 degrees
+
 namespace Candle {
 
 	class Transform : public Component {

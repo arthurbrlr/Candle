@@ -27,8 +27,10 @@
     <ClInclude Include="src\Candle\Audio\AudioEmitter.h" />
     <ClInclude Include="src\Candle\Core\Controllers.h" />
     <ClInclude Include="src\Candle\Core\Time.h" />
+    <ClInclude Include="src\Candle\ECS\Components\Collider2D.h" />
     <ClInclude Include="src\Candle\ECS\Components\EntityTagComponent.h" />
     <ClInclude Include="src\Candle\ECS\Components\HierarchyComponent.h" />
+    <ClInclude Include="src\Candle\ECS\Components\Rigidbody2D.h" />
     <ClInclude Include="src\Candle\ECS\Components\ScriptComponent.h" />
     <ClInclude Include="src\Candle\ECS\Entity.h" />
     <ClInclude Include="src\Candle\Editor\Editor.h" />
@@ -48,6 +50,7 @@
     <ClInclude Include="src\Candle\Layers\LayerStack.h" />
     <ClInclude Include="src\Candle\OrthographicCameraController.h" />
     <ClInclude Include="src\Candle\PerspectiveCameraController.h" />
+    <ClInclude Include="src\Candle\Physics\CollisionDetection2D.h" />
     <ClInclude Include="src\Candle\Physics\CollisionWorld.h" />
     <ClInclude Include="src\Candle\Physics\Raycast.h" />
     <ClInclude Include="src\Candle\PostProcessing\Node.h" />
@@ -99,6 +102,7 @@
     <ClInclude Include="src\Utility\DataStruct\Graph.h" />
     <ClInclude Include="src\Utility\Maths\Noise.h" />
     <ClInclude Include="src\Utility\Maths\OpenSimplexNoise.h" />
+    <ClInclude Include="src\Utility\Maths\VectorMath.h" />
     <ClInclude Include="src\Utility\StringUtility.h" />
     <ClInclude Include="src\Utility\System\AudioLoader.h" />
     <ClInclude Include="src\Utility\System\Identifier.h" />
@@ -113,8 +117,10 @@
     <ClCompile Include="src\Candle\Audio\AudioMixer.cpp" />
     <ClCompile Include="src\Candle\Core\Window.cpp" />
     <ClCompile Include="src\Candle\ECS\Components\CameraHandler.cpp" />
+    <ClCompile Include="src\Candle\ECS\Components\Collider2D.cpp" />
     <ClCompile Include="src\Candle\ECS\Components\EngineComponents.cpp" />
     <ClCompile Include="src\Candle\ECS\Components\HierarchyComponent.cpp" />
+    <ClCompile Include="src\Candle\ECS\Components\Rigidbody2D.cpp" />
     <ClCompile Include="src\Candle\ECS\Components\ScriptComponent.cpp" />
     <ClCompile Include="src\Candle\ECS\Entity.cpp" />
     <ClCompile Include="src\Candle\Editor\Editor.cpp" />
@@ -126,6 +132,7 @@
     <ClCompile Include="src\Candle\ECS\ECS.cpp" />
     <ClCompile Include="src\Candle\Layers\Layer.cpp" />
     <ClCompile Include="src\Candle\Layers\LayerStack.cpp" />
+    <ClCompile Include="src\Candle\Physics\CollisionDetection2D.cpp" />
     <ClCompile Include="src\Candle\Physics\CollisionWorld.cpp" />
     <ClCompile Include="src\Candle\Physics\Raycast.cpp" />
     <ClCompile Include="src\Candle\PostProcessing\Node.cpp" />
@@ -167,6 +174,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Deploy|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Utility\Maths\VectorMath.cpp" />
     <ClCompile Include="src\Utility\System\SerializeUtility.cpp" />
     <ClCompile Include="trdp\stb_image\stb_image.cpp" />
   </ItemGroup>

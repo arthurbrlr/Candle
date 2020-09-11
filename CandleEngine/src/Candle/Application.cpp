@@ -91,7 +91,7 @@ namespace Candle {
 					Renderer::EndScene();
 				}
 
-					// TODO in the future
+					// TODO : Refactor post processing completely
 				//PostProcessing::Process(SceneManagement::FinalTexture())
 				//GUI::Render();
 				//GUI::PostProcess();

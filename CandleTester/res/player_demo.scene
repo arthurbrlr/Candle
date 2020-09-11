@@ -1,0 +1,141 @@
+Entity:
+	Component:EntityTagComponent
+		name:Camera
+		uuid:8c68fe7118e0bf1485ba2c7645b7f31f
+	Component:CameraHandler
+		mainCamera:1
+		camtype:0
+		camWidth:1.78
+		camheight:1
+	Component:Transform
+		position:0,0.5,10
+		scale:1,1,1
+		rotation:0,0,0
+
+Entity:
+	Component:EntityTagComponent
+		name:cursor
+		uuid:a110eee09abfd006a6efdf69ba966b98
+	Component:Transform
+		position:0.2,0.2,1
+		scale:0.1,0.1,1
+		rotation:0,0,0
+	Component:SpriteRenderer
+		texture:D:\_code\Candle\CandleTester\res\textures\cursor.png
+		uvs:0,1,0,1
+		color:1,1,1,1
+		layer:0
+		flags:32
+		anchor:4
+	Component:HierarchyComponent
+		parent:54c05b15e0e39f338384163567ec5254
+
+Entity:
+	Component:EntityTagComponent
+		name:player
+		uuid:54c05b15e0e39f338384163567ec5254
+	Component:Transform
+		position:-1.39352,0,0
+		scale:1,1,1
+		rotation:0,0,0
+	Component:HierarchyComponent
+		child:1185bf8a8e34ec73991676dd7820e344
+		child:a110eee09abfd006a6efdf69ba966b98
+	Component:ScriptComponent
+		scriptsize:1
+			class PlayerScript:
+
+Entity:
+	Component:EntityTagComponent
+		name:level
+		uuid:2023fe6fb50f35a19634dc5d2ca1ef90
+	Component:Transform
+		position:0,0,0
+		scale:1,1,1
+		rotation:0,0,0
+	Component:HierarchyComponent
+		child:c8ef93dcbed910008f4959efa1239c01
+		child:a2a5ad792d6553daa6ea6c025e3ec0cd
+
+Entity:
+	Component:EntityTagComponent
+		name:background
+		uuid:a2a5ad792d6553daa6ea6c025e3ec0cd
+	Component:Transform
+		position:0,0.2,0
+		scale:4,1,1
+		rotation:0,0,0
+	Component:SpriteRenderer
+		texture:D:\_code\Candle\CandleTester\res\textures\landscape1.png
+		uvs:0,1,0,1
+		color:1,1,1,1
+		layer:0
+		flags:0
+		anchor:4
+	Component:HierarchyComponent
+		parent:2023fe6fb50f35a19634dc5d2ca1ef90
+
+Entity:
+	Component:EntityTagComponent
+		name:checkerboard
+		uuid:c8ef93dcbed910008f4959efa1239c01
+	Component:Transform
+		position:0,-5,0
+		scale:100,100,1
+		rotation:-90,0,0
+	Component:SpriteRenderer
+		texture:D:\_code\Candle\CandleTester\res\textures\checkerboard.png
+		uvs:0,1,0,1
+		color:1,1,1,1
+		layer:0
+		flags:0
+		anchor:4
+	Component:HierarchyComponent
+		parent:2023fe6fb50f35a19634dc5d2ca1ef90
+
+Entity:
+	Component:EntityTagComponent
+		name:player_graphics
+		uuid:1185bf8a8e34ec73991676dd7820e344
+	Component:Transform
+		position:0,0,1
+		scale:0.2,0.2,1
+		rotation:0,0,0
+	Component:SpriteRenderer
+		texture:D:\_code\Candle\bin\Debug-x64\CandleTemplate\res\Sprite-0001.png
+		uvs:0,1,0,1
+		color:1,1,1,1
+		layer:0
+		flags:34
+		anchor:4
+	Component:HierarchyComponent
+		parent:54c05b15e0e39f338384163567ec5254
+
+Asset:
+	type:texture2D
+	D:\_code\Candle\CandleTester\res\textures\checkerboard.png
+
+Asset:
+	type:texture2D
+	CDL_TEXTURE_DEFAULT
+
+Asset:
+	type:texture2D
+	CDL_TEXTURE_WHITE
+
+Asset:
+	type:texture2D
+	CDL_TEXTURE_CIRCLE
+
+Asset:
+	type:texture2D
+	D:\_code\Candle\CandleTester\res\textures\landscape1.png
+
+Asset:
+	type:texture2D
+	D:\_code\Candle\bin\Debug-x64\CandleTemplate\res\Sprite-0001.png
+
+Asset:
+	type:texture2D
+	D:\_code\Candle\CandleTester\res\textures\cursor.png
+

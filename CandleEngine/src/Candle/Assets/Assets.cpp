@@ -164,7 +164,6 @@ namespace Candle {
 		uint32_t whiteTextureData = 0xffffff;
 		whiteTexture->SetData(&whiteTextureData, 3);
 		_textures2D.emplace("CDL_TEXTURE_WHITE", std::move(whiteTexture));
-		sizeof(uint32_t);
 		Unique<Texture2D> defaultTexture = Texture2D::Create(1, 1, 3);
 		uint32_t defaultTextureData = 0xff00f8;
 		defaultTexture->SetData(&defaultTextureData, 3);

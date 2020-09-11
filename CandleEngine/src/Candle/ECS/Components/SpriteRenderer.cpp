@@ -80,19 +80,26 @@ namespace Candle {
 		ImGui::Text("Texture: ");
 		ImGui::NextColumn();
 
-		// TODO: complete edge cases for non textured quads
-		if ( ImGui::BeginCombo("t", "none") ) {
-			for ( auto& texture : Assets::GetAllTexture2D() ) {
-				bool selected = (_texture == texture.second);
-				if ( ImGui::Selectable(texture.first.c_str(), selected) ) {
-					_texture = texture.second;
-				}
+		bool found = false;
+		for ( auto& texture : Assets::GetAllTexture2D() ) {
+			if (  _texture == texture.second ) {
+				ImGui::Text(texture.first.c_str());
+				found = true;
 			}
-			ImGui::EndCombo();
 		}
+		if ( !found ) ImGui::Text("CDL_TEXTURE_WHITE");
+
+		if ( ImGui::BeginDragDropTarget() ) {
+			if ( const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Assign texture") ) {
+				Shared<Texture2D> payloadData = *(Shared<Texture2D>*)payload->Data;
+				_texture = payloadData;
+			}
+			ImGui::EndDragDropTarget();
+		}
+
 		ImGui::Columns(1);
 
-		ImGui::Text("Flip sprite: ");
+		ImGui::Text("Sprite flags:");
 		static bool flipX;
 		flipX = _flags & SpriteRendererFlags_FlipX;
 		ImGui::Checkbox("x", &flipX);
@@ -132,18 +139,6 @@ namespace Candle {
 			_flags &= ~SpriteRendererFlags_FixedInViewport;
 		}
 
-		if ( _texture != nullptr ) {
-			std::string menu = "Texture " + std::to_string(_texture->GetID());
-			ImGui::Text(menu.c_str());
-			ImGui::SameLine();
-			ImGui::TextDisabled("(Show)");
-			if ( ImGui::IsItemHovered() ) {
-				ImGui::BeginTooltip();
-				float textureAspectRatio = (float)_texture->GetWidth() / (float)_texture->GetHeight();
-				ImGui::Image((void*)(intptr_t)_texture->GetID(), ImVec2(512, 512 / textureAspectRatio), ImVec2(0, 1), ImVec2(1, 0));
-				ImGui::EndTooltip();
-			}
-		}
 		ImGui::ColorEdit4("Color", glm::value_ptr(_colorTint));
 		if ( _colorTint.a != 1. || ( _texture != nullptr && _texture->IsTransparent() ) ) _flags |= SpriteRendererFlags_Transparent;
 		else _flags &= ~SpriteRendererFlags_Transparent;

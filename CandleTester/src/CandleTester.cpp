@@ -6,6 +6,7 @@
 #include "Scripts/RandomMovementAgent.h"
 #include "Scripts/RandomGridGenerator.h"
 #include "Scripts/UUIDTest.h"
+#include "Scripts/VectorTests.h"
 
 class GameApplication : public Candle::Application
 {

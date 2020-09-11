@@ -500,90 +500,15 @@ namespace Candle {
 		RenderCommands::DrawArray(_data->fullscreenVertexArray, _data->fullscreenIndexCount);
 	}
 
+
+
+		/*********/
+		/* LINES */
+		/*********/
+
+
+	void Renderer2D::DrawLine(const glm::vec3& a, const glm::vec3& b, double thickness)
+	{
+
+	}
 }
-
-
-	// ---- OLD IF NECESSARY
-
-/*
-Shared<VertexArray> vao = VertexArray::Create();
-vao->Bind();
-
-QuadVertex data[4] = {
-	{ {-1., -1., 0}, {0., 0.}, {1., 1., 1., 1.} },
-	{ { 1., -1., 0}, {1., 0.}, {1., 1., 1., 1.} },
-	{ {-1.,  1., 0}, {0., 1.}, {1., 1., 1., 1.} },
-	{ { 1.,  1., 0}, {1., 1.}, {1., 1., 1., 1.} }
-};
-
-
-Shared<VertexBuffer> vbo = VertexBuffer::Create(defaultQuadVertices, sizeof(defaultQuadVertices));
-Shared<VertexBuffer> vbo = VertexBuffer::Create(4 * sizeof(QuadVertex));
-vbo->SetLayout(defaultLayout);
-vbo->SetData(data, 4 * sizeof(QuadVertex));
-vao->AddVertexBuffer(vbo);
-
-Shared<IndexBuffer> ebo = IndexBuffer::Create(defaultQuadIndices, sizeof(defaultQuadIndices));
-vao->SetIndexBuffer(ebo);
-RenderCommands::DrawArray(vao);
-*/
-
-
-/*
-glm::vec4 bottomLeftVertex = glm::vec4({ position.x + size.x * offsets.x, position.y + size.y * offsets.z, position.z, 0. });
-glm::vec4 bottomRightVertex = glm::vec4({ position.x + size.x * offsets.y, position.y + size.y * offsets.z, position.z, 0. });
-glm::vec4 topLeftVertex = glm::vec4({ position.x + size.x * offsets.x, position.y + size.y * offsets.w, position.z, 0. });
-glm::vec4 topRightVertex = glm::vec4({ position.x + size.x * offsets.y, position.y + size.y * offsets.w, position.z, 0. });
-*/
-
-/*
-glm::mat4 transform = glm::translate(glm::mat4(1.0), position)
-					* glm::rotate(glm::mat4(1.0), (float)glm::radians(rotation), {0., 0., 1.})
-					* glm::scale(glm::mat4(1.0), {size.x, size.y, 1.});
-*/
-
-
-/*
-sprite.GetTexture()->Bind();
-Shared<Shader> shader = ShaderLib::Get("texture");
-
-shader->SetFloat("u_time", (float)Time());
-shader->SetFloat("u_tileMultiplier", sprite.GetTileMultiplier());
-shader->SetMat4("u_projectionViewMatrix", _sceneData->projectionViewMatrix);
-shader->SetFloat4("u_color", sprite.GetColor());
-
-glm::mat4 transformMatrix = glm::translate(glm::mat4(1.0f), position)
-						  * glm::rotate(glm::mat4(1.0f), (float)glm::radians(rotation), glm::vec3(0.f, 0.f, 1.f))
-						  * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0 });
-
-shader->SetMat4("u_transform", transformMatrix);
-
-r2D.quadVertexArray->Bind();
-RenderCommands::DrawArray(r2D.quadVertexArray);
-*/
-
-/*
-r2D.quadVBOptr->position = bottomLeftVertex;
-r2D.quadVBOptr->textureCoordinates = { textureCoordinates.x, textureCoordinates.z };
-r2D.quadVBOptr->color = color;
-r2D.quadVBOptr->textureIndex = (float)textureIndex;
-r2D.quadVBOptr++;
-
-r2D.quadVBOptr->position = bottomRightVertex;
-r2D.quadVBOptr->textureCoordinates = { textureCoordinates.y, textureCoordinates.z };
-r2D.quadVBOptr->color = color;
-r2D.quadVBOptr->textureIndex = (float)textureIndex;
-r2D.quadVBOptr++;
-
-r2D.quadVBOptr->position = topLeftVertex;
-r2D.quadVBOptr->textureCoordinates = { textureCoordinates.x, textureCoordinates.w };
-r2D.quadVBOptr->color = color;
-r2D.quadVBOptr->textureIndex = (float)textureIndex;
-r2D.quadVBOptr++;
-
-r2D.quadVBOptr->position = topRightVertex;
-r2D.quadVBOptr->textureCoordinates = { textureCoordinates.y, textureCoordinates.w };
-r2D.quadVBOptr->color = color;
-r2D.quadVBOptr->textureIndex = (float)textureIndex;
-r2D.quadVBOptr++;
-*/

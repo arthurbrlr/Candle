@@ -33,5 +33,6 @@ namespace Candle {
 			static Shared<Texture2D> _finalTexture;
 
 			static void RenderScene();
+			static void RenderDebug();
 	};
 }

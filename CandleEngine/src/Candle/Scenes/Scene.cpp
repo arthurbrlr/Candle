@@ -62,10 +62,7 @@ namespace Candle {
 						}
 					}
 
-					if ( line.find("SpriteRenderer") != std::string::npos ) {
-						newEntity.AddComponent<SpriteRenderer>().Deserialize(sceneFile);
-					}
-
+						// Basics
 					if ( line.find("Transform") != std::string::npos ) {
 						newEntity.AddComponent<Transform>().Deserialize(sceneFile);
 					}
@@ -74,12 +71,40 @@ namespace Candle {
 						newEntity.AddComponent<CameraHandler>().Deserialize(sceneFile);
 					}
 
+						// Renderer 2D
+					if ( line.find("SpriteRenderer") != std::string::npos ) {
+						newEntity.AddComponent<SpriteRenderer>().Deserialize(sceneFile);
+					}
+
+						// Physics 2D
+					if ( line.find("DebugPointCollider") != std::string::npos ) {
+						newEntity.AddComponent<DebugPointCollider>().Deserialize(sceneFile);
+					}
+
+					if ( line.find("CircleCollider") != std::string::npos ) {
+						newEntity.AddComponent<CircleCollider>().Deserialize(sceneFile);
+					}
+
+					if ( line.find("AABB") != std::string::npos ) {
+						newEntity.AddComponent<AABB>().Deserialize(sceneFile);
+					}
+
+					if ( line.find("BoxCollider") != std::string::npos ) {
+						newEntity.AddComponent<BoxCollider>().Deserialize(sceneFile);
+					}
+
+						// Scripting
 					if ( line.find("ScriptComponent") != std::string::npos ) {
 						newEntity.AddComponent<ScriptComponent>().Deserialize(sceneFile);
 					}
 
 					std::getline(sceneFile, line);
 				}
+
+			}
+
+
+			if ( line.find("Asset") ) {
 
 			}
 
@@ -109,11 +134,15 @@ namespace Candle {
 
 				Entity currentEntity = { this, nativeEntity };
 				file << "Entity:" << std::endl;
+
+				file << "\tComponent:EntityTagComponent" << std::endl;
+				currentEntity.GetComponent<EntityTagComponent>().Serialize(file);
+
 				for ( auto component : _sceneRegistery.View(nativeEntity) ) {
 
 					CINFO("Serialization of : {0}-{1}", currentEntity.GetUUID(), typeid( *component ).name());
 					Component* componentPtr = (Component*)component;
-					if ( !componentPtr->IsSerializable() ) continue;
+					if ( !componentPtr->IsSerializable() || componentPtr->GetComponentName() == "EntityTagComponent") continue;
 					file << "\tComponent:" << componentPtr->GetComponentName() << std::endl;
 					componentPtr->Serialize(file);
 				}

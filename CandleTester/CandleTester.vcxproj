@@ -131,6 +131,7 @@
     <ClInclude Include="src\Scripts\RandomGridGenerator.h" />
     <ClInclude Include="src\Scripts\RandomMovementAgent.h" />
     <ClInclude Include="src\Scripts\UUIDTest.h" />
+    <ClInclude Include="src\Scripts\VectorTests.h" />
     <ClInclude Include="src\TestECS.h" />
   </ItemGroup>
   <ItemGroup>

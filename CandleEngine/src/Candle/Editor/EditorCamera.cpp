@@ -16,9 +16,6 @@ namespace Candle {
 		_orthographic = OrthographicCamera(-_aspectRatio * _zoomLevel, _aspectRatio * _zoomLevel, -_zoomLevel, _zoomLevel);
 		_perspective = PerspectiveCamera(width, height);
 		
-		//_cameraTransform = new Transform(nullptr);
-		//_targetTransform = new Transform(nullptr);
-
 		UpdateCameraPosition();
 		UpdateViewMatrix();
 	}
@@ -41,26 +38,26 @@ namespace Candle {
 		bool changed = false;
 
 		if ( Input::IsKeyPressed(CDL_KEY_UP) ) {
-			_cameraTransform.Move({ 0, 5.f * (float)Time::FixedDeltaTime(), 0 });
-			_targetTransform.Move({ 0, 5.f * (float)Time::FixedDeltaTime(), 0 });
+			_cameraTransform.Move({ 0, 0.05, 0 });
+			_targetTransform.Move({ 0, 0.05, 0 });
 			changed = true;
 		}
 
 		if ( Input::IsKeyPressed(CDL_KEY_DOWN) ) {
-			_cameraTransform.Move({ 0, -5.f * (float)Time::FixedDeltaTime(), 0 });
-			_targetTransform.Move({ 0, -5.f * (float)Time::FixedDeltaTime(), 0 });
+			_cameraTransform.Move({ 0, -0.05, 0 });
+			_targetTransform.Move({ 0, -0.05, 0 });
 			changed = true;
 		}
 
 		if ( Input::IsKeyPressed(CDL_KEY_LEFT) ) {
-			_cameraTransform.Move({ -5.f * (float)Time::FixedDeltaTime(), 0, 0 });
-			_targetTransform.Move({ -5.f * (float)Time::FixedDeltaTime(), 0, 0 });
+			_cameraTransform.Move({ -0.05, 0, 0 });
+			_targetTransform.Move({ -0.05, 0, 0 });
 			changed = true;
 		}
 
 		if ( Input::IsKeyPressed(CDL_KEY_RIGHT) ) {
-			_cameraTransform.Move({ 5.f * (float)Time::FixedDeltaTime(), 0, 0 });
-			_targetTransform.Move({ 5.f * (float)Time::FixedDeltaTime(), 0, 0 });
+			_cameraTransform.Move({ 0.05, 0, 0 });
+			_targetTransform.Move({ 0.05, 0, 0 });
 			changed = true;
 		}
 
@@ -221,8 +218,8 @@ namespace Candle {
 
 		if ( Input::IsMouseButtonPressed(1) && _useOrthographic ) {
 
-			double dx = ( event.GetPX() - event.GetX() ) * Time::FixedDeltaTime() * _zoomLevel;
-			double dy = ( event.GetPY() - event.GetY() ) * Time::FixedDeltaTime() * _zoomLevel;
+			double dx = ( event.GetPX() - event.GetX() ) * 0.005 * _zoomLevel;
+			double dy = ( event.GetPY() - event.GetY() ) * 0.005 * _zoomLevel;
 
 			_targetTransform.Move({ dx, -dy, 0 });
 			_cameraTransform.Move({ dx, -dy, 0 });

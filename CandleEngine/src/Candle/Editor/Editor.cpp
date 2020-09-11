@@ -491,26 +491,77 @@ namespace Candle {
 		*/
 	void Editor::ShowAssetsWindow()
 	{
-		ImGui::Begin("Assets");
+		if ( ImGui::Begin("Assets") ) {
 
-		//if ( ImGui::Button("Reload all assets") ) {
-		//	Assets::Reload();
-		//}
+			static int selectedAssetType = 0;
+			static const char* assetComboText = "Textures\0Shaders\0";
+			ImGui::Combo("View", &selectedAssetType, assetComboText);
+			ImGui::Separator();
 
-		{
-			if (ImGui::CollapsingHeader("Shaders")) {
-				for (auto& shader : Candle::Assets::GetAllShaders()) {
-					if (shader.second == nullptr) continue;
+
+				// Textures display
+			if ( selectedAssetType == 0 ) {
+
+				ImVec2 buttonSize = { 40, 40 };
+				ImGuiStyle& style = ImGui::GetStyle();
+				float windowVisble = ImGui::GetWindowPos().x + ImGui::GetWindowContentRegionMax().x;
+				int textureCount = Candle::Assets::GetAllTexture2D().size();
+				int index = 0;
+
+				for ( auto& [textureName, texture] : Candle::Assets::GetAllTexture2D() ) {
+					if ( texture == nullptr ) continue;
+
+					ImGui::ImageButton((void*)(intptr_t)texture->GetID(), buttonSize, ImVec2(0, 1), ImVec2(1, 0));
+
+					if ( ImGui::IsItemHovered() ) {
+						ImGui::BeginTooltip();
+
+						ImGui::Text("Texture ID: %d", texture->GetID());
+						ImGui::Text("Number of References: %d", texture.use_count());
+						ImGui::Text("Resolution: %d x %d", texture->GetWidth(), texture->GetHeight());
+						ImGui::Text("Channels: %d", texture->NbChannels());
+
+						float textureAspectRatio = (float)texture->GetWidth() / (float)texture->GetHeight();
+						ImGui::Image((void*)(intptr_t)texture->GetID(), ImVec2(128, 128 / textureAspectRatio), ImVec2(0, 1), ImVec2(1, 0));
+
+						ImGui::EndTooltip();
+					}
+
+					if ( ImGui::BeginDragDropSource() ) {
+						ImGui::SetDragDropPayload("Assign texture", &texture, sizeof(Shared<Texture2D>));
+						ImGui::EndDragDropSource();
+					}
+
+					float last_button_x2 = ImGui::GetItemRectMax().x;
+					float next_button_x2 = last_button_x2 + style.ItemSpacing.x + buttonSize.x; // Expected position if next button was on same line
+					if ( index + 1 < textureCount + 1 && next_button_x2 < windowVisble )
+						ImGui::SameLine();
+
+					index++;
+				}
+
+				if ( ImGui::Button("+", buttonSize) ) {
+					std::string newTexturePath;
+					FileSystem::OpenFile(newTexturePath, L"image", L"PNG Files\0*.png\0JPEG Files\0*.jpeg\0");
+					Assets::LoadTexture(newTexturePath, newTexturePath);
+				}
+			}
+
+
+				// Shader display
+			if ( selectedAssetType == 1 ) {
+				for ( auto& shader : Candle::Assets::GetAllShaders() ) {
+					if ( shader.second == nullptr ) continue;
 					std::string headerName = "Shader " + std::to_string(shader.second->GetID()) + " : " + shader.second->GetName();
-					if (ImGui::TreeNode(headerName.c_str())) {
+					if ( ImGui::TreeNode(headerName.c_str()) ) {
 
 						std::string buttonname = "Reload: " + shader.second->GetName();
-						ImGui::SameLine();					
-						if (ImGui::Button(buttonname.c_str())) {
+						ImGui::SameLine();
+						if ( ImGui::Button(buttonname.c_str()) ) {
 							Assets::ReloadShader(shader.first);
 						}
 
-						if (ImGui::TreeNode("Uniforms")) {
+						if ( ImGui::TreeNode("Uniforms") ) {
 							ImGui::Columns(5, "uniform_columns"); // 5-ways, with border
 							ImGui::Separator();
 							ImGui::Text("Name"); ImGui::NextColumn();
@@ -535,54 +586,12 @@ namespace Candle {
 
 						ImGui::TreePop();
 
-						char* shaderCode = (char*)(shader.second->GetCode().c_str());
+						char* shaderCode = (char*)( shader.second->GetCode().c_str() );
 						ImGui::Text(shaderCode);
 					}
 
 				}
 			}
-
-			ImGui::Spacing();
-
-			if (ImGui::CollapsingHeader("Textures")) {
-
-				ImVec2 buttonSize = { 40, 40 };
-				ImGuiStyle& style = ImGui::GetStyle();
-				float windowVisble = ImGui::GetWindowPos().x + ImGui::GetWindowContentRegionMax().x;
-				int textureCount = Candle::Assets::GetAllTexture2D().size();
-				int index = 0;
-
-				for (auto& texture : Candle::Assets::GetAllTexture2D()) {
-					if (texture.second == nullptr) continue;
-
-					ImGui::ImageButton((void*)(intptr_t)texture.second->GetID(), buttonSize, ImVec2(0, 1), ImVec2(1, 0));
-
-					if ( ImGui::IsItemHovered() ) {
-						ImGui::BeginTooltip();
-
-						ImGui::Text("Texture ID: %d", texture.second->GetID());
-						ImGui::Text("Number of References: %d", texture.second.use_count());
-						ImGui::Text("Resolution: %d x %d", texture.second->GetWidth(), texture.second->GetHeight());
-						ImGui::Text("Channels: %d", texture.second->NbChannels());
-
-						ImGui::EndTooltip();
-					}
-
-					float last_button_x2 = ImGui::GetItemRectMax().x;
-					float next_button_x2 = last_button_x2 + style.ItemSpacing.x + buttonSize.x; // Expected position if next button was on same line
-					if ( index + 1 < textureCount +1 && next_button_x2 < windowVisble )
-						ImGui::SameLine();
-
-					index++;
-				}
-
-				if ( ImGui::Button("+", buttonSize) ) {
-					std::string newTexturePath;
-					FileSystem::OpenFile(newTexturePath, L"image", L"PNG Files\0*.png\0JPEG Files\0*.jpeg\0");
-					Assets::LoadTexture(newTexturePath, newTexturePath);
-				}
-			}
-
 		}
 
 		ImGui::End();
@@ -817,6 +826,28 @@ namespace Candle {
 					_eb.wasSceneModified = true;
 				}
 
+					// Physics 2D
+				ImGui::Separator();
+				if ( ImGui::MenuItem("DebugPointCollider", "", false, !entity.HasComponent<DebugPointCollider>()) ) {
+					entity.AddComponent<DebugPointCollider>();
+					_eb.wasSceneModified = true;
+				}
+
+				if ( ImGui::MenuItem("CircleCollider", "", false, !entity.HasComponent<CircleCollider>()) ) {
+					entity.AddComponent<CircleCollider>();
+					_eb.wasSceneModified = true;
+				}
+
+				if ( ImGui::MenuItem("BoxCollider", "", false, !entity.HasComponent<BoxCollider>()) ) {
+					entity.AddComponent<BoxCollider>();
+					_eb.wasSceneModified = true;
+				}
+
+				if ( ImGui::MenuItem("AABB Collider", "", false, !entity.HasComponent<AABB>()) ) {
+					entity.AddComponent<AABB>();
+					_eb.wasSceneModified = true;
+				}
+
 					// Animations
 				ImGui::Separator();
 				if ( ImGui::MenuItem("AnimationController", "", false, !entity.HasComponent<AnimationController>()) ) {
@@ -912,7 +943,8 @@ namespace Candle {
 
 			ImGui::Spacing();
 
-			ImGui::Text("ECS Sprite Render Time: %.5f", Renderer2D::GetStats()->ecsSpriteRenderTime);
+			ImGui::Text("Scene Rendering Time: %.5f", Renderer2D::GetStats()->renderingTime);
+			ImGui::Text("Debug Rendering Time: %.5f", Renderer2D::GetStats()->debugRenderingTime);
 			ImGui::Text("DrawCalls: %d", Renderer2D::GetStats()->DrawCalls);
 			ImGui::Text("Opaque: %d", Renderer2D::GetStats()->OpaqueQuads);
 			ImGui::Text("Transparent: %d", Renderer2D::GetStats()->TransparentQuads);

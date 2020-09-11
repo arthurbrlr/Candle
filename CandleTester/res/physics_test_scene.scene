@@ -1,0 +1,80 @@
+Entity:
+	Component:EntityTagComponent
+		name:Camera
+		uuid:1e1147cde0c0fce9a2fbf4087ae3fa6a
+	Component:CameraHandler
+		mainCamera:1
+		camtype:1
+		camWidth:1920
+		camheight:1080
+	Component:Transform
+		position:0,0,10
+		scale:1,1,1
+		rotation:0,0,0
+
+Entity:
+	Component:EntityTagComponent
+		name:circle
+		uuid:afe7457c137381c99859226cf7c40d6d
+	Component:Transform
+		position:-5.1,-3,0
+		scale:1,1,1
+		rotation:0,0,0
+	Component:SpriteRenderer
+		texture:CDL_TEXTURE_CIRCLE
+		uvs:0,1,0,1
+		color:1,1,1,1
+		layer:0
+		flags:32
+		anchor:4
+	Component:CircleCollider
+
+Entity:
+	Component:EntityTagComponent
+		name:box
+		uuid:6978e6b0a10915f5a43b01970a9912e9
+	Component:Transform
+		position:-1.6,5.3,0
+		scale:1,1,1
+		rotation:0,0,44.2
+	Component:BoxCollider
+
+Entity:
+	Component:EntityTagComponent
+		name:debugpoint
+		uuid:e1fce0cee4f6f29b82114bbfa71de9d5
+	Component:Transform
+		position:2.1,1.1,0
+		scale:0.1,0.1,1
+		rotation:0,0,0
+	Component:SpriteRenderer
+		texture:CDL_TEXTURE_WHITE
+		uvs:0,1,0,1
+		color:1,1,1,1
+		layer:0
+		flags:0
+		anchor:4
+	Component:DebugPointCollider
+
+Entity:
+	Component:EntityTagComponent
+		name:aabb
+		uuid:581237fd7a0003568fd198fad74c5326
+	Component:Transform
+		position:4.8,1.1,0
+		scale:1,1,1
+		rotation:0,0,0
+	Component:AABB
+
+Asset:
+	type:texture2D
+	CDL_TEXTURE_DEFAULT
+
+Asset:
+	type:texture2D
+	CDL_TEXTURE_WHITE
+
+Asset:
+	type:texture2D
+	CDL_TEXTURE_CIRCLE
+

@@ -42,3 +42,4 @@
 
 	// --- Utility ---
 #include "Utility/Maths/Noise.h"
+#include "Utility/Maths/VectorMath.h"

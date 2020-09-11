@@ -10,6 +10,7 @@
 #include "Candle/ECS/ECS.h"
 
 #include "Candle/Editor/Editor.h"
+#include "Candle/Physics/CollisionDetection2D.h"
 
 namespace Candle {
 
@@ -123,6 +124,7 @@ namespace Candle {
 		RenderCommands::Clear();
 
 		RenderScene();
+		RenderDebug();
 
 		RenderCommands::SetLinesRendering(false);
 	}
@@ -148,12 +150,12 @@ namespace Candle {
 		Renderer2D::GetStats()->Reset();
 
 		/* Sprite Rendering */
-		for ( auto& sprite : sprites ) {
+		for ( auto& [nativeEntity, sprite] : sprites ) {
 
-			SpriteRenderer* srComp = (SpriteRenderer*)sprite.second;
+			SpriteRenderer* srComp = (SpriteRenderer*)sprite;
 			if ( !srComp->IsActive() ) continue;
 
-			Entity currentEntity = Entity{ _currentScene, sprite.first };
+			Entity currentEntity = Entity{ _currentScene, nativeEntity };
 			if ( currentEntity.HasComponent<AnimationController>() ) {
 				bool animBool = currentEntity.GetComponent<AnimationController>().GetCurrentAnimation(*_animptr);
 
@@ -188,8 +190,122 @@ namespace Candle {
 		*/
 
 		Renderer2D::EndScene();
-		Renderer2D::GetStats()->ecsSpriteRenderTime = Time::Milliseconds() - t1;
+		Renderer2D::GetStats()->renderingTime = Time::Milliseconds() - t1;
 
+	}
+
+
+	void SceneManagement::RenderDebug()
+	{
+		// TODO : have another texture where debug infos are rendered 
+		// (for highlighting entities in the editor view)
+
+		static Animation* _animptr = new Animation("default", {});
+		auto& sprites = _currentScene->_sceneRegistery.View<SpriteRenderer>();
+
+		if ( sprites.size() == 0 ) return;
+
+		double t1 = Time::Milliseconds();
+
+		Renderer2D::BeginScene();
+		Renderer2D::GetStats()->Reset();
+
+		/* Sprite Rendering */
+		for ( auto& [nativeEntity, sprite] : sprites ) {
+
+			SpriteRenderer* srComp = (SpriteRenderer*)sprite;
+			if ( !srComp->IsActive() ) continue;
+
+			Entity currentEntity = Entity{ _currentScene, nativeEntity };
+			if ( currentEntity.HasComponent<AnimationController>() ) {
+				bool animBool = currentEntity.GetComponent<AnimationController>().GetCurrentAnimation(*_animptr);
+
+				if ( animBool ) {
+					srComp->SetTextureCoordinates(_animptr->GetKeyframes()[_animptr->GetCurrentKeyFrameIndex()].textureCoordinates);
+				}
+			}
+
+			if ( currentEntity.HasComponent<Transform>() ) {
+				Renderer2D::DrawSprite(*srComp, currentEntity.GetComponent<Transform>());
+			} else {
+				Renderer2D::DrawSprite(*srComp);
+			}
+
+		}
+
+		Renderer2D::EndScene();
+		Renderer2D::GetStats()->renderingTime = Time::Milliseconds() - t1;
+
+
+			// Debug render
+
+		double t2 = Time::Milliseconds();
+		Renderer2D::BeginScene();
+
+		auto& pointColliders = _currentScene->_sceneRegistery.View<DebugPointCollider>();
+		auto& circleColliders = _currentScene->_sceneRegistery.View<CircleCollider>();
+		auto& boxColliders = _currentScene->_sceneRegistery.View<BoxCollider>();
+		auto& aabbColliders = _currentScene->_sceneRegistery.View<AABB>();
+		bool collideWithPoint = false;
+
+		for ( auto [nativeEntity, collider] : circleColliders ) {	
+			
+			collideWithPoint = false;
+
+			for ( auto [nativeEntity2, pointCollider] : pointColliders ) {
+				if ( nativeEntity != nativeEntity2 && IsPointInCircle(( (DebugPointCollider*)pointCollider )->GetPosition(), *(CircleCollider*)collider) )
+					collideWithPoint = true;
+			}
+
+			CircleCollider* circleCollider = (CircleCollider*)collider;
+			Entity currentEntity{ _currentScene, nativeEntity };
+			if ( collideWithPoint && currentEntity.HasComponent<SpriteRenderer>() ) currentEntity.GetComponent<SpriteRenderer>().SetColor({ 1, 0, 0, 1 });
+			else if ( currentEntity.HasComponent<SpriteRenderer>() ) currentEntity.GetComponent<SpriteRenderer>().SetColor({ 1, 1, 1, 1 });
+		}
+
+
+		for ( auto [nativeEntity, boxCollider] : boxColliders ) {
+
+			collideWithPoint = false;
+
+			for ( auto [nativeEntity2, pointCollider] : pointColliders ) {
+				if ( nativeEntity != nativeEntity2 && IsPointInBox2D(((DebugPointCollider*)pointCollider)->GetPosition(), *(BoxCollider*)boxCollider) ) 
+					collideWithPoint = true;
+			}
+
+			BoxCollider* box = (BoxCollider*)boxCollider;
+			Entity currentEntity{ _currentScene, nativeEntity };
+
+			glm::vec2 position = box->GetPosition();
+			glm::vec2 size = box->GetSize();
+			double angle = box->GetRotation();
+
+			Renderer2D::DrawQuad(position, size, angle, glm::vec4{ collideWithPoint ? 0.5 : 1, 0, .5, 1 });
+
+		}
+
+
+		for ( auto [nativeEntity, aabbCollider] : aabbColliders ) {
+
+			collideWithPoint = false;
+
+			for ( auto [nativeEntity2, pointCollider] : pointColliders ) {
+				if ( nativeEntity != nativeEntity2 && IsPointInAABB(( (DebugPointCollider*)pointCollider )->GetPosition(), *(AABB*)aabbCollider) )
+					collideWithPoint = true;
+			}
+
+			AABB* aabb = (AABB*)aabbCollider;
+			Entity currentEntity{ _currentScene, nativeEntity };
+
+			glm::vec2 position = aabb->GetPosition();
+			glm::vec2 size = aabb->GetSize();
+
+			Renderer2D::DrawQuad(position, size, glm::vec4{ collideWithPoint ? 0.5 : 1, 0, .5, 1 });
+
+		}
+
+		Renderer2D::EndScene();
+		Renderer2D::GetStats()->debugRenderingTime = Time::Milliseconds() - t2;
 	}
 
 }

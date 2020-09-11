@@ -11,6 +11,7 @@ namespace Candle {
 		DepthBuffer
 	};
 
+		// TODO : add a method for resizing the frame buffer ( eg for aspect ratio testing )
 	class FrameBuffer {
 
 		public:
