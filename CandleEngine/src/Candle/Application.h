@@ -8,6 +8,7 @@
 #include "Events/AppEvent.h"
 #include "Events/KeyEvent.h"
 
+#include "Layers/LayerStack.h"
 
 namespace Candle {
 
@@ -39,6 +40,11 @@ namespace Candle {
 			static bool IsFullScreen();
 			static void Stop();
 
+			void PushLayer(Layer* layer);
+			void PushOverlay(Layer* overlay);
+			void PopLayer(Layer* layer);
+			void PopOverlay(Layer* overlay);
+
 
 		protected:
 			static Application* _instance;
@@ -50,6 +56,8 @@ namespace Candle {
 			bool _running = true;
 			bool _minimized = false;
 			bool _fullscreened = true;
+
+			LayerStack _stack;
 
 	};
 

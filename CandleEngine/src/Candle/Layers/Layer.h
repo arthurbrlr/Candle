@@ -15,9 +15,9 @@ namespace Candle {
 			virtual void OnAttach() {}
 			virtual void OnDetach() {}
 			virtual void OnUpdate() {}
+			virtual void OnDraw() {}
 			virtual void OnEvent(Event & e) {}
 
-			virtual void OnEditor() {}
 
 			void SetApp(Application* application) { _app = application; }
 

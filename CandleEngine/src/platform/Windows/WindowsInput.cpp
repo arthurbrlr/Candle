@@ -6,7 +6,6 @@
 #include "Candle/Core/Controllers.h"
 
 #include "Candle/Renderer/CameraManagement.h"
-#include "Candle/Editor/Editor.h"
 
 #include <GLFW/glfw3.h>
 
@@ -14,28 +13,23 @@ namespace Candle {
 
 	Input* Input::_instance = new Input();
 
-	bool AllowInputReading()
-	{
-		return Editor::Variables().MouseInGameViewport || Editor::Variables().ReadInputs || !Editor::Variables().ShowEditor;
-	}
-
 		/* Key methods */
 
 	bool Input::IsKeyPressed(int keycode)
 	{
 		GLFWwindow* window = (GLFWwindow*)Application::Get().GetWindow().GetNativeWindow();
 		int pressed = glfwGetKey(window, keycode);
-		return (pressed == GLFW_PRESS || pressed == GLFW_REPEAT) && AllowInputReading();
+		return (pressed == GLFW_PRESS || pressed == GLFW_REPEAT);
 	}
 
 	bool Input::OnKeyDown(int keycode)
 	{
-		return _instance->_inputKeyStates[keycode].currrent && !_instance->_inputKeyStates[keycode].previous && AllowInputReading();
+		return _instance->_inputKeyStates[keycode].currrent && !_instance->_inputKeyStates[keycode].previous;
 	}
 
 	bool Input::OnKeyUp(int keycode)
 	{
-		return !_instance->_inputKeyStates[keycode].currrent && _instance->_inputKeyStates[keycode].previous && AllowInputReading();
+		return !_instance->_inputKeyStates[keycode].currrent && _instance->_inputKeyStates[keycode].previous;
 	}
 
 	void Input::RegisterKeyEvent(KeyPressedEvent& event)
@@ -59,17 +53,17 @@ namespace Candle {
 	{
 		GLFWwindow* window = (GLFWwindow*)Application::Get().GetWindow().GetNativeWindow();
 		int pressed = glfwGetMouseButton(window, button);
-		return pressed == GLFW_PRESS && AllowInputReading();
+		return pressed == GLFW_PRESS;
 	}
 	
 	bool Input::OnMouseButtonDown(int button)
 	{
-		return _instance->_inputMouseStates[button].currrent && !_instance->_inputMouseStates[button].previous && AllowInputReading();
+		return _instance->_inputMouseStates[button].currrent && !_instance->_inputMouseStates[button].previous;
 	}
 
 	bool Input::OnMouseButtonUp(int button)
 	{
-		return !_instance->_inputMouseStates[button].currrent && _instance->_inputMouseStates[button].previous && AllowInputReading();
+		return !_instance->_inputMouseStates[button].currrent && _instance->_inputMouseStates[button].previous;
 	}
 
 	void Input::RegisterMouseButtonEvent(MouseButtonPressedEvent& event)
@@ -108,9 +102,14 @@ namespace Candle {
 		GLFWwindow* window = (GLFWwindow*)Application::Get().GetWindow().GetNativeWindow();
 		double x, y;
 		glfwGetCursorPos(window, &x, &y);
+
 		//int left, right, top, bottom;
 		//glfwGetWindowFrameSize(window, &left, &top, &right, &bottom);
-		return { x, y };
+
+		int wx = 0, wy = 0;
+		glfwGetWindowPos(window, &wx, &wy);
+
+		return { std::floor(x) + wx, std::floor(y) + wy };
 	}
 
 	glm::vec4 Input::GetMouseInEyeSpace()

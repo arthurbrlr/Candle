@@ -1,15 +1,16 @@
 #include "cdlpch.h"
 #include "SceneManagement.h"
 #include "EmptyScene.h"
-#include "Candle/ECS/Entity.h"
 
+#include "Candle/Core/Time.h"
+#include "Candle/ECS/Entity.h"
 #include "Candle/Application.h"
 #include "Candle/Renderer/Renderer.h"
+#include "Candle/Renderer/Renderer2D.h"
 #include "Candle/Renderer/CameraManagement.h"
 #include "Candle/PostProcessing/PostProcessing.h"
 #include "Candle/ECS/ECS.h"
 
-#include "Candle/Editor/Editor.h"
 #include "Candle/Physics/CollisionDetection2D.h"
 
 namespace Candle {
@@ -91,23 +92,23 @@ namespace Candle {
 	}
 
 
-	void SceneManagement::OnRender()
+	void SceneManagement::OnRender(bool useDefaultFrameBuffer)
 	{
 		if ( !_currentScene ) return;
-		_currentScene->GetFrameBuffer()->Bind();
-		// v temp line
-		RenderCommands::SetLinesRendering(Editor::Variables().DrawLines);
-		RenderCommands::Clear();
+
+		if ( useDefaultFrameBuffer ) {
+			_currentScene->GetFrameBuffer()->Bind();
+			RenderCommands::Clear();
+		}
 		
 		RenderScene();
 
-			// v temp line
-		RenderCommands::SetLinesRendering(false);
-		_currentScene->GetFrameBuffer()->Unbind(CDL_APP_WIDTH, CDL_APP_HEIGHT);
-
+		if ( useDefaultFrameBuffer ) {
+			_currentScene->GetFrameBuffer()->Unbind(CDL_APP_WIDTH, CDL_APP_HEIGHT);
+			_finalTexture = _currentScene->GetTexture();
+		}
 
 			// Move postprocessing out of here
-		_finalTexture = _currentScene->GetTexture();
 		
 		if ( PostProcessing::Use() ) {
 			PostProcessing::SetRenderViewport(glm::vec4(0, 0, CDL_APP_WIDTH, CDL_APP_HEIGHT));
@@ -115,18 +116,6 @@ namespace Candle {
 			_finalTexture = PostProcessing::GetFinalTexture();
 		}
 
-	}
-
-
-	void SceneManagement::OnEditorRender()
-	{
-		RenderCommands::SetLinesRendering(Editor::Variables().DrawLines);
-		RenderCommands::Clear();
-
-		RenderScene();
-		RenderDebug();
-
-		RenderCommands::SetLinesRendering(false);
 	}
 
 
@@ -194,7 +183,7 @@ namespace Candle {
 
 	}
 
-
+	/*
 	void SceneManagement::RenderDebug()
 	{
 		// TODO : have another texture where debug infos are rendered 
@@ -210,7 +199,6 @@ namespace Candle {
 		Renderer2D::BeginScene();
 		Renderer2D::GetStats()->Reset();
 
-		/* Sprite Rendering */
 		for ( auto& [nativeEntity, sprite] : sprites ) {
 
 			SpriteRenderer* srComp = (SpriteRenderer*)sprite;
@@ -307,5 +295,5 @@ namespace Candle {
 		Renderer2D::EndScene();
 		Renderer2D::GetStats()->debugRenderingTime = Time::Milliseconds() - t2;
 	}
-
+	*/
 }

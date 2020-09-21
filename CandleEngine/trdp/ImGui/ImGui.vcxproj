@@ -83,8 +83,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)CandleEngine\trdp\GLFW-lib;$(SolutionDir)CandleEngine\trdp\GLEW\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y "$(OutDir)imgui.lib" "$(SolutionDir)bin\$(Configuration)-$(Platform)\Sandbox\"
-xcopy /y "$(OutDir)imgui.lib" "$(SolutionDir)CandleEngine\trdp\Lib\"</Command>
+      <Command>xcopy /y "$(OutDir)imgui.lib" "$(SolutionDir)CandleEngine\trdp\Lib\"</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>
@@ -114,8 +113,7 @@ xcopy /y "$(OutDir)imgui.lib" "$(SolutionDir)CandleEngine\trdp\Lib\"</Command>
       <AdditionalLibraryDirectories>$(SolutionDir)CandleEngine\trdp\GLFW-lib;$(SolutionDir)CandleEngine\trdp\GLEW\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y "$(OutDir)imgui.lib" "$(SolutionDir)bin\$(Configuration)-$(Platform)\Sandbox\"
-xcopy /y "$(OutDir)imgui.lib" "$(SolutionDir)CandleEngine\trdp\Lib\"</Command>
+      <Command>xcopy /y "$(OutDir)imgui.lib" "$(SolutionDir)CandleEngine\trdp\Lib\"</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>
@@ -145,8 +143,7 @@ xcopy /y "$(OutDir)imgui.lib" "$(SolutionDir)CandleEngine\trdp\Lib\"</Command>
       <AdditionalLibraryDirectories>$(SolutionDir)CandleEngine\trdp\GLFW-lib;$(SolutionDir)CandleEngine\trdp\GLEW\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y "$(OutDir)imgui.lib" "$(SolutionDir)bin\$(Configuration)-$(Platform)\Sandbox\"
-xcopy /y "$(OutDir)imgui.lib" "$(SolutionDir)CandleEngine\trdp\Lib\"</Command>
+      <Command>xcopy /y "$(OutDir)imgui.lib" "$(SolutionDir)CandleEngine\trdp\Lib\"</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>

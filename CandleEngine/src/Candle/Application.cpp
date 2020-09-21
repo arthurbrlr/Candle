@@ -7,10 +7,10 @@
 #include "Events/MouseEvent.h"
 #include "Events/KeyEvent.h"
 
-#include "Editor/Editor.h"
 #include "Assets/Assets.h"
 #include "ECS/ECS.h"
 #include "Renderer/Renderer.h"
+#include "Renderer/Renderer2D.h"
 #include "PostProcessing/PostProcessing.h"
 #include "Audio/AudioMixer.h"
 #include "Scenes/SceneManagement.h"
@@ -37,7 +37,6 @@ namespace Candle {
 
 		Input::Init();
 
-		Editor::Init();
 		Assets::Init();
 		SceneManagement::Init();
 
@@ -53,7 +52,6 @@ namespace Candle {
 	Application::~Application()
 	{
 		Renderer::Clear();
-		Editor::Clear();
 		Audio::Clear();
 	}
 
@@ -65,10 +63,13 @@ namespace Candle {
 		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FUNCTION(Application::OnWindowResize));
 		dispatcher.Dispatch<KeyPressedEvent>(BIND_EVENT_FUNCTION(Application::OnKeyPressed));
 
+		for ( auto it = _stack.end(); it != _stack.begin();) {
+			( *--it )->OnEvent(event);
+			if ( event.IsHandled() ) return;
+		}
+
 		SceneManagement::OnEvent(event);
-		
-		if ( Editor::Show() )
-			Editor::OnEvent(event);
+
 	}
 
 
@@ -82,27 +83,23 @@ namespace Candle {
 
 			if (!_minimized) {
 
-				if ( Editor::PlayGame() || !Editor::Show() )
-					SceneManagement::OnUpdate();
+				SceneManagement::OnUpdate();
 
-				if ( Editor::RenderGameView() || !Editor::Show() ) {
-					Renderer::BeginScene();
-					SceneManagement::OnRender();
-					Renderer::EndScene();
-				}
+				RenderCommands::Clear();
+				Renderer::BeginScene();
+				SceneManagement::OnRender();
+				Renderer::EndScene();
 
 					// TODO : Refactor post processing completely
 				//PostProcessing::Process(SceneManagement::FinalTexture())
 				//GUI::Render();
 				//GUI::PostProcess();
 				//Renderer::Combine();
+				Renderer2D::DrawFrameBuffer(SceneManagement::FinalSceneTexture());
 
-				
-				if (!Editor::Show()) {
-					Renderer2D::DrawFrameBuffer(SceneManagement::FinalSceneTexture());
-				} else {
-					Editor::OnUpdate();
-					Editor::Display();
+				for ( auto it = _stack.begin(); it != _stack.end(); it++ ) {
+					( *it )->OnUpdate();
+					( *it )->OnDraw();
 				}
 			}
 
@@ -133,11 +130,6 @@ namespace Candle {
 
 	bool Application::OnKeyPressed(KeyPressedEvent & e)
 	{
-		if (e.GetKeyCode() == CDL_KEY_F11) {
-			Editor::Variables().ShowEditor = !Editor::Variables().ShowEditor;
-			return true;
-		}
-
 		return false;
 	}
 
@@ -166,5 +158,27 @@ namespace Candle {
 	void Application::Stop()
 	{
 		_instance->_running = false;
+	}
+
+	void Application::PushLayer(Layer* layer)
+	{
+		_stack.PushLayer(layer);
+		layer->OnAttach();
+	}
+
+	void Application::PushOverlay(Layer* overlay)
+	{
+		_stack.PushOverlay(overlay);
+		overlay->OnAttach();
+	}
+
+	void Application::PopLayer(Layer* layer)
+	{
+		_stack.PopLayer(layer);
+	}
+
+	void Application::PopOverlay(Layer* overlay)
+	{
+		_stack.PopOverlay(overlay);
 	}
 }

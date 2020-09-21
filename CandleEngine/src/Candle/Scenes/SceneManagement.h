@@ -16,8 +16,7 @@ namespace Candle {
 			static void Reload();
 
 			static void OnUpdate();
-			static void OnRender();
-			static void OnEditorRender();
+			static void OnRender(bool useDefaultFrameBuffer = true);
 			static void OnEvent(Event& event);
 
 			static Scene* CurrentScene() { return _currentScene; }
@@ -33,6 +32,5 @@ namespace Candle {
 			static Shared<Texture2D> _finalTexture;
 
 			static void RenderScene();
-			static void RenderDebug();
 	};
 }

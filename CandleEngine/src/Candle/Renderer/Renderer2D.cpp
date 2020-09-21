@@ -5,8 +5,6 @@
 #include "RenderCommands.h"
 #include "CameraManagement.h"
 
-#include "Candle/Editor/Editor.h"
-
 namespace Candle {
 
 	Renderer2D::SceneData* Renderer2D::_sceneData = new Renderer2D::SceneData();
@@ -268,23 +266,19 @@ namespace Candle {
 		bool transparent = sprite.IsTransparent();
 		QuadVertex* & targetBatch = transparent ? _data->transparentBatch.vboptr : _data->opaqueBatch.vboptr;
 
-		if (Editor::Variables().DrawTextures) {
-			
-			for (uint32_t i = 0; i < _data->textureBufferIndex; i++) {
-				if (_data->textureBuffer[i]->GetID() == sprite.GetTexture()->GetID()) {
-					textureIndex = (float)i;
-					break;
-				}
+		for (uint32_t i = 0; i < _data->textureBufferIndex; i++) {
+			if (_data->textureBuffer[i]->GetID() == sprite.GetTexture()->GetID()) {
+				textureIndex = (float)i;
+				break;
 			}
+		}
 
-			if (sprite.GetTexture() == nullptr) {
-				textureIndex = 0.f;
-			} else if (textureIndex == 0.f) {
-				textureIndex = (float)_data->textureBufferIndex;
-				_data->textureBuffer[_data->textureBufferIndex] = sprite.GetTexture();
-				_data->textureBufferIndex++;
-			}
-
+		if (sprite.GetTexture() == nullptr) {
+			textureIndex = 0.f;
+		} else if (textureIndex == 0.f) {
+			textureIndex = (float)_data->textureBufferIndex;
+			_data->textureBuffer[_data->textureBufferIndex] = sprite.GetTexture();
+			_data->textureBufferIndex++;
 		}
 
 		glm::vec4 offsets = sprite.GetOffsets();
@@ -359,24 +353,20 @@ namespace Candle {
 		bool transparent = sprite.IsTransparent();
 		QuadVertex* & targetBatch = transparent ? _data->transparentBatch.vboptr : _data->opaqueBatch.vboptr;
 
-		if (Editor::Variables().DrawTextures) {
-
-			for (uint32_t i = 0; i < _data->textureBufferIndex; i++) {
-				if (*_data->textureBuffer[i].get() == *sprite.GetTexture().get()) {
-					textureIndex = (float)i;
-					break;
-				}
+		for (uint32_t i = 0; i < _data->textureBufferIndex; i++) {
+			if (*_data->textureBuffer[i].get() == *sprite.GetTexture().get()) {
+				textureIndex = (float)i;
+				break;
 			}
+		}
 
-			if (sprite.GetTexture() == nullptr) {
-				textureIndex = 0.f;
-			}
-			else if (textureIndex == 0.f) {
-				textureIndex = (float)_data->textureBufferIndex;
-				_data->textureBuffer[_data->textureBufferIndex] = sprite.GetTexture();
-				_data->textureBufferIndex++;
-			}
-
+		if (sprite.GetTexture() == nullptr) {
+			textureIndex = 0.f;
+		}
+		else if (textureIndex == 0.f) {
+			textureIndex = (float)_data->textureBufferIndex;
+			_data->textureBuffer[_data->textureBufferIndex] = sprite.GetTexture();
+			_data->textureBufferIndex++;
 		}
 
 		glm::vec4 offsets = sprite.GetOffsets();
